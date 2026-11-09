@@ -1,0 +1,27 @@
+{
+  "name": "trade",
+  "version": "1.0.0",
+  "description": "Trade - ระบบล็อกอิน/สมัครสมาชิก",
+  "main": "server.js",
+  "scripts": {
+    "start": "node --disable-warning=ExperimentalWarning server.js",
+    "test": "node --disable-warning=ExperimentalWarning --test test/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WoravitSuwan/trade.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WoravitSuwan/trade/issues"
+  },
+  "homepage": "https://github.com/WoravitSuwan/trade#readme",
+  "dependencies": {
+    "express": "^4.22.3"
+  },
+  "engines": {
+    "node": ">=22.13"
+  }
+}

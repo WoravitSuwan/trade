@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>เข้าสู่ระบบ · Trade</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <main class="card">
+    <div class="brand">📈 Trade</div>
+    <h1>เข้าสู่ระบบ</h1>
+    <form id="login-form" data-endpoint="/api/login" novalidate>
+      <label>
+        ชื่อผู้ใช้หรืออีเมล
+        <input name="identifier" autocomplete="username" required autofocus>
+      </label>
+      <label>
+        รหัสผ่าน
+        <input name="password" type="password" autocomplete="current-password" required>
+      </label>
+      <p class="error" role="alert" hidden></p>
+      <button type="submit">เข้าสู่ระบบ</button>
+    </form>
+    <p class="switch">ยังไม่มีบัญชี? <a href="/register">สมัครสมาชิก</a></p>
+  </main>
+  <script src="/assets/auth.js"></script>
+</body>
+</html>

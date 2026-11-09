@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>สมัครสมาชิก · Trade</title>
+  <link rel="stylesheet" href="/assets/style.css">
+</head>
+<body>
+  <main class="card">
+    <div class="brand">📈 Trade</div>
+    <h1>สมัครสมาชิก</h1>
+    <form id="register-form" data-endpoint="/api/register" novalidate>
+      <label>
+        ชื่อผู้ใช้
+        <input name="username" autocomplete="username" required minlength="3" maxlength="30"
+               pattern="[a-zA-Z0-9_]{3,30}" autofocus>
+        <small>3-30 ตัวอักษร ใช้ได้เฉพาะ a-z, 0-9 และ _</small>
+      </label>
+      <label>
+        อีเมล
+        <input name="email" type="email" autocomplete="email" required>
+      </label>
+      <label>
+        รหัสผ่าน
+        <input name="password" type="password" autocomplete="new-password" required minlength="8" maxlength="128">
+        <small>อย่างน้อย 8 ตัวอักษร ต้องมีทั้งตัวอักษรและตัวเลข</small>
+      </label>
+      <label>
+        ยืนยันรหัสผ่าน
+        <input name="confirmPassword" type="password" autocomplete="new-password" required>
+      </label>
+      <p class="error" role="alert" hidden></p>
+      <button type="submit">สมัครสมาชิก</button>
+    </form>
+    <p class="switch">มีบัญชีอยู่แล้ว? <a href="/login">เข้าสู่ระบบ</a></p>
+  </main>
+  <script src="/assets/auth.js"></script>
+</body>
+</html>
