@@ -60,12 +60,15 @@
 
 ## เผยแพร่เป็นเว็บ
 
-เป็นไฟล์ static ล้วน โฮสต์ที่ไหนก็ได้ repo นี้ตั้ง GitHub Pages ไว้ด้วย workflow `.github/workflows/pages.yml`
-ซึ่งจะ deploy เฉพาะ `index.html` อัตโนมัติทุกครั้งที่ไฟล์นี้เปลี่ยนบน `main`
+เป็นไฟล์ static ล้วน (`index.html` ไฟล์เดียว) โฮสต์ที่ไหนก็ได้
 
-- ลิงก์: **https://woravitsuwan.github.io/trade/**
-- ตั้งค่าครั้งแรก (ทำครั้งเดียว): Settings → Pages → Build and deployment → Source เลือก **GitHub Actions**
-  แล้วไปที่แท็บ Actions → "Deploy GitHub Pages" → Run workflow
+### Deploy บน Vercel
+
+repo มี `vercel.json` ที่ตั้งให้ Vercel เผยแพร่เฉพาะ `index.html` (ไม่ใช่โฟลเดอร์ `public/` ของระบบ Node.js)
+
+1. เข้า https://vercel.com/new แล้ว Import repo `WoravitSuwan/trade`
+2. ไม่ต้องแก้ค่าใดๆ (Framework / Build / Output อ่านจาก `vercel.json`) กด **Deploy**
+3. หลังจากนั้นทุกครั้งที่ push เข้า `main` Vercel จะ deploy ใหม่ให้อัตโนมัติ
 
 ## ช่องทางแจ้งเหตุ (สำหรับผู้ตกเป็นเหยื่อ)
 
