@@ -60,12 +60,7 @@
 
 ## เผยแพร่เป็นเว็บ
 
-เป็นไฟล์ static ล้วน โฮสต์ที่ไหนก็ได้ repo นี้ตั้ง GitHub Pages ไว้ด้วย workflow `.github/workflows/pages.yml`
-ซึ่งจะ deploy เฉพาะ `index.html` อัตโนมัติทุกครั้งที่ไฟล์นี้เปลี่ยนบน `main`
-
-- ลิงก์: **https://woravitsuwan.github.io/trade/**
-- ตั้งค่าครั้งแรก (ทำครั้งเดียว): Settings → Pages → Build and deployment → Source เลือก **GitHub Actions**
-  แล้วไปที่แท็บ Actions → "Deploy GitHub Pages" → Run workflow
+เป็นไฟล์ static ล้วน (`index.html` ไฟล์เดียว) โฮสต์ที่ไหนก็ได้
 
 ### Deploy บน Vercel
 
