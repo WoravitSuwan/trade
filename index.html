@@ -395,6 +395,39 @@
   .avatar.me{background:linear-gradient(135deg,rgba(245,200,76,.35),rgba(245,200,76,.08));color:var(--gold);border-color:rgba(245,200,76,.45)}
   .mini-err{color:var(--red);font-size:12.5px;text-align:center;margin-top:10px;display:none}
 
+  /* ---------- live room (QR join + presenter money controls) ---------- */
+  body:not(.online) .net-only{display:none}
+  body.online .offline-only{display:none}
+  .net-note{display:none;margin-top:12px;font-size:12px;line-height:1.6;text-align:center;color:var(--ink);
+    background:rgba(34,214,138,.08);border:1px solid rgba(34,214,138,.32);border-radius:12px;padding:9px 12px}
+  body.online .net-note{display:block}
+  .modal.wide{width:min(600px,94vw)}
+  .users-ctl{background:rgba(6,10,19,.5);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+  .users-ctl label{display:block;font-size:12px;color:var(--dim);margin-bottom:7px}
+  .users-ctl .amt-in{margin-bottom:10px}
+  .users-ctl .chips{margin-bottom:0}
+  .prow{margin-bottom:8px;gap:10px;padding:10px 12px}
+  .prow.all{border-color:rgba(245,200,76,.45);background:linear-gradient(90deg,rgba(245,200,76,.1),transparent),var(--panel)}
+  .prow .vv{min-width:84px}
+  .adj{display:flex;gap:6px;flex:0 0 auto}
+  .adj-b{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font:700 19px var(--mono);
+    background:rgba(255,255,255,.03);border:1px solid var(--line-2);transition:all .15s}
+  .adj-b.plus{color:var(--green);border-color:rgba(34,214,138,.45)}
+  .adj-b.plus:hover{background:var(--green);color:#03200f}
+  .adj-b.minus{color:var(--red);border-color:rgba(255,93,108,.45)}
+  .adj-b.minus:hover{background:var(--red);color:#2a060b}
+  .adj-b:disabled{opacity:.4}
+  .pdot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--faint);margin-right:6px;vertical-align:middle}
+  .pdot.on{background:var(--green);box-shadow:0 0 8px var(--green)}
+  .qr-modal{width:min(560px,94vw);text-align:center}
+  .qr-box{width:min(380px,78vw);margin:4px auto 14px;padding:16px;background:#fff;border-radius:22px;
+    box-shadow:0 20px 50px -20px rgba(245,200,76,.6)}
+  .qr-box img{display:block;width:100%;height:auto;aspect-ratio:1}
+  .qr-url{font-family:var(--mono);font-size:14px;color:var(--gold);word-break:break-all;margin-bottom:10px}
+  .qr-count{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--dim);
+    background:rgba(34,214,138,.08);border:1px solid rgba(34,214,138,.3);border-radius:999px;padding:6px 14px}
+  .qr-count b{font-family:var(--mono);color:var(--green);font-size:16px}
+
   /* toast */
   #toast{position:fixed;left:50%;bottom:92px;transform:translate(-50%,24px);z-index:80;display:flex;align-items:center;gap:10px;
     background:rgba(22,32,54,.92);-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px);border:1px solid rgba(34,214,138,.4);
@@ -546,6 +579,7 @@
         <div class="or">หรือ</div>
         <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>สมัครสมาชิกใหม่ รับโบนัส 500฿</button>
         <div class="login-note">🔎 นี่คือฉากจำลองหน้า login ของเว็บหลอกลงทุน — <b>ไม่เก็บข้อมูลจริง</b> กดปุ่มเข้าสู่ระบบได้เลยโดยไม่ต้องกรอก</div>
+        <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — <b>ใส่แค่ชื่อเล่น</b> ห้ามใส่เบอร์โทรหรือรหัสจริง ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ</div>
         <div class="trust">
           <span><svg class="i"><use href="#i-shield"/></svg>SSL ปลอดภัย</span>
           <span><svg class="i" style="color:var(--gold)"><use href="#i-star"/></svg>4.9 (52,418)</span>
@@ -570,7 +604,8 @@
           <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass" type="password" placeholder="••••••••" autocomplete="off"></div></div>
         <button class="btn btn-gold" id="suGo">สมัครและเริ่มลงทุน</button>
         <button class="btn btn-ghost" id="suBack"><svg class="i"><use href="#i-back"/></svg>กลับหน้าเข้าสู่ระบบ</button>
-        <div class="login-note">🔎 สาธิต: ข้อมูลที่กรอก <b>ไม่ถูกบันทึกหรือส่งออกไปไหน</b> อยู่แค่ในเครื่องนี้ชั่วคราว — แต่จุดสำคัญคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน" (สลับไปโหมดผู้บรรยายเพื่อดู)</div>
+        <div class="login-note offline-only">🔎 สาธิต: ข้อมูลที่กรอก <b>ไม่ถูกบันทึกหรือส่งออกไปไหน</b> อยู่แค่ในเครื่องนี้ชั่วคราว — แต่จุดสำคัญคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน" (สลับไปโหมดผู้บรรยายเพื่อดู)</div>
+        <div class="net-note">🔗 ห้องสาธิตสด: ระบบส่ง<b>เฉพาะชื่อเล่น</b>ไปให้ผู้บรรยายเห็น (ไม่ส่งเบอร์โทร/รหัส) — ไม่ต้องกรอกข้อมูลจริง เพราะจุดที่อยากให้เห็นคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
       </div>
     </section>
 
@@ -592,7 +627,8 @@
         <div class="pbtns">
           <button class="pb" data-act="pump">📈 ปั่นราคาพุ่ง +20%</button>
           <button class="pb" data-act="vip">🔥 เด้งป๊อปอัพ VIP</button>
-          <button class="pb" data-act="users">👥 ผู้ใช้ในระบบ</button>
+          <button class="pb net-only" data-act="qr">📱 QR ให้ผู้ฟังสแกน</button>
+          <button class="pb" data-act="users">👥 ผู้ใช้ในระบบ<span class="net-only"> / ปรับเงิน</span></button>
           <button class="pb" data-act="flags">🚩 เปิดเฉลย Red Flags</button>
           <button class="pb danger" data-act="reset">↻ รีเซ็ตสาธิต</button>
           <button class="pb" data-act="exit">✕ ออกจากโหมด</button>
@@ -620,13 +656,15 @@
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
     <div class="m-ic"><svg class="i"><use href="#i-sliders"/></svg></div>
     <h3>เข้าสู่โหมดผู้บรรยาย</h3>
-    <p>โหมดนี้ให้ผู้บรรยายกดเดินเรื่องสดระหว่างสาธิต (ปั่นยอด เด้งป๊อปอัพ เปิดเฉลย) — เป็นชั้นสำหรับสอน ไม่ใช่ระบบจริง</p>
-    <div class="field"><label for="adUser">ชื่อผู้ใช้</label>
-      <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="adUser" placeholder="admin" autocomplete="off"></div></div>
-    <div class="field"><label for="adPass">รหัสผ่าน</label>
-      <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="adPass" type="password" placeholder="1234" autocomplete="off"></div></div>
+    <p>โหมดนี้ให้ผู้บรรยายกดเดินเรื่องสดระหว่างสาธิต (ปั่นยอด เด้งป๊อปอัพ เปิดเฉลย<span class="net-only"> ปรับเงินในมือถือผู้ฟัง</span>) — เป็นชั้นสำหรับสอน ไม่ใช่ระบบจริง</p>
+    <div class="net-only">
+      <div class="field"><label for="adUser">ชื่อผู้ใช้</label>
+        <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="adUser" autocomplete="off" autocapitalize="off" spellcheck="false"></div></div>
+      <div class="field"><label for="adPass">รหัสผ่าน</label>
+        <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="adPass" type="password" autocomplete="off"></div></div>
+    </div>
     <button class="btn btn-gold" id="adGo">เข้าสู่ระบบ</button>
-    <div class="mini-note">รหัสสาธิต: <b>admin</b> / <b>1234</b></div>
+    <div class="mini-note offline-only">โหมดออฟไลน์ (เปิดจากไฟล์ในเครื่อง): โหมดผู้บรรยายมีผลเฉพาะเครื่องนี้ จึงไม่ต้องใช้รหัส</div>
     <div id="adErr" class="mini-err">รหัสไม่ถูกต้อง</div>
   </div></div>
 
@@ -640,7 +678,7 @@
       <div class="l"><span>สถานะบัญชี</span><span class="v" style="color:var(--red)">ถูกระงับชั่วคราว</span></div>
     </div>
     <p>ระบบตรวจพบว่าต้องชำระค่าภาษีก่อนจึงจะปลดล็อกการถอนได้ กรุณา <b>ติดต่อแอดมิน</b> เพื่อดำเนินการชำระภายใน 24 ชม. มิฉะนั้นบัญชีจะถูกยึด</p>
-    <button class="btn btn-gold" data-close><svg class="i"><use href="#i-chat"/></svg>ติดต่อแอดมิน (LINE: @aigoldtrade)</button>
+    <button class="btn btn-gold" data-close><svg class="i"><use href="#i-chat"/></svg>ติดต่อแอดมิน (LINE: @ตัวอย่าง-ไม่มีจริง)</button>
     <div class="teach-tip" id="wTeach" style="display:none">💡 <span><b>จุดสอน:</b> นี่คือกับดักที่ชัดที่สุด — ของจริงไม่มีการให้ "จ่ายเพิ่มเพื่อถอนเงินตัวเอง" ถ้าเจอข้อความแบบนี้คือถูกหลอก 100% ให้หยุดโอน เก็บหลักฐาน แล้วโทร 1441</span></div>
   </div></div>
 
@@ -664,13 +702,32 @@
     <div class="teach-tip">🆘 <span>ถ้าตกเป็นเหยื่อแล้ว: โทรสายด่วน AOC <b>1441</b> • แจ้งความออนไลน์ <b>thaipoliceonline.go.th</b> • หยุดโอน เก็บหลักฐาน รีบแจ้งเพื่ออายัดบัญชี</span></div>
   </div></div>
 
-  <div class="ov" id="ovUsers"><div class="modal">
+  <div class="ov" id="ovUsers"><div class="modal wide">
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
     <div class="m-ic"><svg class="i"><use href="#i-users"/></svg></div>
     <h3>ผู้ใช้ในระบบ — มุมมองแอดมิน</h3>
     <p>สิ่งที่มิจฉาชีพเห็นในระบบหลังบ้าน: ชื่อ เบอร์โทร ยอดเงิน และการลงทุนของผู้ใช้ทุกคน</p>
+    <div class="users-ctl" id="usersCtl" hidden>
+      <label for="adjAmt">จำนวนเงินที่จะเพิ่ม/ลด แล้วกด + หรือ − ที่ชื่อผู้ฟัง (มือถือผู้ฟังอัปเดตภายในไม่กี่วินาที)</label>
+      <div class="amt-wrap"><input class="amt-in sm" id="adjAmt" type="number" inputmode="numeric" value="10000"></div>
+      <div class="chips">
+        <button class="chip" data-amt="1000">1,000</button>
+        <button class="chip" data-amt="10000">10,000</button>
+        <button class="chip" data-amt="100000">100,000</button>
+        <button class="chip" data-amt="1000000">1,000,000</button>
+      </div>
+    </div>
     <div id="usersList"></div>
-    <div class="teach-tip">💡 <span><b>จุดสอน:</b> ข้อมูลที่เหยื่อกรอกตอนสมัคร (ชื่อ เบอร์โทร) ตกอยู่ในมือมิจฉาชีพทั้งหมด และเขาเห็นว่าใครมีเงินเท่าไร เพื่อเลือกเป้าหมายที่จะรีดต่อ — ข้อมูลตัวอย่างในนี้เป็นของสมมติเพื่อการสอน</span></div>
+    <div class="teach-tip">💡 <span><b>จุดสอน:</b> ข้อมูลที่เหยื่อกรอกตอนสมัคร (ชื่อ เบอร์โทร) ตกอยู่ในมือมิจฉาชีพทั้งหมด และเขาเห็นว่าใครมีเงินเท่าไร เพื่อเลือกเป้าหมายที่จะรีดต่อ<span class="net-only"> — และแอดมินกด + / − เปลี่ยนตัวเลขยอดเงินของใครก็ได้ ตัวเลขบนจอจึงไม่ใช่เงินจริง</span><span class="offline-only"> — ข้อมูลตัวอย่างในนี้เป็นของสมมติเพื่อการสอน</span></span></div>
+  </div></div>
+
+  <div class="ov" id="ovQr"><div class="modal qr-modal">
+    <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    <h3>สแกนเพื่อร่วมทดลองการสาธิต</h3>
+    <p>เปิดกล้องมือถือแล้วสแกน QR นี้ — ใช้ชื่อเล่นได้เลย ไม่ต้องใช้ข้อมูลจริง</p>
+    <div class="qr-box"><img id="qrImg" alt="QR code สำหรับเข้าร่วมการสาธิต"></div>
+    <div class="qr-url" id="qrUrl"></div>
+    <div class="qr-count"><span class="pdot on"></span>ผู้ฟังเข้าร่วมแล้ว <b id="qrCount">0</b> คน</div>
   </div></div>
 
   <div id="toast"></div>
@@ -947,10 +1004,12 @@ function viewHistory(){
     const map={deposit:['dep','ฝากเงินเข้าพอร์ต','var(--teach)'],
       buy:['trade','ซื้อ '+(t.sym||''),'var(--green)'],
       sell:['coins','ขาย '+(t.sym||''),'var(--gold)'],
-      fail:['ban','ถอนเงิน — ไม่สำเร็จ','var(--red)']};
+      fail:['ban','ถอนเงิน — ไม่สำเร็จ','var(--red)'],
+      bonus:['gift','โบนัสจากระบบ','var(--gold)'],
+      debit:['ban','ระบบหักเงิน','var(--red)']};
     const [ic,label,col]=map[t.type]||['hist',t.type,'var(--ink)'];
-    const val = t.type==='fail'?'ถูกระงับ':(t.type==='buy'?'-':'+')+F(t.amt)+' ฿';
-    const vcol = t.type==='fail'?'var(--red)':t.type==='sell'?'var(--green)':'var(--ink)';
+    const val = t.type==='fail'?'ถูกระงับ':(t.type==='buy'||t.type==='debit'?'-':'+')+F(t.amt)+' ฿';
+    const vcol = t.type==='fail'||t.type==='debit'?'var(--red)':t.type==='sell'||t.type==='bonus'?'var(--green)':'var(--ink)';
     return `<div class="txrow"><div class="ic" style="background:color-mix(in srgb,${col} 14%,transparent);color:${col}">${icon(ic)}</div>
       <div class="mn"><div class="a">${label}</div><div class="b">${t.time}</div></div>
       <div class="vv" style="color:${vcol}">${val}</div></div>`;
@@ -1114,11 +1173,11 @@ function withdraw(amt){
   document.getElementById('wTeach').style.display = S.presenter?'flex':'none';
   openOv('ovWithdraw'); renderApp();
 }
-function pump(){
-  injectJump(0.2);
-  S.tab='home'; renderApp(); toast('ปั่นราคาพุ่ง +20% (โหมดผู้บรรยาย)');
+function pump(pct=0.2, msg='ปั่นราคาพุ่ง +20% (โหมดผู้บรรยาย)'){
+  injectJump(pct);
+  S.tab='home'; if(S.screen==='app') renderApp(); toast(msg);
 }
-function reset(){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[]}); loadMarket(); renderApp(); toast('รีเซ็ตการสาธิตแล้ว'); }
+function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[]}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
 function renderUsers(){
   const cur={name:S.userName+' (คุณ — ผู้ใช้ปัจจุบัน)',phone:S.userPhone,bal:pfValue(),inv:S.deposited,st:'ออนไลน์',me:true};
   const all=[cur,...SEED_USERS];
@@ -1176,50 +1235,234 @@ function bindTabEvents(){
 }
 document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderApp();});
 
+/* ---------- ห้องสาธิตสด: ผู้ฟังสแกน QR เข้าเล่นบนมือถือ ผู้บรรยายปรับเงิน/ส่งเหตุการณ์ได้สด ----------
+   ทำงานเมื่อเปิดผ่านเว็บที่ deploy (มี /api) — ถ้าเปิดจากไฟล์ในเครื่องจะเป็นโหมดออฟไลน์เหมือนเดิม */
+const NET = { online:false, store:'', id:'', epoch:'', applied:0, evSeq:0, joined:false, busy:false, timer:null, token:'',
+  lastReport:null };
+const LS_KEY='agt-player-v1', SS_TOKEN='agt-admin-token', SYNC_MS=4000;
+const lsGet=k=>{ try{ return JSON.parse(localStorage.getItem(k)); }catch{ return null; } };
+const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch{} };
+const lsDel=k=>{ try{ localStorage.removeItem(k); }catch{} };
+const ssGet=k=>{ try{ return sessionStorage.getItem(k)||''; }catch{ return ''; } };
+const ssSet=(k,v)=>{ try{ v?sessionStorage.setItem(k,v):sessionStorage.removeItem(k); }catch{} };
+function newId(){ const a=new Uint8Array(12); crypto.getRandomValues(a); return 'p'+Array.from(a,b=>b.toString(16).padStart(2,'0')).join(''); }
+// ชื่อที่ส่งให้ผู้บรรยายเห็น: ไม่ส่งอะไรที่ดูเหมือนเบอร์โทร
+function nickname(v){ v=String(v||'').trim(); if(!v || v.replace(/\D/g,'').length>=6) return ''; return v.slice(0,24); }
+
+async function api(path, body, auth){
+  const r=await fetch(path,{method:body?'POST':'GET',cache:'no-store',
+    headers:Object.assign(body?{'Content-Type':'application/json'}:{}, auth?{Authorization:'Bearer '+auth}:{}),
+    body:body?JSON.stringify(body):undefined});
+  const j=await r.json().catch(()=>({}));
+  if(!r.ok){ const e=new Error(j.error||('HTTP '+r.status)); e.status=r.status; throw e; }
+  return j;
+}
+async function detectOnline(){
+  if(location.protocol==='file:') return false;
+  try{ const j=await api('api/room'); NET.online=!!j.ok; NET.store=j.store||''; }catch{ NET.online=false; }
+  document.body.classList.toggle('online',NET.online);
+  if(NET.online) document.getElementById('suPhone').placeholder='ไม่ต้องกรอกเบอร์จริง';
+  return NET.online;
+}
+function saveLocal(){
+  if(!NET.joined) return;
+  const {presenter, ...rest}=S;
+  lsSet(LS_KEY,{S:rest,id:NET.id,epoch:NET.epoch,applied:NET.applied,evSeq:NET.evSeq});
+}
+async function netJoin(){
+  if(!NET.online || NET.joined) return;
+  NET.id = NET.id || newId();
+  try{
+    const j=await api('api/room',{action:'join',id:NET.id,name:S.userName});
+    Object.assign(NET,{epoch:j.epoch,applied:j.credit,evSeq:j.evseq,joined:true,lastReport:null});
+    saveLocal(); startSync();
+  }catch(e){ toast(e.status===409?'ห้องสาธิตเต็มแล้ว — เล่นบนเครื่องนี้แบบออฟไลน์':'เชื่อมต่อห้องสาธิตไม่ได้ — เล่นบนเครื่องนี้แบบออฟไลน์'); }
+}
+function startSync(){ if(NET.timer || !NET.joined) return; NET.timer=setInterval(netSync,SYNC_MS); netSync(); }
+function stopSync(){ clearInterval(NET.timer); NET.timer=null; }
+function buildReport(){
+  // ส่งยอดให้ผู้บรรยายเห็นเฉพาะตอนเปลี่ยน (หรือทุก 20 วินาที) เพื่อประหยัดโควตาฐานข้อมูล
+  const r={name:S.userName,value:Math.round(pfValue()*100)/100,cash:Math.round(S.cash*100)/100,deposited:S.deposited,at:Date.now()};
+  const l=NET.lastReport;
+  if(l && l.name===r.name && l.cash===r.cash && l.deposited===r.deposited &&
+     Math.abs(r.value-l.value)<=Math.max(1,Math.abs(l.value)*0.005) && r.at-l.at<20000) return undefined;
+  return r;
+}
+async function netSync(){
+  if(!NET.joined || NET.busy || document.hidden) return;
+  NET.busy=true;
+  try{
+    const report=buildReport();
+    const j=await api('api/room',{action:'sync',id:NET.id,since:NET.evSeq,report});
+    if(report) NET.lastReport=report;
+    if(j.epoch!==NET.epoch){ roomWasReset(); return; }
+    const d=Math.round((j.credit-NET.applied)*100)/100; NET.applied=j.credit;
+    if(d) applyCredit(d);
+    for(const ev of j.events||[]){ if(ev.seq>NET.evSeq){ NET.evSeq=ev.seq; runEvent(ev); } }
+    NET.evSeq=Math.max(NET.evSeq,j.evseq||0);
+    saveLocal();
+  }catch(e){ /* เครือข่ายสะดุด — ลองใหม่รอบถัดไป */ }
+  finally{ NET.busy=false; }
+}
+function roomWasReset(){
+  NET.joined=false; stopSync();
+  reset('ผู้บรรยายเริ่มการสาธิตรอบใหม่');
+  netJoin();
+}
+function applyCredit(d){
+  if(d>0){ S.cash+=d; S.tx.unshift({type:'bonus',amt:d,time:now()}); toast('🎁 ระบบเติมโบนัสให้คุณ +'+F(d)+' ฿'); }
+  else { S.cash+=d; S.tx.unshift({type:'debit',amt:-d,time:now()}); toast('⚠️ ระบบหักเงินจากบัญชีคุณ -'+F(-d)+' ฿'); }
+  if(S.screen==='app') renderApp(); else refreshLive();
+}
+function runEvent(ev){
+  if(S.screen!=='app') return;
+  if(ev.type==='pump'){ const a=A(); pump(ev.pct||0.2,'📈 ราคา '+(a?a.sym:'')+' พุ่งแรง +'+Math.round((ev.pct||0.2)*100)+'% รีบลงทุนเพิ่ม!'); }
+  else if(ev.type==='vip') openVip();
+  else if(ev.type==='flags') openFlags();
+}
+
+/* ----- presenter (admin) ----- */
+async function adminApi(body){
+  try{ return await api('api/admin',body,NET.token); }
+  catch(e){ if(e.status===401){ exitPresenter(); toast('หมดเวลาโหมดผู้บรรยาย — เข้าสู่ระบบใหม่'); } throw e; }
+}
+function enterPresenter(){ closeOv('ovAdmin'); document.getElementById('adPass').value=''; S.presenter=true; togglePresenter(); }
+function exitPresenter(){ S.presenter=false; NET.token=''; ssSet(SS_TOKEN,''); togglePresenter(); }
+const EV_LABEL={pump:'ปั่นราคาพุ่ง',vip:'ป๊อปอัพ VIP',flags:'เฉลย Red Flags'};
+async function presenterAct(type){
+  if(type==='pump') pump(); else if(type==='vip') openVip(); else if(type==='flags') openFlags();
+  if(!(NET.online && NET.token)) return;
+  try{ await adminApi({action:'event',type}); toast('📡 ส่ง "'+EV_LABEL[type]+'" ไปที่มือถือผู้ฟังทุกคนแล้ว'); }
+  catch(e){ if(e.status!==401) toast('ส่งถึงผู้ฟังไม่สำเร็จ: '+e.message); }
+}
+async function presenterReset(){
+  if(NET.online && NET.token){
+    if(!confirm('เริ่มรอบใหม่สำหรับทุกคน?\nยอดเงินและรายชื่อผู้ฟังในห้องจะถูกล้างทั้งหมด')) return;
+    try{ await adminApi({action:'reset'}); }catch(e){ if(e.status!==401) toast('รีเซ็ตห้องไม่สำเร็จ: '+e.message); return; }
+  }
+  reset();
+}
+let usersTimer=null;
+function pollWhileOpen(ovId, fn){
+  clearInterval(usersTimer);
+  usersTimer=setInterval(()=>{ if(!document.getElementById(ovId).classList.contains('on')){ clearInterval(usersTimer); return; } fn(); },3000);
+}
+async function openUsers(){
+  const live=NET.online && NET.token;
+  document.getElementById('usersCtl').hidden=!live;
+  if(!live){ renderUsers(); openOv('ovUsers'); return; }
+  document.getElementById('usersList').innerHTML='<div class="empty">กำลังโหลดรายชื่อผู้ฟัง...</div>';
+  openOv('ovUsers'); await refreshPlayers(); pollWhileOpen('ovUsers',refreshPlayers);
+}
+async function refreshPlayers(){
+  try{ const j=await adminApi({action:'players'}); renderLivePlayers(j.players); return j.players; }
+  catch(e){ if(e.status!==401) document.getElementById('usersList').innerHTML='<div class="empty">โหลดรายชื่อไม่สำเร็จ: '+esc(e.message)+'</div>'; return null; }
+}
+function renderLivePlayers(list){
+  const t=Date.now(), online=list.filter(p=>t-p.seen<20000).length;
+  const btns=id=>`<div class="adj"><button class="adj-b minus" data-adj="${esc(id)}" data-sign="-1" aria-label="ลดเงิน">−</button><button class="adj-b plus" data-adj="${esc(id)}" data-sign="1" aria-label="เพิ่มเงิน">+</button></div>`;
+  const all=`<div class="hrow prow all"><div class="avatar me">${icon('users')}</div>
+    <div class="mn"><div class="a">ผู้ฟังทุกคน</div><div class="b">${list.length} คนในห้อง · ออนไลน์ ${online} คน</div></div>${btns('all')}</div>`;
+  const rows=list.map(p=>`<div class="hrow prow">
+      <div class="avatar">${esc([...p.name][0]||'?')}</div>
+      <div class="mn"><div class="a"><span class="pdot${t-p.seen<20000?' on':''}"></span>${esc(p.name)}</div>
+        <div class="b">ฝาก ${F0(p.deposited)} · เงินสด ${F0(p.cash)}</div></div>
+      <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">มูลค่าพอร์ต</div></div>${btns(p.id)}</div>`).join('');
+  document.getElementById('usersList').innerHTML = all + (rows || '<div class="empty">ยังไม่มีผู้ฟังเข้าร่วม — กด "QR ให้ผู้ฟังสแกน" แล้วฉายขึ้นจอ</div>');
+}
+document.getElementById('usersList').addEventListener('click',async e=>{
+  const b=e.target.closest('[data-adj]'); if(!b) return;
+  const amt=Math.abs(parseFloat(document.getElementById('adjAmt').value)||0)*Number(b.dataset.sign);
+  if(!amt) return toast('ใส่จำนวนเงินก่อน');
+  b.disabled=true;
+  try{
+    await adminApi({action:'credit',target:b.dataset.adj,amount:amt});
+    toast((amt>0?'เพิ่ม':'ลด')+'เงิน '+F0(Math.abs(amt))+' ฿ '+(b.dataset.adj==='all'?'ให้ผู้ฟังทุกคน':'ให้ผู้ฟังคนนี้')+'แล้ว');
+    refreshPlayers();
+  }catch(err){ if(err.status!==401) toast('ไม่สำเร็จ: '+err.message); }
+  finally{ b.disabled=false; }
+});
+document.querySelectorAll('[data-amt]').forEach(c=>c.onclick=()=>{ document.getElementById('adjAmt').value=c.dataset.amt; });
+async function openQr(){
+  const url=location.origin+location.pathname;
+  document.getElementById('qrImg').src='api/qr?u='+encodeURIComponent(url);
+  document.getElementById('qrUrl').textContent=url.replace(/^https?:\/\//,'').replace(/\/$/,'');
+  openOv('ovQr');
+  const upd=async()=>{ const l=await refreshPlayers(); if(l) document.getElementById('qrCount').textContent=l.length; };
+  upd(); pollWhileOpen('ovQr',upd);
+}
+
 // login / signup
-document.getElementById('lgIn').onclick=()=>show('app');
+function enterApp(name){
+  const nick=nickname(name); if(nick) S.userName=nick;
+  show('app'); netJoin();
+}
+document.getElementById('lgIn').onclick=()=>enterApp(document.getElementById('lgUser').value);
 document.getElementById('lgUp').onclick=()=>show('signup');
 document.getElementById('suBack').onclick=()=>show('login');
 document.getElementById('suGo').onclick=()=>{
-  S.userName=(document.getElementById('suName').value.trim())||'ผู้ใช้สาธิต';
-  S.userPhone=(document.getElementById('suPhone').value.trim())||'08x-xxx-xxxx';
-  show('app'); toast('สมัครสำเร็จ! รับโบนัส 500฿ (สาธิต)');
+  S.userPhone=(document.getElementById('suPhone').value.trim())||'08x-xxx-xxxx';   // อยู่แค่ในเครื่องนี้ ไม่ส่งออก
+  enterApp(document.getElementById('suName').value); toast('สมัครสำเร็จ! รับโบนัส 500฿ (สาธิต)');
 };
-['lgUser','lgPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') show('app'); }));
+['lgUser','lgPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('lgIn').click(); }));
 
-// presenter mode
+// presenter mode: ออนไลน์ตรวจรหัสที่เซิร์ฟเวอร์ (ADMIN_PASSWORD) — ไม่มีรหัสอยู่ในไฟล์นี้
 document.getElementById('lockBtn').onclick=()=>{
-  if(S.presenter){ S.presenter=false; togglePresenter(); }
-  else openOv('ovAdmin');
+  if(S.presenter){ exitPresenter(); return; }
+  document.getElementById('adErr').style.display='none';
+  openOv('ovAdmin');
+  if(NET.online) setTimeout(()=>document.getElementById('adUser').focus(),50);
 };
-document.getElementById('adGo').onclick=()=>{
-  const u=document.getElementById('adUser').value.trim(), p=document.getElementById('adPass').value.trim();
-  if((u==='admin'||u==='')&&p==='1234'){ closeOv('ovAdmin'); S.presenter=true; togglePresenter(); document.getElementById('adErr').style.display='none';}
-  else document.getElementById('adErr').style.display='block';
+document.getElementById('adGo').onclick=async()=>{
+  const err=document.getElementById('adErr'); err.style.display='none';
+  if(!NET.online){ enterPresenter(); return; }
+  const btn=document.getElementById('adGo'); btn.disabled=true;
+  try{
+    const j=await api('api/admin',{action:'login',user:document.getElementById('adUser').value.trim(),pass:document.getElementById('adPass').value});
+    NET.token=j.token; ssSet(SS_TOKEN,j.token); enterPresenter();
+  }catch(e){ err.textContent=e.message||'เข้าสู่ระบบไม่สำเร็จ'; err.style.display='block'; }
+  finally{ btn.disabled=false; }
 };
-document.getElementById('adPass').addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('adGo').click(); });
+['adUser','adPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('adGo').click(); }));
 function togglePresenter(){
   document.getElementById('pbar').classList.toggle('on',S.presenter);
   document.getElementById('lockBtn').classList.toggle('on',S.presenter);
 }
 document.querySelectorAll('#pbar .pb').forEach(b=>b.onclick=()=>{
   const a=b.dataset.act;
-  if(a==='pump')pump(); else if(a==='vip')openVip(); else if(a==='flags')openFlags();
-  else if(a==='users'){renderUsers();openOv('ovUsers');}
-  else if(a==='reset')reset(); else if(a==='exit'){S.presenter=false;togglePresenter();}
+  if(a==='pump'||a==='vip'||a==='flags') presenterAct(a);
+  else if(a==='users') openUsers();
+  else if(a==='qr') openQr();
+  else if(a==='reset') presenterReset();
+  else if(a==='exit') exitPresenter();
 });
 
 // pause the live feed when tab hidden; redraw crisply on resize
-document.addEventListener('visibilitychange',()=>{ if(document.hidden) stopLive(); else if(S.assets) startLive(); });
+document.addEventListener('visibilitychange',()=>{
+  if(document.hidden){ stopLive(); return; }
+  if(S.assets) startLive();
+  if(NET.joined) netSync();
+});
 window.addEventListener('resize',()=>{ if(S.screen==='app' && (S.tab==='home'||S.tab==='trade')) drawChart(); });
 
 /* ---------- hot-reload position ---------- */
-function snapshot(){ try{ window.claude?.hot?.snapshot(()=>S); }catch(e){} }
-function start(data){
+function snapshot(){ try{ window.claude?.hot?.snapshot(()=>S); }catch(e){} saveLocal(); }
+async function start(data){
   if(data&&data.screen){ S=Object.assign(S,data); }
   show(S.screen==='app'?'app':'login');
   togglePresenter();
   if(S.assets) startLive();
+  if(!(await detectOnline())) return;
+  const tok=ssGet(SS_TOKEN);
+  if(tok){ NET.token=tok; S.presenter=true; togglePresenter(); }
+  // มือถือผู้ฟังรีเฟรช/ล็อกจอ: กลับเข้าห้องเดิมพร้อมยอดเดิม
+  const saved=lsGet(LS_KEY);
+  if(saved && saved.id && saved.S && saved.S.screen==='app'){
+    NET.id=saved.id;
+    Object.assign(S,saved.S,{presenter:S.presenter});
+    Object.assign(NET,{epoch:saved.epoch,applied:Number(saved.applied)||0,evSeq:Number(saved.evSeq)||0,joined:true});
+    show('app'); startLive(); startSync();
+  }
 }
 (window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}));
 </script>
