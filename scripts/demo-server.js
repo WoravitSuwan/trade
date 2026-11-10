@@ -2,8 +2,8 @@
 
 /*
  * Local stand-in for Vercel: serves index.html and the /api functions with the
- * same req/res helpers Vercel provides. Uses the in-memory store unless the
- * Upstash env vars are set.
+ * same req/res helpers Vercel provides. Uses an in-memory Postgres (PGlite) unless
+ * POSTGRES_URL / DATABASE_URL points at a real database (e.g. Supabase).
  *
  *   ADMIN_PASSWORD=... npm run demo     ->  http://localhost:3001
  */

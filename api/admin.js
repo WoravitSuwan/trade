@@ -1,6 +1,6 @@
 'use strict';
 
-// Presenter controls. Every action except "login" needs the Bearer token that
+// Presenter back office. Every action except "login" needs the Bearer token that
 // "login" returns; the password itself only lives in the ADMIN_PASSWORD env var.
 const room = require('../lib/room');
 const { handle, body, clientIp } = require('../lib/http');
@@ -17,8 +17,10 @@ module.exports = handle(async (req, res) => {
   }
 
   switch (b.action) {
-    case 'players': return res.status(200).json(await room.players());
+    case 'overview': return res.status(200).json(await room.overview());
     case 'credit': return res.status(200).json(await room.credit(b.target, b.amount));
+    case 'decide': return res.status(200).json(await room.decide(b.requestId, b.decision, b.feePct));
+    case 'settings': return res.status(200).json(await room.settings(b.settings));
     case 'event': return res.status(200).json(await room.broadcast(b.type, b));
     case 'reset': return res.status(200).json(await room.reset());
     default: return res.status(400).json({ error: 'action ไม่ถูกต้อง' });
