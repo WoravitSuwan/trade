@@ -409,7 +409,8 @@
 
   /* ---------- bank account + requests ---------- */
   .dep-wrap{max-width:480px;margin:0 auto;display:flex;flex-direction:column;gap:14px}
-  .dep-wrap .form-card{margin:0}
+  .dep-wrap .form-card{margin:0;max-width:none}
+  .content>.dep-wrap{max-width:520px}
   .bank-card{position:relative;overflow:hidden;border-radius:20px;padding:16px 18px 18px;color:#eaf2ff;
     background:linear-gradient(135deg,#1d4ed8,#123a8a 50%,#0b1f4a);border:1px solid rgba(96,165,250,.4);
     box-shadow:0 22px 44px -24px rgba(37,99,235,.9),inset 0 1px 0 rgba(255,255,255,.12)}
@@ -700,7 +701,7 @@
     <section class="screen" id="app">
       <div class="appbar">
         <div class="logo sm"><svg class="i"><use href="#i-logo"/></svg></div>
-        <div><div class="nm">AI Gold Trade<small><span class="live-dot"></span>เชื่อมต่อแล้ว</small></div></div>
+        <div><div class="nm">AI Gold Trade<small id="connState"><span class="live-dot"></span>เชื่อมต่อแล้ว</small></div></div>
         <div class="sp"></div>
         <div class="balpill"><div class="k">ยอดคงเหลือ</div><div class="v" id="barBal">0.00 ฿</div></div>
         <button class="lockbtn" id="lockBtn" title="โหมดผู้บรรยาย" aria-label="โหมดผู้บรรยาย"><svg class="i"><use href="#i-sliders"/></svg></button>
@@ -752,7 +753,7 @@
         <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="adPass" type="password" autocomplete="off"></div></div>
     </div>
     <button class="btn btn-gold" id="adGo">เข้าสู่ระบบ</button>
-    <div class="mini-note offline-only">โหมดออฟไลน์ (เปิดจากไฟล์ในเครื่อง): โหมดผู้บรรยายมีผลเฉพาะเครื่องนี้ จึงไม่ต้องใช้รหัส</div>
+    <div class="mini-note offline-only" id="adOffNote">โหมดออฟไลน์ (เปิดจากไฟล์ในเครื่อง): โหมดผู้บรรยายมีผลเฉพาะเครื่องนี้ จึงไม่ต้องใช้รหัส</div>
     <div id="adErr" class="mini-err">รหัสไม่ถูกต้อง</div>
   </div></div>
 
@@ -925,6 +926,7 @@ let S = {
   cash:0, deposited:0, realized:0,
   assets:null, sel:0, orderType:'market', orders:[],
   tx:[], presenter:false,
+  bank:5000, bankStart:5000,          // บัญชีธนาคารจำลองในเครื่อง (ใช้ตอนออฟไลน์/เครื่องผู้บรรยาย)
 };
 
 /* ---------- navigation ---------- */
@@ -1009,8 +1011,7 @@ function viewHome(){
         </div>
       </div>
       <div class="stats3">
-        ${NET.joined?`<div class="card stat"><div class="k">${icon('wallet')}บัญชีธนาคาร</div><div class="v" id="stBank">${F(NET.bank)}</div></div>`
-          :`<div class="card stat"><div class="k">${icon('dep')}เงินฝากรวม</div><div class="v" id="stDep">${F(S.deposited)}</div></div>`}
+        <div class="card stat"><div class="k">${icon('wallet')}บัญชีธนาคาร</div><div class="v" id="stBank">${F(curBank())}</div></div>
         <div class="card stat"><div class="k">${icon('coins')}เงินสดในพอร์ต</div><div class="v" id="cashVal">${F(S.cash)}</div></div>
         <div class="card stat"><div class="k">${icon('pie')}สินทรัพย์</div><div class="v" id="stHold">${F(holdValue())}</div></div>
       </div>
@@ -1086,7 +1087,7 @@ function viewTrade(){
   <div class="mini-note">🔎 สาธิต: ระบบจำลองการเทรดจริง — Order Book, สเปรด Bid/Ask, ค่าธรรมเนียม, คำสั่ง Market/Limit เงินพอร์ตขึ้น-ลงตามราคาเรียลไทม์ แต่พอจะ "ถอนเงิน" จริงจะโดนบล็อก (กับดักสแกม)</div>`;
 }
 function viewDeposit(){
-  if(NET.joined) return `<div class="dep-wrap">${bankCard()}
+  return `<div class="dep-wrap">${bankCard()}
   <div class="card form-card">
     <div class="fc-head"><div class="fc-ic" style="--icbg:rgba(34,214,138,.12);--icfg:var(--green);--icbd:rgba(34,214,138,.35)">${icon('dep')}</div>
       <div><h2>โอนเงินเข้าพอร์ต</h2><div class="sub">โอนจากบัญชีธนาคารของคุณ (เงินจำลอง) เข้าแอปเพื่อใช้ซื้อขาย</div></div></div>
@@ -1100,19 +1101,7 @@ function viewDeposit(){
     <button class="btn btn-gold" id="depGo">โอนเงินเข้าระบบ</button>
     <div class="mini-note">🔎 สาธิต: เงินในบัญชีมีจำกัด โอนเข้าไปแล้วจะได้คืนหรือไม่ ขึ้นกับ "แอดมิน" ทั้งหมด</div>
   </div>
-  <div id="rqList" data-kind="deposit">${reqListHtml('deposit')}</div></div>`;
-  return `<div class="card form-card">
-    <div class="fc-head"><div class="fc-ic" style="--icbg:rgba(34,214,138,.12);--icfg:var(--green);--icbd:rgba(34,214,138,.35)">${icon('dep')}</div>
-      <div><h2>ฝากเงินเข้าพอร์ต</h2><div class="sub">เติมเงินสดเพื่อใช้ซื้อขายสินทรัพย์ (ตัวเลขสาธิต ไม่มีการโอนจริง)</div></div></div>
-    <div class="amt-wrap"><input class="amt-in" id="depAmt" type="number" placeholder="0" inputmode="numeric"></div>
-    <div class="chips">
-      <button class="chip" data-dep="1000">1,000</button>
-      <button class="chip" data-dep="50000">50,000</button>
-      <button class="chip" data-dep="500000">500,000</button>
-    </div>
-    <button class="btn btn-gold" id="depGo">ยืนยันการฝากเงิน</button>
-    <div class="mini-note">🔎 สาธิต: ฝากแล้วได้เงินสดไปเทรด — เลียนแบบวิธีที่สแกมให้เหยื่อเติมเงินเข้าระบบ</div>
-  </div>`;
+  ${NET.joined?`<div id="rqList" data-kind="deposit">${reqListHtml('deposit')}</div>`:''}</div>`;
 }
 function viewWithdraw(){
   if(NET.joined) return `<div class="dep-wrap">
@@ -1184,11 +1173,12 @@ function reqListHtml(kind){
   if(!list.length) return '';
   return `<div class="card txlist"><div class="txhead">${kind==='withdraw'?'รายการถอนเงิน':'รายการโอนเงินเข้าระบบ'} <small>${list.length} รายการ</small></div>${list.map(r=>rqRow(r,{pay:true})).join('')}</div>`;
 }
+const curBank=()=>NET.joined?NET.bank:S.bank, curBankStart=()=>NET.joined?NET.bankStart:S.bankStart;
 function bankCard(){
-  const pct=NET.bankStart>0?Math.max(0,Math.min(100,NET.bank/NET.bankStart*100)):0;
-  return `<div class="bank-card"><div class="bk-top"><span>🏦 <b>บัญชีธนาคารของคุณ</b> · ออมทรัพย์ (เงินจำลอง)</span><span>ห้องสาธิต</span></div>
-    <div class="bk-bal" id="bankBal">${F(NET.bank)} ฿</div>
-    <div class="bk-sub">เริ่มต้น ${F0(NET.bankStart)} ฿ — ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ</div>
+  const bank=curBank(), start=curBankStart(), pct=start>0?Math.max(0,Math.min(100,bank/start*100)):0;
+  return `<div class="bank-card"><div class="bk-top"><span>🏦 <b>บัญชีธนาคารของคุณ</b> · ออมทรัพย์ (เงินจำลอง)</span><span>${NET.joined?'ห้องสาธิต':'เครื่องนี้'}</span></div>
+    <div class="bk-bal" id="bankBal">${F(bank)} ฿</div>
+    <div class="bk-sub">เริ่มต้น ${F0(start)} ฿ — ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ</div>
     <div class="bk-bar"><i id="bankBar" style="width:${pct}%"></i></div></div>`;
 }
 
@@ -1331,7 +1321,7 @@ function refreshLive(){
   const pfp=document.getElementById('pfPnl');
   if(pfp){ pfp.textContent=(pnl>=0?'▲ ':'▼ ')+F(Math.abs(pnl))+' ฿ ('+(S.deposited>0?(pnl/S.deposited*100).toFixed(2):'0.00')+'%)';
     pfp.className='d '+(pnl>=0?'up':'down'); }
-  set('cashVal', F(S.cash)); set('stDep', F(S.deposited)); set('stHold', F(holdValue())); set('wdCash', F(S.cash)+' ฿');
+  set('cashVal', F(S.cash)); set('stDep', F(S.deposited)); set('stHold', F(holdValue())); set('wdCash', F(S.cash)+' ฿'); set('stBank', F(curBank()));
   if(S.assets) S.assets.forEach(x=>{
     set('px-'+x.sym, fmtPx(x.price), x.dir>=0?'var(--green)':'var(--red)');
     const ch=chg24(x), pe=document.getElementById('pc-'+x.sym);
@@ -1365,7 +1355,9 @@ function toast(msg){ const t=document.getElementById('toast'); if(!t)return;
 function now(){return new Date().toLocaleString('th-TH',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});}
 function deposit(amt){
   if(NET.joined) return depositOnline(amt);
-  if(!amt||amt<=0)return;
+  if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
+  if(amt>S.bank+0.001) return toast('เงินในบัญชีธนาคารไม่พอ (คงเหลือ '+F(S.bank)+' ฿)');
+  S.bank=Math.round((S.bank-amt)*100)/100;
   S.deposited+=amt; S.cash+=amt;
   S.tx.unshift({type:'deposit',amt,time:now(),ts:Date.now()});
   S.tab='trade'; renderApp(); toast('ฝากเงินสำเร็จ — เลือกสินทรัพย์แล้วกดซื้อได้เลย (สาธิต)');
@@ -1426,7 +1418,7 @@ function pump(pct=0.2, msg='ปั่นราคาพุ่ง +20% (โหม
   injectJump(pct);
   S.tab='home'; if(S.screen==='app') renderApp(); toast(msg);
 }
-function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[]}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
+function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],bank:S.bankStart||5000}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
 function renderUsers(){
   const cur={name:S.userName+' (คุณ — ผู้ใช้ปัจจุบัน)',phone:S.userPhone,bal:pfValue(),inv:S.deposited,st:'ออนไลน์',me:true};
   const all=[cur,...SEED_USERS];
@@ -1474,7 +1466,7 @@ function bindTabEvents(){
     renderBook(A());
   }
   if(S.tab==='deposit'){
-    document.querySelectorAll('[data-dep]').forEach(c=>c.onclick=()=>g('depAmt').value=c.dataset.dep==='all'?Math.floor(NET.bank):c.dataset.dep);
+    document.querySelectorAll('[data-dep]').forEach(c=>c.onclick=()=>g('depAmt').value=c.dataset.dep==='all'?Math.floor(curBank()):c.dataset.dep);
     g('depGo').onclick=()=>deposit(parseFloat(g('depAmt').value));
   }
   if(S.tab==='withdraw'){
@@ -1511,8 +1503,14 @@ async function api(path, body, auth){
 }
 async function detectOnline(){
   if(location.protocol==='file:') return false;
-  try{ const j=await api('api/room'); NET.online=!!j.ok; NET.store=j.store||''; }catch{ NET.online=false; }
+  try{ const j=await api('api/room'); NET.online=!!j.ok; NET.store=j.store||''; NET.err=''; }
+  catch(e){ NET.online=false; NET.err=e.message||'เชื่อมต่อไม่ได้'; }
   document.body.classList.toggle('online',NET.online);
+  if(NET.err){
+    document.getElementById('adOffNote').textContent='⚠️ เชื่อมต่อห้องสาธิตสดไม่ได้: '+NET.err+' — ตอนนี้โหมดผู้บรรยายมีผลเฉพาะเครื่องนี้ (ตรวจได้ที่ลิงก์ /api/room)';
+    toast('⚠️ โหมดออฟไลน์: เชื่อมต่อห้องสาธิตสดไม่ได้');
+  }
+  setConn();
   if(NET.online) document.getElementById('suPhone').placeholder='ไม่ต้องกรอกเบอร์จริง';
   return NET.online;
 }
@@ -1606,7 +1604,7 @@ function onRequestChange(r, prev){
 }
 function refreshMoneyViews(changed){
   const set=(id,v)=>{const e=document.getElementById(id); if(e) e.textContent=v;};
-  set('bankBal',F(NET.bank)+' ฿'); set('stBank',F(NET.bank));
+  set('bankBal',F(curBank())+' ฿'); set('stBank',F(curBank()));
   const bar=document.getElementById('bankBar');
   if(bar) bar.style.width=(NET.bankStart>0?Math.max(0,Math.min(100,NET.bank/NET.bankStart*100)):0)+'%';
   if(changed){
@@ -1682,6 +1680,7 @@ function exitPresenter(){ S.presenter=false; NET.token=''; ssSet(SS_TOKEN,''); t
 async function leaveRoom(){
   if(!NET.joined) return;
   const id=NET.id; NET.joined=false; stopSync();
+  S.cash=r2(S.cash-NET.flow); S.deposited=0;
   Object.assign(NET,{epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   try{ localStorage.removeItem(LS_KEY); }catch{}
   try{ await api('api/room',{action:'leave',id}); }catch{}
@@ -1898,6 +1897,14 @@ document.getElementById('adGo').onclick=async()=>{
 function togglePresenter(){
   document.getElementById('pbar').classList.toggle('on',S.presenter);
   document.getElementById('lockBtn').classList.toggle('on',S.presenter);
+  setConn();
+}
+function setConn(){
+  const el=document.getElementById('connState'); if(!el) return;
+  const st = NET.online ? (S.presenter?['var(--teach)','โหมดผู้บรรยาย · ห้องสาธิตสด']:['var(--green)','เชื่อมต่อแล้ว'])
+    : NET.err ? ['var(--gold)','ออฟไลน์ · เชื่อมห้องสาธิตไม่ได้'] : ['var(--faint)','โหมดออฟไลน์ (เครื่องนี้)'];
+  el.style.color=st[0];
+  el.innerHTML=`<span class="live-dot" style="background:${st[0]}"></span>${st[1]}`;
 }
 document.querySelectorAll('#pbar .pb').forEach(b=>b.onclick=()=>{
   const a=b.dataset.act;

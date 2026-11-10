@@ -272,3 +272,25 @@ test('pgConfig: TLS for Supabase, sslmode stripped, none for localhost', () => {
     delete process.env.DATABASE_CA_CERT;
   }
 });
+
+test('status explains why the database is unavailable', async () => {
+  process.env.VERCEL = '1';
+  await resetDbForTests();
+  try {
+    const r = await call('/api/room');
+    assert.equal(r.status, 503);
+    assert.match(r.body.error, /POSTGRES_URL/);
+  } finally {
+    delete process.env.VERCEL;
+  }
+  process.env.DATABASE_URL = 'postgres://u:p@127.0.0.1:1/nope';
+  await resetDbForTests();
+  try {
+    const r = await call('/api/room');
+    assert.equal(r.status, 503);
+    assert.match(r.body.error, /เชื่อมต่อฐานข้อมูลไม่ได้/);
+  } finally {
+    delete process.env.DATABASE_URL;
+    await resetDbForTests();
+  }
+});
