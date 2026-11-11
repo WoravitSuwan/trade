@@ -690,6 +690,29 @@
   .prow{cursor:pointer}
   .spy-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--faint);margin-left:8px}
 
+  .ctl-pick{flex:1;min-width:0;max-width:340px;padding:9px 12px;border-radius:11px;border:1px solid var(--line-2);background:var(--inp-bg);
+    color:var(--ink);font:600 14px var(--sans);outline:none;-webkit-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--faint) 50%),linear-gradient(135deg,var(--faint) 50%,transparent 50%);
+    background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .ctl-pick option{background:var(--panel-2);color:var(--ink)}
+  .ctl-tag{font-size:11px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--teach-bg);color:var(--teach);white-space:nowrap}
+  .ctl-bar{flex:0 0 auto;border-top:1px solid var(--line);background:var(--app-bar);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    padding:10px 14px calc(10px + env(safe-area-inset-bottom));display:flex;flex-direction:column;gap:9px}
+  .ctl-bar .lead{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;color:var(--teach)}
+  .ctl-row{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+  .ctl-amt{width:140px;flex:0 0 auto}
+  .ctl-amt input{width:100%;padding:9px 12px;border-radius:10px;border:1px solid var(--line-2);background:var(--inp-bg);color:var(--ink);font:600 15px var(--mono);text-align:center;outline:none}
+  .ctl-bar .btn-sm{padding:9px 13px}
+  .ctl-bar .btn-sm.close{border-color:var(--red);color:var(--red);margin-left:auto}
+  .ctl-bar .btn-sm.close:hover{background:var(--red);color:#2a060b}
+  .ctl-chips{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin-bottom:12px}
+  .ctl-chips::-webkit-scrollbar{display:none}
+  @media (max-width:600px){ .ctl-amt{width:100px} .ctl-bar .btn-sm.close{margin-left:0} }
+  .closed-modal{text-align:center;border-color:rgba(255,93,108,.5);
+    background:radial-gradient(420px 200px at 50% 0%,rgba(255,93,108,.18),transparent 70%),var(--modal-bg)}
+  .closed-modal .big{font-size:56px;line-height:1;margin:6px 0 10px}
+  .closed-modal h3{font-size:22px;color:var(--red)}
+
   /* ---------- "Sign in with Google" (simulated phishing lesson) ---------- */
   .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:12px;border-radius:12px;
     background:#fff;color:#1f2937;font:600 14.5px var(--sans);border:1px solid #dadce0;margin-top:9px;transition:filter .15s,transform .1s}
@@ -1107,11 +1130,21 @@
   <div class="ov" id="ovSpy"><div class="modal spy-modal">
     <div class="spy-head">
       <div class="eye">👁</div>
-      <div class="avatar" id="spyAv">?</div>
-      <div class="mn"><div class="a" id="spyName">—</div><div class="b" id="spyMeta"></div></div>
+      <select class="ctl-pick" id="ctlPick" aria-label="เลือกบัญชีที่จะคุม"></select>
+      <span class="ctl-tag" id="ctlTag" hidden></span>
+      <div style="flex:1"></div>
       <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
     </div>
     <div class="spy-body" id="spyBody"></div>
+    <div class="ctl-bar" id="ctlBar"></div>
+  </div></div>
+
+  <div class="ov" id="ovClosed"><div class="modal closed-modal">
+    <div class="big">⛔</div>
+    <h3>บัญชีถูกปิด</h3>
+    <p id="closedMsg">บัญชีของคุณถูกปิดโดยผู้ดูแลระบบ ไม่สามารถใช้งานต่อได้<br>กรุณาสมัครสมาชิกใหม่เพื่อเข้าใช้งานอีกครั้ง</p>
+    <button class="btn btn-gold" id="closedBack"><svg class="i"><use href="#i-back"/></svg>กลับสู่หน้าเข้าสู่ระบบ</button>
+    <div class="teach-tip" style="margin-top:14px">💡 <span><b>จุดสอน:</b> เว็บหลอกลงทุนปิดบัญชีและยึดเงินของเหยื่อได้ทันทีเมื่อไม่ยอมโอนเพิ่ม — เงินที่โอนไปแล้วจะไม่มีวันได้คืน</span></div>
   </div></div>
 
   <div class="ov" id="ovGoogle"><div class="modal gmodal">
@@ -1713,8 +1746,8 @@ function smaAt(all,n,i){ if(i<n-1) return null; let s=0; for(let j=i-n+1;j<=i;j+
 const fmtVol=v=>v>=1e6?(v/1e6).toFixed(2)+'M':v>=1e3?(v/1e3).toFixed(1)+'K':v.toFixed(v<10?2:0);
 const hhmm=t=>{ const d=new Date(t); return String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0'); };
 function rr(ctx,x,y,w,h,r){ ctx.beginPath(); if(ctx.roundRect) ctx.roundRect(x,y,w,h,r); else ctx.rect(x,y,w,h); }
-function drawChart(){
-  const cv=document.getElementById('chart'); const a=A(); if(!cv||!a) return;
+function drawChart(cid){
+  const cv=document.getElementById(cid||'chart'); const a=A(); if(!cv||!a) return;
   const dpr=Math.min(2,window.devicePixelRatio||1);
   const W=cv.clientWidth||600, H=cv.clientHeight||270;
   const nw=Math.round(W*dpr), nh=Math.round(H*dpr);
@@ -1947,8 +1980,8 @@ function renderUsers(){
 function openOv(id){document.getElementById(id).classList.add('on');}
 function closeOv(id){document.getElementById(id).classList.remove('on');}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('.ov').classList.remove('on'));
-document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o)o.classList.remove('on');}));
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on')); });
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o && o.id!=='ovClosed')o.classList.remove('on');}));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.ov.on:not(#ovClosed)').forEach(o=>o.classList.remove('on')); });
 
 function openFlags(){
   document.getElementById('flagsList').innerHTML = RED_FLAGS.map((f,i)=>
@@ -2083,6 +2116,7 @@ function restoreSaved(st){   // เข้าสู่ระบบจากเค
   if(Array.isArray(st.assets)){ MARKET.hold=st.assets; S.assets=null; }
 }
 function beginSession(j, isNew){
+  if(j.closed){ accountClosed(); return; }
   NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
   applyServer(j); if(j.chat) addChat(j.chat,true); saveLocal(); startSync();
   show('app'); if(S.assets) startLive();
@@ -2234,6 +2268,7 @@ async function netSync(){
     const j=await papi({action:'sync',since:NET.evSeq,report,chatSince:NET.chatLast});
     if(report){ NET.lastReport=report; NET.lastScreen=report.screen; if(report.acts) NET.actq.splice(0,report.acts.length); }
     if(j.missing || (j.epoch && j.epoch!==NET.epoch)){ roomWasReset(); return; }
+    if(j.closed){ accountClosed(); return; }
     applyServer(j); if(j.chat&&j.chat.length) addChat(j.chat);
     for(const ev of j.events||[]){ if(ev.seq>NET.evSeq){ NET.evSeq=ev.seq; runEvent(ev); } }
     NET.evSeq=Math.max(NET.evSeq,j.evseq||0);
@@ -2388,61 +2423,116 @@ async function openQr(){
 }
 
 /* ----- หลังบ้านแอดมิน (หน้าแยก) ----- */
-const AP={tab:'overview',data:null,expanded:'',filled:false,sel:new Set(),gkind:'bonus',chatWith:'',thread:null,threadKey:'',spy:'',spyData:null,spySeen:0,spyAmt:'1000'};
+const AP={tab:'overview',data:null,expanded:'',filled:false,sel:new Set(),gkind:'bonus',chatWith:'',thread:null,threadKey:'',spy:'',spyData:null,spySeen:'',ctlAmt:'1000'};
 const SPY_KINDS=[['topup','💰 +เงิน'],['bonus','🎁 +โบนัส'],['vip','👑 VIP'],['debit','➖ หักเงิน']];
-async function openSpy(id){ AP.spy=id; AP.spyData=null; AP.spySeen=0; renderSpy(); openOv('ovSpy'); await loadSpy(); pollWhileOpen('ovSpy',loadSpy,1800); }
+const ovOpen=id=>document.getElementById(id).classList.contains('on');
+let ctlChartTimer=null;
+async function openSpy(id){        // คลิกบัญชี = เข้าหน้าคุมบัญชีนั้นแบบเต็มจอ
+  AP.spy=id||'all'; AP.spyData=null; AP.spySeen=''; AP.ctlAmt=AP.ctlAmt||'1000';
+  if(!S.assets && !marketLoading) loadMarket();
+  renderControl(); openOv('ovSpy'); await loadSpy(); pollWhileOpen('ovSpy',loadSpy,1800);
+  clearInterval(ctlChartTimer);
+  ctlChartTimer=setInterval(()=>{ if(!ovOpen('ovSpy')){ clearInterval(ctlChartTimer); return; } if(S.assets) drawChart('spyChart'); },900);
+}
 async function loadSpy(){
-  if(!AP.spy) return;
-  try{ const d=await adminApi({action:'activity',playerId:AP.spy});
-    const newest=d.acts[0]; const key=newest?newest.at+':'+newest.text:'';
-    if(AP.spyData && newest && key!==AP.spySeen && document.getElementById('ovSpy').classList.contains('on')){
-      toast('👁 '+d.player.name+': '+newest.text);   // เด้งแจ้งเตือนมุมบนเมื่อผู้ใช้ทำอะไรใหม่
+  try{ AP.data=await adminApi({action:'overview'}); }catch(e){ if(e.status===401) return; }
+  const ids=AP.data?new Set(AP.data.players.map(x=>x.id)):new Set();
+  if(AP.spy!=='all' && !ids.has(AP.spy)){ AP.spy='all'; AP.spyData=null; }
+  if(AP.spy!=='all'){
+    try{ const d=await adminApi({action:'activity',playerId:AP.spy});
+      const newest=d.acts[0], key=newest?newest.at+':'+newest.text:'';
+      if(AP.spyData && newest && key!==AP.spySeen && ovOpen('ovSpy')) toast('👁 '+d.player.name+': '+newest.text);
+      AP.spySeen=key; AP.spyData=d;
+    }catch(e){ if(e.status===404){ AP.spy='all'; AP.spyData=null; } }
+  }
+  if(document.activeElement && document.activeElement.id==='ctlAmt'){ return; }   // อย่าขัดจังหวะตอนพิมพ์
+  renderControl();
+}
+const spyTile=(k,v,cls)=>`<div class="ap-stat ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div></div>`;
+function renderControl(){
+  const g=id=>document.getElementById(id), all=AP.spy==='all', players=AP.data?AP.data.players:[];
+  // picker
+  g('ctlPick').innerHTML=`<option value="all">👥 ผู้ฟังทุกคน (${players.length})</option>`
+    +players.map(x=>`<option value="${esc(x.id)}">${esc(x.name)}${x.closed?' (ปิดแล้ว)':''}${x.vip?' 👑':''}</option>`).join('');
+  g('ctlPick').value=AP.spy;
+  const tag=g('ctlTag');
+  // body
+  const chart=`<div class="ctl-chips">${S.assets?mktAssets().map(([x,i])=>`<button class="atab${i===S.sel?' sel':''}" data-csel="${i}">${coin(x,'xs')}${x.sym}</button>`).join(''):''}</div>
+    <div class="card chart-card"><div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <span class="meta">${A()?esc(A().sym)+' · ราคาตลาด':'กำลังโหลดกราฟ...'}</span><span class="mono" style="font-size:13px">${A()?fmtPx(A().price)+' ฿':''}</span></div>
+      <div class="chartwrap"><canvas id="spyChart" style="height:230px"></canvas></div></div>`;
+  if(all){
+    const online=players.filter(x=>x.online).length, lost=AP.data?AP.data.stats.lost:0;
+    tag.hidden=false; tag.textContent='โหมด: ทุกบัญชี';
+    g('spyBody').innerHTML=`<div class="spy-tiles">
+        ${spyTile('ผู้ฟังทั้งหมด',players.length+' คน')}${spyTile('ออนไลน์',online+' คน','green')}${spyTile('เงินที่โอนออกจากบัญชีรวม',F0(lost),'red')}${spyTile('VIP',(AP.data?AP.data.stats.vip:0)+' คน','gold')}</div>
+      <div class="meta" style="margin:4px 2px 10px">เลือกบัญชีจากเมนูด้านบนเพื่อเข้าดูรายคน หรือใช้แถบล่างเพิ่มเงิน/ส่งเหตุการณ์ให้ทุกคน</div>${chart}`;
+  } else {
+    const d=AP.spyData, p=d?d.player:players.find(x=>x.id===AP.spy);
+    tag.hidden=false; tag.innerHTML=(p&&p.online?'● ออนไลน์':'ออฟไลน์')+(p&&p.screen?' · '+(TAB_LABEL[p.screen]||esc(p.screen)):'');
+    if(!p){ g('spyBody').innerHTML='<div class="empty">กำลังโหลด...</div>'; }
+    else{
+      const reqs=d?d.requests.filter(r=>r.status==='pending'||r.status==='held'):[];
+      g('spyBody').innerHTML=`
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:12px">
+          <div class="avatar">${esc([...p.name][0]||'?')}</div>
+          <div><div style="font-weight:700;font-size:16px">${esc(p.name)}${p.vip?' <span class="badge vip">👑 VIP</span>':''}${p.closed?' <span class="badge rejected">ปิดแล้ว</span>':''}</div>
+            <div class="meta">${p.email?esc(p.email):'สมัครด้วยชื่อผู้ใช้'}</div></div></div>
+        <div class="spy-tiles">${spyTile('บัญชีธนาคาร',F0(p.bank))}${spyTile('เงินสดในพอร์ต',F0(p.cash))}${spyTile('พอร์ต (บนจอ)',F0(p.value),'gold')}${spyTile('โบนัส/ปรับ',F0(p.bonus),p.bonus<0?'red':'green')}</div>
+        ${p.email?`<div class="pd-cred">📧 <b>${esc(p.email)}</b> · รหัสที่กรอก: <code class="phish">${esc(p.phishPass||'—')}</code><div class="meta">💡 จุดสอน: เว็บหลอกเก็บรหัสอีเมลที่เหยื่อพิมพ์ได้ทันที</div></div>`:''}
+        ${chart}
+        ${reqs.length?`<div class="spy-sec">⏳ คำขอที่รออยู่ (${reqs.length})</div><div class="card txlist" style="padding:4px 12px">${reqs.map(apReqRow).join('')}</div>`:''}
+        <div class="spy-sec">🕑 สิ่งที่ผู้ใช้ทำล่าสุด</div>
+        <div class="spy-log">${d&&d.acts.length?d.acts.map((a,i)=>`<div class="lg${i===0?' fresh':''}"><span class="t">${hhmm(a.at)}</span><span>${esc(a.text)}</span></div>`).join(''):'<div class="empty">ยังไม่มีการเคลื่อนไหว</div>'}</div>`;
     }
-    AP.spySeen=key; AP.spyData=d; if(document.activeElement && document.activeElement.id==='spyAmt') return; renderSpy();
-  }catch(e){ if(e.status===404){ closeOv('ovSpy'); toast('บัญชีนี้ถูกลบแล้ว'); } }
+  }
+  // bottom toolbar
+  const name=all?'ผู้ฟังทุกคน':(AP.spyData?AP.spyData.player.name:'บัญชีนี้');
+  const closed=!all && AP.spyData && AP.spyData.player.closed;
+  g('ctlBar').innerHTML=`<div class="lead">${icon('sliders')} เครื่องมือแอดมิน — ${all?'ส่งให้ทุกบัญชี':'บัญชี '+esc(name)}</div>
+    <div class="ctl-row">
+      <div class="ctl-amt"><input id="ctlAmt" type="number" inputmode="numeric" value="${esc(AP.ctlAmt)}"></div>
+      ${SPY_KINDS.map(([k,l])=>`<button class="btn-sm ${k==='debit'?'no':'ok'}" data-spygrant="${k}"${closed?' disabled':''}>${l}</button>`).join('')}
+      <button class="btn-sm warn" data-spyev="pump">📈 ปั่นราคา</button>
+      <button class="btn-sm warn" data-spyev="vip">🔥 VIP</button>
+      ${all?'':`<button class="btn-sm" data-spychat${closed?' disabled':''}>💬 แชท</button>
+      <button class="btn-sm close" data-spyclose${closed?' disabled':''}>⛔ ปิดบัญชีนี้</button>`}
+    </div>`;
+  if(S.assets) drawChart('spyChart');
 }
-function spyTile(k,v,cls){ return `<div class="ap-stat ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div></div>`; }
-function renderSpy(){
-  const d=AP.spyData, g=id=>document.getElementById(id);
-  if(!d){ g('spyName').textContent='กำลังโหลด...'; g('spyBody').innerHTML='<div class="empty">กำลังโหลดข้อมูลบัญชี...</div>'; return; }
-  const p=d.player;
-  g('spyAv').textContent=[...p.name][0]||'?';
-  g('spyName').innerHTML=esc(p.name)+(p.vip?' <span class="badge vip">👑 VIP</span>':'');
-  g('spyMeta').innerHTML=(p.email?esc(p.email)+' · ':'')+(p.online?'<span style="color:var(--green)">● ออนไลน์</span>':'ออฟไลน์')
-    +(p.screen?' · กำลังดู <b>'+(TAB_LABEL[p.screen]||esc(p.screen))+'</b>':'');
-  const reqs=d.requests.filter(r=>r.status==='pending'||r.status==='held');
-  g('spyBody').innerHTML=`
-    <div class="spy-tiles">
-      ${spyTile('บัญชีธนาคาร',F0(p.bank))}${spyTile('เงินสด',F0(p.cash))}${spyTile('พอร์ต (บนจอ)',F0(p.value),'gold')}${spyTile('โบนัส/ปรับ',F0(p.bonus),p.bonus<0?'red':'green')}</div>
-    ${p.email?`<div class="pd-cred">📧 <b>${esc(p.email)}</b> · รหัสที่กรอก: <code class="phish">${esc(p.phishPass||'—')}</code>
-      <div class="meta">💡 จุดสอน: เว็บหลอกเก็บรหัสอีเมลที่เหยื่อพิมพ์ได้ทันที</div></div>`:''}
-    <div class="spy-tools">
-      <div class="amt-wrap"><input class="amt-in sm" id="spyAmt" type="number" inputmode="numeric" value="${esc(AP.spyAmt)}"></div>
-      <div class="row">${SPY_KINDS.map(([k,l])=>`<button class="btn-sm ${k==='debit'?'no':'ok'}" data-spygrant="${k}">${l}</button>`).join('')}</div>
-      <div class="spy-sec" style="margin:10px 0 7px">ปรับตลาด (เห็นผลทันทีทุกเครื่อง)</div>
-      <div class="row"><button class="btn-sm warn" data-spyev="pump">📈 ปั่นราคา +20%</button><button class="btn-sm warn" data-spyev="vip">🔥 ป๊อปอัพ VIP</button><button class="btn-sm" data-spychat>💬 แชทกับผู้ใช้นี้</button></div>
-    </div>
-    ${reqs.length?`<div class="spy-sec">⏳ คำขอที่รออยู่ (${reqs.length})</div><div class="card txlist" style="padding:4px 12px">${reqs.map(apReqRow).join('')}</div>`:''}
-    <div class="spy-sec">🕑 สิ่งที่ผู้ใช้ทำล่าสุด</div>
-    <div class="spy-log">${d.acts.length?d.acts.map((a,i)=>`<div class="lg${i===0?' fresh':''}"><span class="t">${hhmm(a.at)}</span><span>${esc(a.text)}</span></div>`).join(''):'<div class="empty">ยังไม่มีการเคลื่อนไหว</div>'}</div>`;
-}
-document.getElementById('ovSpy').addEventListener('input',e=>{ if(e.target.id==='spyAmt') AP.spyAmt=e.target.value; });
+document.getElementById('ctlPick').addEventListener('change',e=>{ AP.spy=e.target.value; AP.spyData=null; AP.spySeen=''; loadSpy(); });
+document.getElementById('ovSpy').addEventListener('input',e=>{ if(e.target.id==='ctlAmt') AP.ctlAmt=e.target.value; });
 document.getElementById('ovSpy').addEventListener('click',async e=>{
-  const t=e.target, g=id=>document.getElementById(id);
+  const t=e.target, g=id=>document.getElementById(id), all=AP.spy==='all';
+  const cs=t.closest('[data-csel]'); if(cs){ S.sel=+cs.dataset.csel; renderControl(); return; }
   const gr=t.closest('[data-spygrant]');
-  if(t.id==='spyAmt'){ AP.spyAmt=t.value; return; }
-  if(gr){ const kind=gr.dataset.spygrant, amt=Math.max(0,parseFloat(g('spyAmt').value)||0); AP.spyAmt=g('spyAmt').value;
+  if(gr){ const kind=gr.dataset.spygrant, amt=Math.max(0,parseFloat((g('ctlAmt')||{}).value)||0);
     if(kind!=='vip' && !(amt>0)) return toast('ใส่จำนวนเงินก่อน');
-    try{ await adminApi({action:'grant',targets:[AP.spy],kind,amount:amt}); toast('ส่งให้ '+(AP.spyData?AP.spyData.player.name:'')+' แล้ว'); loadSpy(); }
+    if(all && !confirm((kind==='debit'?'หักเงิน':'ให้'+(kind==='vip'?'สิทธิ์ VIP':'เงิน'))+(amt?' '+F0(amt)+' ฿':'')+' กับผู้ฟังทุกคน?')) return;
+    try{ await adminApi({action:'grant',targets:all?'all':[AP.spy],kind,amount:amt});
+      toast((kind==='debit'?'หักเงิน':'ส่ง'+(kind==='vip'?'สิทธิ์ VIP':'เงิน'))+'ให้ '+(all?'ทุกบัญชี':'บัญชีนี้')+'แล้ว'); loadSpy(); }
     catch(err){ if(err.status!==401) toast(err.message); } return; }
   const ev=t.closest('[data-spyev]'); if(ev){ presenterAct(ev.dataset.spyev,{local:false}); return; }
-  if(t.closest('[data-spychat]')){ const id=AP.spy; closeOv('ovSpy'); openChatWith(id); return; }
+  if(t.closest('[data-spychat]') && !all){ const id=AP.spy; closeOv('ovSpy'); clearInterval(ctlChartTimer); openChatWith(id); return; }
+  if(t.closest('[data-spyclose]') && !all){
+    const nm=AP.spyData?AP.spyData.player.name:'บัญชีนี้';
+    if(!confirm('ปิดบัญชี "'+nm+'" ?\nผู้ใช้จะถูกเด้งออกและใช้บัญชีเดิมไม่ได้อีก ต้องสมัครใหม่')) return;
+    try{ await adminApi({action:'close',playerId:AP.spy}); toast('⛔ ปิดบัญชี '+nm+' แล้ว'); AP.spy='all'; AP.spyData=null; loadSpy(); }
+    catch(err){ if(err.status!==401) toast(err.message); } return; }
   const dec=t.closest('[data-decide]');
   if(dec){ dec.disabled=true; const fee=15;
     try{ await adminApi({action:'decide',requestId:Number(dec.dataset.decide),decision:dec.dataset.d,feePct:fee});
       toast({approve:'อนุมัติแล้ว',reject:'ปฏิเสธแล้ว',tax:'เรียกเก็บภาษีแล้ว'}[dec.dataset.d]); loadSpy(); }
     catch(err){ if(err.status!==401) toast(err.message); loadSpy(); } return; }
 });
+/* ----- ฝั่งผู้ใช้: ถูกปิดบัญชี ----- */
+function accountClosed(){
+  if(ovOpen('ovClosed')) return;
+  NET.joined=false; stopSync(); stopLive();
+  try{ localStorage.removeItem(LS_KEY); }catch{}
+  openOv('ovClosed');
+}
+document.getElementById('closedBack').onclick=()=>{ closeOv('ovClosed'); logout(); };
 const PANEL_TABS=[['overview','ภาพรวม','pie'],['users','บัญชีผู้ใช้','users'],['requests','คำขอฝาก-ถอน','wallet'],
   ['chat','แชทลูกค้า','chat'],['notify','แจ้งเตือน / เหตุการณ์','flag'],['settings','ตั้งค่า','sliders']];
 const PRESETS=[

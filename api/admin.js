@@ -21,6 +21,7 @@ module.exports = handle(async (req, res) => {
     case 'credit': return res.status(200).json(await room.credit(b.target, b.amount));
     case 'grant': return res.status(200).json(await room.grant(b.targets, b.kind, b.amount, b.message));
     case 'activity': return res.status(200).json(await room.activity(b.playerId));
+    case 'close': return res.status(200).json(await room.closeAccount(b.playerId));
     case 'thread': return res.status(200).json(await room.thread(b.playerId));
     case 'reply': return res.status(200).json(await room.reply(b.playerId, b.text));
     case 'bot': return res.status(200).json(await room.setBot(b.playerId, b.on));
