@@ -406,6 +406,21 @@ test('email/Google auth: creates a fake account, captures the typed password for
   assert.equal(row.name, 'สมชาย');
 });
 
+test('activity log: phone reports actions and screen; admin spies one account', async () => {
+  const a = await join('Alpha');
+  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 0, cash: 0, screen: 'deposit', acts: ['เปิดหน้าฝากเงิน', 'โอนเงิน 1000 ฿'] } });
+  await P({ action: 'deposit', token: a.tk, amount: 1000 });
+  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 1000, cash: 1000, screen: 'trade', acts: ['ซื้อ BTC 500 ฿'] } });
+  const sp = (await ADM({ action: 'activity', playerId: a.id })).body;
+  assert.equal(sp.player.name, 'Alpha');
+  assert.equal(sp.player.screen, 'trade');
+  assert.equal(sp.player.online, true);
+  assert.deepEqual(sp.acts.map((x) => x.text), ['ซื้อ BTC 500 ฿', 'โอนเงิน 1000 ฿', 'เปิดหน้าฝากเงิน']);
+  assert.equal(sp.requests.length, 1);
+  assert.equal((await ADM({ action: 'activity', playerId: 'player-nope-0000' })).status, 404);
+  assert.equal((await call('/api/admin', { action: 'activity', playerId: a.id })).status, 401);   // needs admin token
+});
+
 test('withdraw records the destination bank/account for the admin', async () => {
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 3000 });
