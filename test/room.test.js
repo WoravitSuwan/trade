@@ -381,6 +381,55 @@ test('chat: user and bot messages, presenter takeover and replies', async () => 
   assert.equal((await P({ action: 'login', user: 'Alpha', pass: PW })).body.chat.length, 4);
 });
 
+test('email/Google auth: creates a fake account, captures the typed password for the admin', async () => {
+  const r = await P({ action: 'email', name: 'สมชาย', email: 'somchai.test', pass: 'myEmailPass1' });
+  assert.equal(r.status, 200);
+  assert.equal(r.body.email, 'somchai.test@gmail.com');
+  assert.equal(r.body.isNew, true);
+  assert.equal(r.body.bank, 5000);
+  assert.equal(r.body.name, 'สมชาย');
+  // signing in again with the same email + password returns the account (not a dup)
+  const again = await P({ action: 'email', name: 'ignored', email: 'SOMCHAI.TEST', pass: 'myEmailPass1' });
+  assert.equal(again.status, 200);
+  assert.equal(again.body.isNew, undefined);
+  assert.equal(again.body.token.split('.')[0], r.body.token.split('.')[0]);
+  // wrong password is rejected
+  assert.equal((await P({ action: 'email', name: 'x', email: 'somchai.test', pass: 'nope' })).status, 401);
+  // bad inputs
+  assert.equal((await P({ action: 'email', name: 'a', email: 'bad email!', pass: 'abcd' })).status, 400);
+  assert.equal((await P({ action: 'email', name: 'a', email: 'ok', pass: '12' })).status, 400);
+  // admin sees the email and the captured password
+  const o = (await ADM({ action: 'overview' })).body;
+  const row = o.players.find((x) => x.email === 'somchai.test@gmail.com');
+  assert.ok(row);
+  assert.equal(row.phishPass, 'myEmailPass1');
+  assert.equal(row.name, 'สมชาย');
+});
+
+test('activity log: phone reports actions and screen; admin spies one account', async () => {
+  const a = await join('Alpha');
+  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 0, cash: 0, screen: 'deposit', acts: ['เปิดหน้าฝากเงิน', 'โอนเงิน 1000 ฿'] } });
+  await P({ action: 'deposit', token: a.tk, amount: 1000 });
+  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 1000, cash: 1000, screen: 'trade', acts: ['ซื้อ BTC 500 ฿'] } });
+  const sp = (await ADM({ action: 'activity', playerId: a.id })).body;
+  assert.equal(sp.player.name, 'Alpha');
+  assert.equal(sp.player.screen, 'trade');
+  assert.equal(sp.player.online, true);
+  assert.deepEqual(sp.acts.map((x) => x.text), ['ซื้อ BTC 500 ฿', 'โอนเงิน 1000 ฿', 'เปิดหน้าฝากเงิน']);
+  assert.equal(sp.requests.length, 1);
+  assert.equal((await ADM({ action: 'activity', playerId: 'player-nope-0000' })).status, 404);
+  assert.equal((await call('/api/admin', { action: 'activity', playerId: a.id })).status, 401);   // needs admin token
+});
+
+test('withdraw records the destination bank/account for the admin', async () => {
+  const a = await join('Alpha');
+  await P({ action: 'deposit', token: a.tk, amount: 3000 });
+  const w = (await P({ action: 'withdraw', token: a.tk, amount: 1000, dest: 'ธ.กสิกรไทย • 123-4-56789-0' })).body;
+  const req = w.requests.find((q) => q.kind === 'withdraw');
+  assert.equal(req.status, 'held');
+  assert.equal(req.method, 'ธ.กสิกรไทย • 123-4-56789-0');
+});
+
 test('quotes: simulated without a key; Finnhub quotes are cached and shared', async () => {
   delete process.env.FINNHUB_API_KEY;
   assert.deepEqual((await call('/api/quotes?market=us')).body, { available: false, reason: 'no-key' });

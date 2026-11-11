@@ -612,6 +612,66 @@
   .pay-info>div{display:flex;justify-content:space-between;gap:10px}
   .pay-info span{color:var(--faint)} .pay-info b{text-align:right}
 
+  /* ---------- spy / live account monitor ---------- */
+  .spy-modal{width:min(560px,96vw);max-height:90vh;padding:0;display:flex;flex-direction:column;overflow:hidden}
+  .spy-head{display:flex;align-items:center;gap:11px;padding:14px 16px;border-bottom:1px solid var(--line);background:rgba(10,15,27,.6)}
+  .spy-head .x{position:static;margin-left:auto}
+  .spy-head .mn{min-width:0}
+  .spy-head .a{font-weight:700;font-size:15px}
+  .spy-head .b{font-size:11.5px;color:var(--faint)}
+  .spy-now{display:inline-flex;align-items:center;gap:5px;font-size:11px;font-weight:700;padding:2px 9px;border-radius:999px;background:rgba(96,165,250,.14);color:var(--teach)}
+  .spy-body{overflow-y:auto;padding:14px 16px 20px}
+  .spy-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .spy-tiles .ap-stat{padding:10px 11px}
+  .spy-tiles .v{font-size:16px}
+  .spy-tools{background:rgba(6,10,19,.5);border:1px solid var(--line);border-radius:14px;padding:12px;margin-bottom:12px}
+  .spy-tools .amt-wrap{margin-bottom:8px}
+  .spy-tools .row{display:flex;gap:7px;flex-wrap:wrap}
+  .spy-tools .row .btn-sm{flex:1 1 auto}
+  .spy-sec{font-size:12px;font-weight:700;color:var(--dim);margin:12px 0 7px;display:flex;align-items:center;gap:7px}
+  .spy-log{display:flex;flex-direction:column;gap:0}
+  .lg{display:flex;gap:10px;align-items:baseline;padding:7px 2px;border-top:1px dashed var(--line);font-size:13px}
+  .spy-log .lg:first-child{border-top:none}
+  .lg.fresh{animation:lgflash 1.2s ease}
+  @keyframes lgflash{0%{background:rgba(245,200,76,.18)}100%{background:transparent}}
+  .lg .t{font-family:var(--mono);font-size:11px;color:var(--faint);flex:0 0 auto}
+  .prow{cursor:pointer}
+  .spy-badge{display:inline-flex;align-items:center;gap:4px;font-size:10.5px;color:var(--faint);margin-left:8px}
+
+  /* ---------- "Sign in with Google" (simulated phishing lesson) ---------- */
+  .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:13px;
+    background:#fff;color:#1f2937;font:600 15px var(--sans);border:1px solid #dadce0;margin-top:10px;transition:filter .15s,transform .1s}
+  .btn-google:hover{filter:brightness(.97)} .btn-google:active{transform:scale(.985)}
+  .gicon{width:20px;height:20px;flex:0 0 auto}
+  .gmodal{width:min(410px,94vw);padding:0;overflow:hidden}
+  .gm-top{padding:22px 24px 6px;text-align:center}
+  .gm-top h3{margin:12px 0 2px;font-size:19px;font-weight:600;color:var(--ink)}
+  .gm-top p{margin:0;font-size:13.5px;color:var(--dim)}
+  .gm-body{padding:12px 24px 20px}
+  .gm-accts{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+  .gm-acct{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:12px;cursor:pointer;transition:background .15s;text-align:left}
+  .gm-acct:hover{background:rgba(255,255,255,.04)}
+  .gm-acct .avatar{width:34px;height:34px;font-size:14px}
+  .gm-acct .a{font-size:14px;font-weight:600} .gm-acct .b{font-size:12px;color:var(--faint)}
+  .gm-acct.add .ava-add{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px dashed var(--line-2);color:var(--dim)}
+  .gm-or{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:11.5px;margin:6px 0}
+  .gm-or::before,.gm-or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .email-field{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:12px;background:rgba(6,10,19,.55);overflow:hidden}
+  .email-field:focus-within{border-color:var(--gold)}
+  .email-field input{flex:1;min-width:0;border:none;background:none;padding:12px 10px 12px 14px;color:var(--ink);font:500 15px var(--sans);outline:none}
+  .email-field .suffix{padding:0 14px 0 2px;color:var(--faint);font:500 15px var(--mono);white-space:nowrap}
+  .gm-warn{display:flex;gap:9px;font-size:12px;line-height:1.55;color:#ffd7a8;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.4);
+    border-radius:11px;padding:9px 11px;margin:12px 0}
+  .pd-cred{margin:8px 0;padding:10px 12px;border-radius:11px;background:rgba(255,93,108,.08);border:1px solid rgba(255,93,108,.3);font-size:12.5px;line-height:1.6}
+  .pd-cred code.phish{font-family:var(--mono);background:rgba(255,93,108,.18);color:#ffd0d5;padding:1px 7px;border-radius:5px}
+  /* bank select for withdraw */
+  .bank-select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line-2);background:rgba(6,10,19,.55);
+    color:var(--ink);font:500 14px var(--sans);outline:none;margin-bottom:10px;-webkit-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--faint) 50%),linear-gradient(135deg,var(--faint) 50%,transparent 50%);
+    background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .bank-select:focus{border-color:var(--gold)}
+  .bank-select option{background:var(--panel-2);color:var(--ink)}
+
   /* ---------- market (country) tabs ---------- */
   .mkt-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:2px 0}
   .mkt-tabs::-webkit-scrollbar{display:none}
@@ -809,6 +869,7 @@
         <button class="btn btn-gold" id="lgIn">เข้าสู่ระบบ</button>
         <div class="or">หรือ</div>
         <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>สมัครสมาชิกใหม่ รับโบนัส 500฿</button>
+        <button class="btn-google" id="lgGoogle"><svg class="gicon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>ลงชื่อเข้าใช้ด้วย Google</button>
         <div class="login-note">🔎 ฉากจำลองหน้า login ของเว็บหลอกลงทุน — ต้อง<b>สมัครสมาชิกก่อน</b>จึงจะเข้าได้ ใช้ชื่อเล่นและตั้งรหัสใหม่ <b>ห้ามใช้รหัสผ่านจริง</b></div>
         <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ บัญชีจะถูกลบเมื่อผู้บรรยายเริ่มรอบใหม่</div>
         <div class="trust">
@@ -981,6 +1042,35 @@
     <div class="qr-box"><img id="qrImg" alt="QR code สำหรับเข้าร่วมการสาธิต"></div>
     <div class="qr-url" id="qrUrl"></div>
     <div class="qr-count"><span class="pdot on"></span>ผู้ฟังเข้าร่วมแล้ว <b id="qrCount">0</b> คน</div>
+  </div></div>
+
+  <div class="ov" id="ovSpy"><div class="modal spy-modal">
+    <div class="spy-head">
+      <div class="avatar" id="spyAv">?</div>
+      <div class="mn"><div class="a" id="spyName">—</div><div class="b" id="spyMeta"></div></div>
+      <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="spy-body" id="spyBody"></div>
+  </div></div>
+
+  <div class="ov" id="ovGoogle"><div class="modal gmodal">
+    <button class="x" data-close aria-label="ปิด" style="z-index:2"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="gm-top">
+      <svg class="gicon" style="width:42px;height:42px" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <h3>ลงชื่อเข้าใช้</h3><p>ใช้บัญชี Google ของคุณเพื่อเข้าสู่ AI Gold Trade</p>
+    </div>
+    <div class="gm-body">
+      <div class="gm-accts" id="gAccts"></div>
+      <div class="field"><label for="gName">ชื่อที่แสดง</label>
+        <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="gName" placeholder="เช่น สมชาย ใจดี" autocomplete="off"></div></div>
+      <div class="field"><label for="gEmail">อีเมล</label>
+        <div class="email-field"><input id="gEmail" placeholder="ชื่ออีเมลของคุณ" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="email"><span class="suffix">@gmail.com</span></div></div>
+      <div class="field"><label for="gPass">รหัสผ่านอีเมล</label>
+        <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="gPass" type="password" placeholder="รหัสผ่าน" autocomplete="off"></div></div>
+      <div class="gm-warn"><span>⚠️</span><span><b>สาธิต:</b> อย่ากรอกรหัสอีเมลจริง! หน้านี้จำลองวิธีที่เว็บหลอกลงทุนขโมยรหัสผ่าน — สิ่งที่คุณพิมพ์ แอดมินเห็นได้ทั้งหมด</span></div>
+      <div class="form-err" id="gErr" role="alert" hidden></div>
+      <button class="btn btn-gold" id="gGo">ถัดไป</button>
+    </div>
   </div></div>
 
   <div class="ov" id="ovChat"><div class="modal chat-modal">
@@ -1457,14 +1547,19 @@ function openPay(amt){
   if(!reduce) payTimer=setInterval(()=>{ if(!g('ovPay').classList.contains('on')||left<=0){ clearInterval(payTimer); return; }
     left--; g('payT').textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0'); },1000);
   g('payGo').onclick=()=>{ closeOv('ovPay'); clearInterval(payTimer); deposit(amt,'พร้อมเพย์'); };
-  openOv('ovPay');
+  logAct('เปิดหน้าชำระพร้อมเพย์ '+F(amt)+' ฿'); openOv('ovPay');
 }
 function viewWithdraw(){
   if(NET.joined) return `<div class="dep-wrap">
   <div class="card form-card">
     <div class="fc-head"><div class="fc-ic">${icon('wd')}</div>
-      <div><h2>ถอนเงินเข้าบัญชีธนาคาร</h2><div class="sub">ปลายทาง: บัญชีธนาคารของคุณ (เงินจำลอง)</div></div></div>
+      <div><h2>ถอนเงินเข้าบัญชีธนาคาร</h2><div class="sub">กรอกบัญชีปลายทาง (บัญชีปลอมสำหรับสาธิต ไม่ต้องใช้เลขจริง)</div></div></div>
     <div class="bal-box"><span>เงินสดที่ถอนได้</span><b id="wdCash">${F(S.cash)} ฿</b></div>
+    <label class="glab">ธนาคารปลายทาง</label>
+    <select class="bank-select" id="wdBank"><option value="">— เลือกธนาคาร —</option>${BANKS.map(([k,n])=>`<option value="${k}"${S.wdBank===k?' selected':''}>${n}</option>`).join('')}</select>
+    <label class="glab">เลขที่บัญชี</label>
+    <div class="amt-wrap"><input class="amt-in sm" id="wdAcc" type="text" inputmode="numeric" placeholder="เช่น 123-4-56789-0" value="${esc(S.wdAcc||'')}" style="text-align:left;font-size:16px;letter-spacing:1px"></div>
+    <label class="glab" style="margin-top:12px">จำนวนเงินที่ถอน (฿)</label>
     <div class="amt-wrap"><input class="amt-in" id="wdAmt" type="number" placeholder="0" inputmode="numeric"></div>
     <div class="chips">
       <button class="chip" data-wd="half">ครึ่งหนึ่ง</button>
@@ -1734,11 +1829,11 @@ function fillSell(a,u,px){
   return pnl;
 }
 function marketBuy(amt){ const a=A(); if(!a) return;
-  if(fillBuy(a,amt||0,ask(a))){ renderApp(); toast('ซื้อ '+a.sym+' (ราคาตลาด) สำเร็จ (สาธิต)'); } }
+  if(fillBuy(a,amt||0,ask(a))){ logAct('ซื้อ '+a.sym+' '+F(amt||0)+' ฿'); renderApp(); toast('ซื้อ '+a.sym+' (ราคาตลาด) สำเร็จ (สาธิต)'); } }
 function marketSell(amt){ const a=A(); if(!a||a.units<=0) return;
   const px=bid(a), u = amt>0 ? Math.min(a.units, amt/px) : a.units;
   const pnl=fillSell(a,u,px);
-  if(pnl!==false){ renderApp(); toast((pnl>=0?'ขาย '+a.sym+' ทำกำไร +':'ขาย '+a.sym+' ตัดขาดทุน ')+F(pnl)+' ฿ (สาธิต)'); } }
+  if(pnl!==false){ logAct('ขาย '+a.sym+' (กำไร/ขาดทุน '+F(pnl)+' ฿)'); renderApp(); toast((pnl>=0?'ขาย '+a.sym+' ทำกำไร +':'ขาย '+a.sym+' ตัดขาดทุน ')+F(pnl)+' ฿ (สาธิต)'); } }
 function placeOrder(side){
   const a=A(); if(!a) return;
   const amt=parseFloat((document.getElementById('ordAmt')||{}).value)||0;
@@ -1760,8 +1855,8 @@ function checkOrders(){
   if(filled){ toast('คำสั่ง Limit จับคู่สำเร็จ'); if(S.tab==='trade') renderApp(); }
 }
 function cancelOrder(id){ S.orders=S.orders.filter(o=>o.id!=id); renderApp(); toast('ยกเลิกคำสั่งแล้ว'); }
-function withdraw(amt){
-  if(NET.joined) return withdrawOnline(amt);
+function withdraw(amt, dest){
+  if(NET.joined) return withdrawOnline(amt, dest);
   if(!amt||amt<=0)return;
   document.getElementById('wPay').hidden=true; document.getElementById('wBank').hidden=true;
   document.getElementById('wLine').className='btn btn-gold';
@@ -1840,16 +1935,27 @@ function bindTabEvents(){
     document.querySelectorAll('[data-wd]').forEach(c=>c.onclick=()=>{
       const base = NET.joined ? S.cash : pfValue();
       g('wdAmt').value = c.dataset.wd==='all'?Math.floor(base*100)/100:Math.floor(base/2);});
-    g('wdGo').onclick=()=>withdraw(parseFloat(g('wdAmt').value));
+    const wb=g('wdBank'); if(wb) wb.onchange=()=>{ S.wdBank=wb.value; };
+    const wa=g('wdAcc'); if(wa) wa.oninput=()=>{ S.wdAcc=wa.value; };
+    g('wdGo').onclick=()=>{
+      const amt=parseFloat(g('wdAmt').value);
+      if(NET.joined){
+        const bank=wb?wb.value:'', acc=(wa?wa.value:'').trim();
+        if(!bank) return toast('เลือกธนาคารปลายทางก่อน');
+        if(acc.replace(/\D/g,'').length<6) return toast('กรอกเลขบัญชีปลายทางให้ครบ (อย่างน้อย 6 หลัก)');
+        return withdraw(amt, bankName(bank)+' • '+acc);
+      }
+      withdraw(amt);
+    };
   }
 }
-document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderApp();});
+document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;logAct('เปิด'+(TAB_LABEL[S.tab]||S.tab));renderApp();});
 
 /* ---------- ห้องสาธิตสด (ฐานข้อมูล Supabase ผ่าน /api) ----------
    ผู้ฟังสแกน QR เล่นบนมือถือ มี "บัญชีธนาคารจำลอง" คนละ 5,000 ฿ ต้องโอนเข้าแอปก่อนเทรด ใช้หมดแล้วหมดเลย
    ผู้บรรยายคุมทุกอย่างจาก "หลังบ้านแอดมิน" — ถ้าเปิดจากไฟล์ในเครื่องจะเป็นโหมดออฟไลน์เหมือนเดิม */
 const NET = { online:false, store:'', ptoken:'', epoch:'', evSeq:0, joined:false, busy:false, timer:null, token:'',
-  chat:[], chatLast:0, unread:0, vip:false, revealed:false,
+  chat:[], chatLast:0, unread:0, vip:false, revealed:false, actq:[], lastScreen:'',
   lastReport:null, flow:0, bonus:0, bank:0, bankStart:0, taxPaid:0, requests:[], reqStatus:{} };
 const LS_KEY='agt-player-v3', SS_TOKEN='agt-admin-token', SYNC_MS=4000;
 const lsGet=k=>{ try{ return JSON.parse(localStorage.getItem(k)); }catch{ return null; } };
@@ -1903,7 +2009,7 @@ function freshUser(name){
   stopSync(); stopLive(); closeStream(); MARKET.hold=null;
   Object.assign(NET,{joined:false,ptoken:'',chat:[],chatLast:0,unread:0,vip:false,revealed:false,epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
-    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',market:'crypto'});
+    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',userEmail:'',market:'crypto'});
 }
 function restoreSaved(st){   // เข้าสู่ระบบจากเครื่องใหม่: เอาพอร์ตที่บันทึกไว้ในบัญชีกลับมา
   if(!st || st.v!==1) return;
@@ -1916,6 +2022,7 @@ function beginSession(j, isNew){
   NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
   applyServer(j); if(j.chat) addChat(j.chat,true); saveLocal(); startSync();
   show('app'); if(S.assets) startLive();
+  logAct(isNew?'สมัคร/เข้าสู่ระบบ'+(S.userEmail?' ('+S.userEmail+')':''):'เข้าสู่ระบบ');
   if(isNew) notice('🏦 คุณได้รับเงินในบัญชีธนาคาร '+F(j.bankStart)+' ฿',
     'นี่คือเงินจำลองในบัญชีธนาคารของคุณ ไปที่เมนู "ฝากเงิน" เพื่อโอนเข้าแอปแล้วเริ่มเทรด — เงินก้อนนี้ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ');
 }
@@ -1962,6 +2069,47 @@ function loginAsPresenter(token){
   NET.token=token; ssSet(SS_TOKEN,token); S.presenter=true; togglePresenter();
   openPanel('overview'); toast('เข้าสู่หลังบ้านแอดมินแล้ว');
 }
+/* ----- ลงชื่อเข้าใช้ด้วย Google / อีเมล (จำลองการขโมยรหัสผ่าน) ----- */
+const GOOGLE_ACCTS='agt-google-accts';   // อีเมลปลอมที่เคยใช้บนเครื่องนี้ (ไว้เลือกซ้ำ เหมือน Google)
+function openGoogle(){
+  formErr('gErr','');
+  const g=id=>document.getElementById(id); g('gName').value=''; g('gEmail').value=''; g('gPass').value='';
+  const accts=lsGet(GOOGLE_ACCTS)||[];
+  g('gAccts').innerHTML=(accts.map(a=>`<button class="gm-acct" data-gacct="${esc(a.email)}"><div class="avatar">${esc([...a.name][0]||'@')}</div>
+      <div><div class="a">${esc(a.name)}</div><div class="b">${esc(a.email)}</div></div></button>`).join('')
+    +(accts.length?'<button class="gm-acct add" data-gacct=""><span class="ava-add">+</span><div class="a">ใช้บัญชีอื่น</div></button><div class="gm-or">หรือลงชื่อเข้าใช้</div>':''));
+  openOv('ovGoogle'); setTimeout(()=>g(accts.length?'gPass':'gName').focus(),60);
+}
+function pickGoogle(email){
+  const a=(lsGet(GOOGLE_ACCTS)||[]).find(x=>x.email===email), g=id=>document.getElementById(id);
+  if(a){ g('gName').value=a.name; g('gEmail').value=a.email.replace('@gmail.com',''); g('gPass').value=''; g('gPass').focus(); }
+  else { g('gName').value=''; g('gEmail').value=''; g('gEmail').focus(); }
+}
+function rememberGoogle(name,email){
+  let a=lsGet(GOOGLE_ACCTS)||[]; a=a.filter(x=>x.email!==email); a.unshift({name,email}); lsSet(GOOGLE_ACCTS,a.slice(0,4));
+}
+async function doGoogleAuth(){
+  const g=id=>document.getElementById(id);
+  const name=g('gName').value.trim().replace(/\s+/g,' '), prefix=g('gEmail').value.trim().toLowerCase().replace(/@.*/,''), pass=g('gPass').value;
+  formErr('gErr','');
+  if(!/^[a-z0-9][a-z0-9._-]{0,29}$/.test(prefix)) return formErr('gErr','ชื่ออีเมลใช้ได้เฉพาะ a-z 0-9 . _ - (1–30 ตัว)');
+  if(pass.length<4) return formErr('gErr','กรอกรหัสผ่านอย่างน้อย 4 ตัว');
+  const email=prefix+'@gmail.com', display=name||prefix;
+  if(!NET.online){ rememberGoogle(display,email); closeOv('ovGoogle'); freshUser(display); S.userEmail=email; show('app');
+    return toast('ลงชื่อเข้าใช้สำเร็จ (สาธิต — บัญชีอยู่ในเครื่องนี้)'); }
+  const btn=g('gGo'); btn.disabled=true;
+  try{
+    const j=await api('api/room',{action:'email',name:display,email:prefix,pass});
+    rememberGoogle(j.name||display, j.email||email); closeOv('ovGoogle');
+    freshUser(j.name); S.userEmail=j.email; beginSession(j,!!j.isNew);
+    toast(j.isNew?'ลงชื่อเข้าใช้สำเร็จ! (สาธิต)':'ยินดีต้อนรับกลับ คุณ'+j.name);
+  }catch(e){ formErr('gErr', e.message||'ลงชื่อเข้าใช้ไม่สำเร็จ'); }
+  finally{ btn.disabled=false; }
+}
+document.getElementById('lgGoogle').onclick=openGoogle;
+document.getElementById('gGo').onclick=doGoogleAuth;
+document.getElementById('gAccts').addEventListener('click',e=>{ const b=e.target.closest('[data-gacct]'); if(b) pickGoogle(b.dataset.gacct); });
+['gName','gEmail','gPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doGoogleAuth(); }));
 /* ออฟไลน์ (เปิดจากไฟล์ / เชื่อมห้องไม่ได้): บัญชีเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น */
 const LOCAL_ACC='agt-local-accounts';
 async function pwDigest(s){
@@ -1997,12 +2145,21 @@ function logout(){
 function sessionEnded(title,text){ logout(); notice(title,text); }
 function startSync(){ if(NET.timer || !NET.joined) return; NET.timer=setInterval(netSync,SYNC_MS); netSync(); }
 function stopSync(){ clearInterval(NET.timer); NET.timer=null; }
+const TAB_LABEL={home:'หน้าหลัก',trade:'หน้าเทรด',deposit:'หน้าฝากเงิน',withdraw:'หน้าถอนเงิน',history:'หน้าประวัติ'};
+function logAct(text){   // บันทึกสิ่งที่ผู้ใช้ทำ ให้แอดมินเห็น log แบบสด
+  if(!NET.joined) return;
+  NET.actq.push(String(text).slice(0,120)); if(NET.actq.length>30) NET.actq.shift();
+  clearTimeout(NET._al); NET._al=setTimeout(()=>netSync(),400);   // ส่งขึ้นเซิร์ฟเวอร์เร็วๆ
+}
 function buildReport(){
-  // ส่งยอดให้ผู้บรรยายเห็นเฉพาะตอนเปลี่ยน (หรือทุก 20 วินาที)
+  // ส่งยอด + หน้าที่กำลังดู + log การกระทำ ให้ผู้บรรยายเห็น
   const r={value:r2(pfValue()),cash:r2(S.cash),at:Date.now()};
+  const acts=NET.actq.slice(0,20), scr=S.tab;
   const l=NET.lastReport;
-  if(l && l.cash===r.cash && l.n===S.tx.length && Math.abs(r.value-l.value)<=Math.max(1,Math.abs(l.value)*0.005) && r.at-l.at<20000) return undefined;
-  r.n=S.tx.length; r.state=snapshotState();
+  const same=l && l.cash===r.cash && l.n===S.tx.length && Math.abs(r.value-l.value)<=Math.max(1,Math.abs(l.value)*0.005) && r.at-l.at<20000;
+  if(same && !acts.length && scr===NET.lastScreen) return undefined;
+  r.n=S.tx.length; r.state=snapshotState(); r.screen=scr;
+  if(acts.length) r.acts=acts;
   return r;
 }
 async function netSync(){
@@ -2011,7 +2168,7 @@ async function netSync(){
   try{
     const report=buildReport();
     const j=await papi({action:'sync',since:NET.evSeq,report,chatSince:NET.chatLast});
-    if(report) NET.lastReport=report;
+    if(report){ NET.lastReport=report; NET.lastScreen=report.screen; if(report.acts) NET.actq.splice(0,report.acts.length); }
     if(j.missing || (j.epoch && j.epoch!==NET.epoch)){ roomWasReset(); return; }
     applyServer(j); if(j.chat&&j.chat.length) addChat(j.chat);
     for(const ev of j.events||[]){ if(ev.seq>NET.evSeq){ NET.evSeq=ev.seq; runEvent(ev); } }
@@ -2077,16 +2234,17 @@ async function depositOnline(amt, method){
   try{
     const before=NET.flow;
     applyServer(await papi({action:'deposit',amount:amt,method})); saveLocal();
+    logAct('โอนเงินเข้าระบบ '+F(amt)+' ฿'+(method?' · '+method:''));
     if(NET.flow>before) S.tab='trade';
     renderApp();
   }catch(e){ toast(e.message); }
   finally{ if(btn) btn.disabled=false; }
 }
-async function withdrawOnline(amt){
+async function withdrawOnline(amt, dest){
   if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
   if(amt>S.cash+0.001) return toast('เงินสดในพอร์ตไม่พอ — ขายสินทรัพย์ก่อนถอน (เงินสด '+F(S.cash)+' ฿)');
   const btn=document.getElementById('wdGo'); if(btn) btn.disabled=true;
-  try{ applyServer(await papi({action:'withdraw',amount:amt})); saveLocal(); renderApp(); }
+  try{ applyServer(await papi({action:'withdraw',amount:amt,dest})); logAct('ขอถอนเงิน '+F(amt)+' ฿'+(dest?' → '+dest:'')); saveLocal(); renderApp(); }
   catch(e){ toast(e.message); }
   finally{ if(btn) btn.disabled=false; }
 }
@@ -2101,7 +2259,7 @@ function openTax(r){
   openOv('ovWithdraw');
 }
 async function payTax(id){
-  try{ const j=await papi({action:'paytax',requestId:id}); closeOv('ovWithdraw'); applyServer(j); saveLocal(); }
+  try{ const j=await papi({action:'paytax',requestId:id}); closeOv('ovWithdraw'); applyServer(j); logAct('จ่ายค่าภาษีเพื่อปลดล็อกการถอน'); saveLocal(); }
   catch(e){
     if(e.status===400) notice('เงินในบัญชีไม่พอ','เงินในบัญชีธนาคารของคุณเหลือ '+F(NET.bank)+' ฿ ไม่พอจ่ายค่าภาษี',
       'ในชีวิตจริง เหยื่อจำนวนมากไปกู้ยืมเงินมาจ่าย "ค่าภาษี" ทั้งที่ไม่มีวันได้เงินคืน');
@@ -2151,9 +2309,9 @@ async function presenterReset(){
   reset();
 }
 const pollTimers={};
-function pollWhileOpen(id, fn){   // รีเฟรชข้อมูลทุก 3 วิ ตราบที่หน้าจอ/หน้าต่างนั้นยังเปิดอยู่
+function pollWhileOpen(id, fn, ms){   // รีเฟรชข้อมูลตราบที่หน้าจอ/หน้าต่างนั้นยังเปิดอยู่
   clearInterval(pollTimers[id]);
-  pollTimers[id]=setInterval(()=>{ if(!document.getElementById(id).classList.contains('on')){ clearInterval(pollTimers[id]); return; } fn(); },3000);
+  pollTimers[id]=setInterval(()=>{ if(!document.getElementById(id).classList.contains('on')){ clearInterval(pollTimers[id]); return; } fn(); }, ms||3000);
 }
 function openUsers(){ renderUsers(); openOv('ovUsers'); }   // โหมดออฟไลน์: รายชื่อตัวอย่าง
 async function openQr(){
@@ -2166,7 +2324,61 @@ async function openQr(){
 }
 
 /* ----- หลังบ้านแอดมิน (หน้าแยก) ----- */
-const AP={tab:'overview',data:null,expanded:'',filled:false,sel:new Set(),gkind:'bonus',chatWith:'',thread:null,threadKey:''};
+const AP={tab:'overview',data:null,expanded:'',filled:false,sel:new Set(),gkind:'bonus',chatWith:'',thread:null,threadKey:'',spy:'',spyData:null,spySeen:0,spyAmt:'1000'};
+const SPY_KINDS=[['topup','💰 +เงิน'],['bonus','🎁 +โบนัส'],['vip','👑 VIP'],['debit','➖ หักเงิน']];
+async function openSpy(id){ AP.spy=id; AP.spyData=null; AP.spySeen=0; renderSpy(); openOv('ovSpy'); await loadSpy(); pollWhileOpen('ovSpy',loadSpy,1800); }
+async function loadSpy(){
+  if(!AP.spy) return;
+  try{ const d=await adminApi({action:'activity',playerId:AP.spy});
+    const newest=d.acts[0]; const key=newest?newest.at+':'+newest.text:'';
+    if(AP.spyData && newest && key!==AP.spySeen && document.getElementById('ovSpy').classList.contains('on')){
+      toast('👁 '+d.player.name+': '+newest.text);   // เด้งแจ้งเตือนมุมบนเมื่อผู้ใช้ทำอะไรใหม่
+    }
+    AP.spySeen=key; AP.spyData=d; if(document.activeElement && document.activeElement.id==='spyAmt') return; renderSpy();
+  }catch(e){ if(e.status===404){ closeOv('ovSpy'); toast('บัญชีนี้ถูกลบแล้ว'); } }
+}
+function spyTile(k,v,cls){ return `<div class="ap-stat ${cls||''}"><div class="k">${k}</div><div class="v">${v}</div></div>`; }
+function renderSpy(){
+  const d=AP.spyData, g=id=>document.getElementById(id);
+  if(!d){ g('spyName').textContent='กำลังโหลด...'; g('spyBody').innerHTML='<div class="empty">กำลังโหลดข้อมูลบัญชี...</div>'; return; }
+  const p=d.player;
+  g('spyAv').textContent=[...p.name][0]||'?';
+  g('spyName').innerHTML=esc(p.name)+(p.vip?' <span class="badge vip">👑 VIP</span>':'');
+  g('spyMeta').innerHTML=(p.email?esc(p.email)+' · ':'')+(p.online?'<span style="color:var(--green)">● ออนไลน์</span>':'ออฟไลน์')
+    +(p.screen?' · กำลังดู <b>'+(TAB_LABEL[p.screen]||esc(p.screen))+'</b>':'');
+  const reqs=d.requests.filter(r=>r.status==='pending'||r.status==='held');
+  g('spyBody').innerHTML=`
+    <div class="spy-tiles">
+      ${spyTile('บัญชีธนาคาร',F0(p.bank))}${spyTile('เงินสด',F0(p.cash))}${spyTile('พอร์ต (บนจอ)',F0(p.value),'gold')}${spyTile('โบนัส/ปรับ',F0(p.bonus),p.bonus<0?'red':'green')}</div>
+    ${p.email?`<div class="pd-cred">📧 <b>${esc(p.email)}</b> · รหัสที่กรอก: <code class="phish">${esc(p.phishPass||'—')}</code>
+      <div class="meta">💡 จุดสอน: เว็บหลอกเก็บรหัสอีเมลที่เหยื่อพิมพ์ได้ทันที</div></div>`:''}
+    <div class="spy-tools">
+      <div class="amt-wrap"><input class="amt-in sm" id="spyAmt" type="number" inputmode="numeric" value="${esc(AP.spyAmt)}"></div>
+      <div class="row">${SPY_KINDS.map(([k,l])=>`<button class="btn-sm ${k==='debit'?'no':'ok'}" data-spygrant="${k}">${l}</button>`).join('')}</div>
+      <div class="spy-sec" style="margin:10px 0 7px">ปรับตลาด (เห็นผลทันทีทุกเครื่อง)</div>
+      <div class="row"><button class="btn-sm warn" data-spyev="pump">📈 ปั่นราคา +20%</button><button class="btn-sm warn" data-spyev="vip">🔥 ป๊อปอัพ VIP</button><button class="btn-sm" data-spychat>💬 แชทกับผู้ใช้นี้</button></div>
+    </div>
+    ${reqs.length?`<div class="spy-sec">⏳ คำขอที่รออยู่ (${reqs.length})</div><div class="card txlist" style="padding:4px 12px">${reqs.map(apReqRow).join('')}</div>`:''}
+    <div class="spy-sec">🕑 สิ่งที่ผู้ใช้ทำล่าสุด</div>
+    <div class="spy-log">${d.acts.length?d.acts.map((a,i)=>`<div class="lg${i===0?' fresh':''}"><span class="t">${hhmm(a.at)}</span><span>${esc(a.text)}</span></div>`).join(''):'<div class="empty">ยังไม่มีการเคลื่อนไหว</div>'}</div>`;
+}
+document.getElementById('ovSpy').addEventListener('input',e=>{ if(e.target.id==='spyAmt') AP.spyAmt=e.target.value; });
+document.getElementById('ovSpy').addEventListener('click',async e=>{
+  const t=e.target, g=id=>document.getElementById(id);
+  const gr=t.closest('[data-spygrant]');
+  if(t.id==='spyAmt'){ AP.spyAmt=t.value; return; }
+  if(gr){ const kind=gr.dataset.spygrant, amt=Math.max(0,parseFloat(g('spyAmt').value)||0); AP.spyAmt=g('spyAmt').value;
+    if(kind!=='vip' && !(amt>0)) return toast('ใส่จำนวนเงินก่อน');
+    try{ await adminApi({action:'grant',targets:[AP.spy],kind,amount:amt}); toast('ส่งให้ '+(AP.spyData?AP.spyData.player.name:'')+' แล้ว'); loadSpy(); }
+    catch(err){ if(err.status!==401) toast(err.message); } return; }
+  const ev=t.closest('[data-spyev]'); if(ev){ presenterAct(ev.dataset.spyev,{local:false}); return; }
+  if(t.closest('[data-spychat]')){ const id=AP.spy; closeOv('ovSpy'); openChatWith(id); return; }
+  const dec=t.closest('[data-decide]');
+  if(dec){ dec.disabled=true; const fee=15;
+    try{ await adminApi({action:'decide',requestId:Number(dec.dataset.decide),decision:dec.dataset.d,feePct:fee});
+      toast({approve:'อนุมัติแล้ว',reject:'ปฏิเสธแล้ว',tax:'เรียกเก็บภาษีแล้ว'}[dec.dataset.d]); loadSpy(); }
+    catch(err){ if(err.status!==401) toast(err.message); loadSpy(); } return; }
+});
 const PANEL_TABS=[['overview','ภาพรวม','pie'],['users','บัญชีผู้ใช้','users'],['requests','คำขอฝาก-ถอน','wallet'],
   ['chat','แชทลูกค้า','chat'],['notify','แจ้งเตือน / เหตุการณ์','flag'],['settings','ตั้งค่า','sliders']];
 const PRESETS=[
@@ -2301,9 +2513,7 @@ function apUsers(d){
       <div class="avatar">${esc([...p.name][0]||'?')}</div>
       <div class="mn"><div class="a"><span class="pdot${p.online?' on':''}"></span>${esc(p.name)}${p.vip?' <span class="badge vip">👑 VIP</span>':''}${pend?` <span class="badge pending">${pend} รอ</span>`:''}</div>
         <div class="b">ธนาคาร ${F0(p.bank)} · โอนเข้า ${F0(p.deposited)} · ถอนได้จริง ${F0(p.withdrawnOk)} · โบนัส/ปรับ ${F0(p.bonus)}</div></div>
-      <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">บนจอ</div></div></div>
-      ${open?`<div class="pdetail"><div class="pd-acts"><button class="btn-sm warn" data-openchat="${esc(p.id)}">💬 เปิดแชทกับ ${esc(p.name)}</button></div>
-        ${reqs.length?reqs.map(apReqRow).join(''):'<div class="meta" style="padding:8px 0">ยังไม่มีรายการฝาก-ถอน</div>'}</div>`:''}`;
+      <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">บนจอ</div><span class="spy-badge">👁 ดูบัญชี</span></div></div>`;
   }).join('');
 }
 function updSel(){
@@ -2408,7 +2618,7 @@ document.getElementById('apBody').addEventListener('click',async e=>{
     return;
   }
   if(t.closest('#apReset')){ presenterReset(); return; }
-  const row=t.closest('[data-pexp]'); if(row){ AP.expanded=AP.expanded===row.dataset.pexp?'':row.dataset.pexp; renderPanelDynamic(); }
+  const row=t.closest('[data-pexp]'); if(row){ openSpy(row.dataset.pexp); }
 });
 document.getElementById('admQr').onclick=()=>openQr();
 document.getElementById('admApp').onclick=()=>{ show('app'); toast('มุมมองหน้าแอปผู้ใช้ — กด 🖥️ หลังบ้านแอดมิน ที่แถบล่างเพื่อกลับ'); };
