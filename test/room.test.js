@@ -465,3 +465,23 @@ test('quotes: simulated without a key; Finnhub quotes are cached and shared', as
     delete process.env.FINNHUB_API_KEY;
   }
 });
+
+test('close account: owner is locked out, name frees up, re-signup works', async () => {
+  const a = await join('Alpha');
+  await P({ action: 'deposit', token: a.tk, amount: 1000 });
+  assert.equal((await ADM({ action: 'close', playerId: a.id })).body.ok, true);
+  // owner's live calls now report closed
+  assert.equal((await P({ action: 'sync', token: a.tk, since: 0, chatSince: 0 })).body.closed, true);
+  // old credentials can no longer log in
+  assert.equal((await P({ action: 'login', user: 'Alpha', pass: PW })).status, 401);
+  // the name is free again -> can register a brand-new account
+  const fresh = await P({ action: 'signup', name: 'Alpha', pass: PW });
+  assert.equal(fresh.status, 200);
+  assert.notEqual(fresh.body.token.split('.')[0], a.id);
+  assert.equal(fresh.body.bank, 5000);
+  // admin still sees the closed one flagged
+  const o = (await ADM({ action: 'overview' })).body;
+  assert.ok(o.players.find((x) => x.id === a.id && x.closed === true));
+  assert.equal((await ADM({ action: 'close', playerId: a.id })).body.already, true);
+  assert.equal((await ADM({ action: 'close', playerId: 'player-nope-0000' })).status, 404);
+});
