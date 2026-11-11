@@ -90,6 +90,13 @@
   .field input:focus{border-color:var(--gold);background:rgba(6,10,19,.75);box-shadow:0 0 0 4px rgba(245,200,76,.13)}
   .or{display:flex;align-items:center;gap:12px;color:var(--faint);font-size:11.5px;margin:14px 0 4px}
   .or::before,.or::after{content:"";flex:1;height:1px;background:var(--line-2)}
+  .form-err{margin:0 0 12px;padding:9px 12px;border-radius:11px;background:var(--red-bg);border:1px solid rgba(255,93,108,.38);
+    color:#ffc2c8;font-size:12.5px;line-height:1.55}
+  .greet{display:flex;align-items:flex-start;justify-content:space-between;gap:12px}
+  .logout-btn{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;margin-top:2px;padding:7px 11px;border-radius:10px;
+    background:rgba(255,255,255,.04);border:1px solid var(--line-2);color:var(--dim);font-size:12px;font-weight:600;transition:all .15s}
+  .logout-btn:hover{color:var(--ink);border-color:rgba(255,93,108,.5)}
+  .logout-btn svg{width:14px;height:14px}
   .login-note{margin-top:18px;font-size:12px;color:var(--dim);text-align:center;line-height:1.65;
     background:rgba(96,165,250,.07);border:1px dashed rgba(96,165,250,.35);border-radius:12px;padding:10px 12px}
   .trust{display:flex;justify-content:center;flex-wrap:wrap;gap:8px;margin-top:16px}
@@ -659,15 +666,16 @@
           <h1>AI Gold Trade</h1>
           <div class="tag"><svg class="i"><use href="#i-check"/></svg>กองทุน AI การันตีกำไร 90%/เดือน</div>
         </div>
-        <div class="field"><label for="lgUser">ชื่อผู้ใช้ / เบอร์โทร</label>
-          <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="lgUser" placeholder="กรอกอะไรก็ได้ (สาธิต)" autocomplete="off"></div></div>
+        <div class="field"><label for="lgUser">ชื่อผู้ใช้</label>
+          <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="lgUser" placeholder="ชื่อเล่นที่ใช้สมัคร" autocomplete="username" autocapitalize="off" spellcheck="false"></div></div>
         <div class="field"><label for="lgPass">รหัสผ่าน</label>
-          <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="lgPass" type="password" placeholder="••••••••" autocomplete="off"></div></div>
+          <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="lgPass" type="password" placeholder="••••••••" autocomplete="current-password"></div></div>
+        <div class="form-err" id="lgErr" role="alert" hidden></div>
         <button class="btn btn-gold" id="lgIn">เข้าสู่ระบบ</button>
         <div class="or">หรือ</div>
         <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>สมัครสมาชิกใหม่ รับโบนัส 500฿</button>
-        <div class="login-note">🔎 นี่คือฉากจำลองหน้า login ของเว็บหลอกลงทุน — <b>ไม่เก็บข้อมูลจริง</b> กดปุ่มเข้าสู่ระบบได้เลยโดยไม่ต้องกรอก</div>
-        <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — <b>ใส่แค่ชื่อเล่น</b> ห้ามใส่เบอร์โทรหรือรหัสจริง ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ</div>
+        <div class="login-note">🔎 ฉากจำลองหน้า login ของเว็บหลอกลงทุน — ต้อง<b>สมัครสมาชิกก่อน</b>จึงจะเข้าได้ ใช้ชื่อเล่นและตั้งรหัสใหม่ <b>ห้ามใช้รหัสผ่านจริง</b></div>
+        <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ บัญชีจะถูกลบเมื่อผู้บรรยายเริ่มรอบใหม่</div>
         <div class="trust">
           <span><svg class="i"><use href="#i-shield"/></svg>SSL ปลอดภัย</span>
           <span><svg class="i" style="color:var(--gold)"><use href="#i-star"/></svg>4.9 (52,418)</span>
@@ -684,16 +692,19 @@
           <h1>สมัครสมาชิก</h1>
           <div class="tag"><svg class="i"><use href="#i-gift"/></svg>สมัครใหม่รับโบนัสทันที 500฿</div>
         </div>
-        <div class="field"><label for="suName">ชื่อ-นามสกุล</label>
-          <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="suName" placeholder="กรอกชื่อของคุณ" autocomplete="off"></div></div>
-        <div class="field"><label for="suPhone">เบอร์โทรศัพท์</label>
+        <div class="field"><label for="suName">ชื่อผู้ใช้ (ชื่อเล่น 2–24 ตัวอักษร)</label>
+          <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="suName" placeholder="เช่น น้องเอ" autocomplete="username" autocapitalize="off" spellcheck="false"></div></div>
+        <div class="field"><label for="suPhone">เบอร์โทรศัพท์ (ไม่บังคับ — ไม่ต้องใช้เบอร์จริง)</label>
           <div class="inp"><svg class="i"><use href="#i-phone"/></svg><input id="suPhone" placeholder="08x-xxx-xxxx" autocomplete="off" inputmode="tel"></div></div>
-        <div class="field"><label for="suPass">ตั้งรหัสผ่าน</label>
-          <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass" type="password" placeholder="••••••••" autocomplete="off"></div></div>
+        <div class="field"><label for="suPass">ตั้งรหัสผ่าน (อย่างน้อย 4 ตัว — ห้ามใช้รหัสจริง)</label>
+          <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass" type="password" placeholder="••••••••" autocomplete="new-password"></div></div>
+        <div class="field"><label for="suPass2">ยืนยันรหัสผ่าน</label>
+          <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass2" type="password" placeholder="••••••••" autocomplete="new-password"></div></div>
+        <div class="form-err" id="suErr" role="alert" hidden></div>
         <button class="btn btn-gold" id="suGo">สมัครและเริ่มลงทุน</button>
         <button class="btn btn-ghost" id="suBack"><svg class="i"><use href="#i-back"/></svg>กลับหน้าเข้าสู่ระบบ</button>
-        <div class="login-note offline-only">🔎 สาธิต: ข้อมูลที่กรอก <b>ไม่ถูกบันทึกหรือส่งออกไปไหน</b> อยู่แค่ในเครื่องนี้ชั่วคราว — แต่จุดสำคัญคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน" (สลับไปโหมดผู้บรรยายเพื่อดู)</div>
-        <div class="net-note">🔗 ห้องสาธิตสด: ระบบส่ง<b>เฉพาะชื่อเล่น</b>ไปให้ผู้บรรยายเห็น (ไม่ส่งเบอร์โทร/รหัส) — ไม่ต้องกรอกข้อมูลจริง เพราะจุดที่อยากให้เห็นคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
+        <div class="login-note offline-only">🔎 สาธิต (ออฟไลน์): บัญชีเก็บไว้แค่ในเบราว์เซอร์เครื่องนี้ ไม่ส่งออกไปไหน — จุดสำคัญคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
+        <div class="net-note">🔗 ห้องสาธิตสด: ระบบเก็บ<b>ชื่อเล่น</b>และรหัสผ่านแบบเข้ารหัส (hash) ไว้ให้เข้าสู่ระบบได้ — <b>เบอร์โทรไม่ถูกส่งออกไป</b> จุดที่อยากให้เห็นคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
       </div>
     </section>
 
@@ -990,7 +1001,8 @@ const chartTools=()=>`<div class="chart-tools"><div class="tfs">${Object.keys(TF
 function viewHome(){
   const pv=pfValue(), pnl=pv-S.deposited, pc=S.deposited>0?(pnl/S.deposited*100):0, a=A();
   return `
-  <div class="greet"><h2>สวัสดี <span>คุณ${esc(S.userName)}</span> 👋</h2><div class="greet-sub">ยินดีต้อนรับกลับเข้าสู่พอร์ตการลงทุน</div></div>
+  <div class="greet"><div><h2>สวัสดี <span>คุณ${esc(S.userName)}</span> 👋</h2><div class="greet-sub">ยินดีต้อนรับกลับเข้าสู่พอร์ตการลงทุน</div></div>
+    <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
   <div class="dash">
     <div class="dash-main">
       <div class="bignum">
@@ -1454,6 +1466,7 @@ function startVipCountdown(){
 function bindTabEvents(){
   const g=id=>document.getElementById(id);
   bindChart();
+  const lo=g('logoutBtn'); if(lo) lo.onclick=()=>logout();
   // เลือกสินทรัพย์จากวอทช์ลิสต์ (มีได้ทั้งหน้าหลักและหน้าเทรด)
   document.querySelectorAll('[data-sel]').forEach(r=>r.onclick=()=>{ S.sel=+r.dataset.sel; renderApp(); });
   if(S.tab==='trade'){
@@ -1481,17 +1494,14 @@ document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.d
 /* ---------- ห้องสาธิตสด (ฐานข้อมูล Supabase ผ่าน /api) ----------
    ผู้ฟังสแกน QR เล่นบนมือถือ มี "บัญชีธนาคารจำลอง" คนละ 5,000 ฿ ต้องโอนเข้าแอปก่อนเทรด ใช้หมดแล้วหมดเลย
    ผู้บรรยายคุมทุกอย่างจาก "หลังบ้านแอดมิน" — ถ้าเปิดจากไฟล์ในเครื่องจะเป็นโหมดออฟไลน์เหมือนเดิม */
-const NET = { online:false, store:'', id:'', epoch:'', evSeq:0, joined:false, busy:false, timer:null, token:'',
+const NET = { online:false, store:'', ptoken:'', epoch:'', evSeq:0, joined:false, busy:false, timer:null, token:'',
   lastReport:null, flow:0, bonus:0, bank:0, bankStart:0, taxPaid:0, requests:[], reqStatus:{} };
-const LS_KEY='agt-player-v2', SS_TOKEN='agt-admin-token', SYNC_MS=4000;
+const LS_KEY='agt-player-v3', SS_TOKEN='agt-admin-token', SYNC_MS=4000;
 const lsGet=k=>{ try{ return JSON.parse(localStorage.getItem(k)); }catch{ return null; } };
 const lsSet=(k,v)=>{ try{ localStorage.setItem(k,JSON.stringify(v)); }catch{} };
 const ssGet=k=>{ try{ return sessionStorage.getItem(k)||''; }catch{ return ''; } };
 const ssSet=(k,v)=>{ try{ v?sessionStorage.setItem(k,v):sessionStorage.removeItem(k); }catch{} };
 const r2=x=>Math.round((Number(x)||0)*100)/100;
-function newId(){ const a=new Uint8Array(12); crypto.getRandomValues(a); return 'p'+Array.from(a,b=>b.toString(16).padStart(2,'0')).join(''); }
-// ชื่อที่ส่งให้ผู้บรรยายเห็น: ไม่ส่งอะไรที่ดูเหมือนเบอร์โทร
-function nickname(v){ v=String(v||'').trim(); if(!v || v.replace(/\D/g,'').length>=6) return ''; return v.slice(0,24); }
 
 async function api(path, body, auth){
   const r=await fetch(path,{method:body?'POST':'GET',cache:'no-store',
@@ -1519,31 +1529,129 @@ function saveLocal(){
   const {presenter, assets, ...rest}=S;
   lsSet(LS_KEY,{
     S:{...rest, assets: assets ? assets.map(({candles,...x})=>x) : null},
-    net:{id:NET.id,epoch:NET.epoch,evSeq:NET.evSeq,flow:NET.flow,bonus:NET.bonus,bank:NET.bank,bankStart:NET.bankStart,
+    net:{ptoken:NET.ptoken,epoch:NET.epoch,evSeq:NET.evSeq,flow:NET.flow,bonus:NET.bonus,bank:NET.bank,bankStart:NET.bankStart,
          taxPaid:NET.taxPaid,requests:NET.requests,reqStatus:NET.reqStatus}});
 }
 
-/* ----- ผู้ฟัง ----- */
-async function netJoin(){
-  if(!NET.online || NET.joined) return;
-  NET.id = NET.id || newId();
-  try{
-    const j=await api('api/room',{action:'join',id:NET.id,name:S.userName});
-    NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
-    const fresh=!j.requests.length && !j.flow;
-    applyServer(j); saveLocal(); startSync();
-    if(S.screen==='app') renderApp();
-    if(fresh) notice('🏦 คุณได้รับเงินในบัญชีธนาคาร '+F(j.bankStart)+' ฿',
-      'นี่คือเงินจำลองในบัญชีธนาคารของคุณ ไปที่เมนู "ฝากเงิน" เพื่อโอนเข้าแอปแล้วเริ่มเทรด — เงินก้อนนี้ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ');
-  }catch(e){ toast(e.status===409?'ห้องสาธิตเต็มแล้ว — เล่นบนเครื่องนี้แบบออฟไลน์':'เชื่อมต่อห้องสาธิตไม่ได้ — เล่นบนเครื่องนี้แบบออฟไลน์'); }
+/* ----- บัญชีผู้ฟัง: ต้องสมัครก่อนจึงเข้าได้ (ยกเว้นผู้บรรยาย) ----- */
+const papi=async body=>{   // เรียก API ฝั่งผู้ฟังพร้อม token ของบัญชี
+  try{ return await api('api/room',{...body,token:NET.ptoken}); }
+  catch(e){ if(e.status===401 && NET.joined) sessionEnded('กรุณาเข้าสู่ระบบใหม่', e.message); throw e; }
+};
+function snapshotState(){
+  return {v:1, cash:r2(S.cash), deposited:S.deposited, flow:NET.flow, bonus:NET.bonus, reqStatus:NET.reqStatus, sel:S.sel,
+    tx:S.tx.slice(0,40), orders:S.orders,
+    assets:S.assets?S.assets.map(a=>({sym:a.sym,units:a.units,entry:a.entry,price:a.price})):null};
 }
+function freshUser(name){
+  stopSync(); stopLive();
+  Object.assign(NET,{joined:false,ptoken:'',epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
+  S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
+    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต'});
+}
+function restoreSaved(st){   // เข้าสู่ระบบจากเครื่องใหม่: เอาพอร์ตที่บันทึกไว้ในบัญชีกลับมา
+  if(!st || st.v!==1) return;
+  Object.assign(S,{cash:r2(st.cash), deposited:st.deposited||0, sel:st.sel||0,
+    tx:Array.isArray(st.tx)?st.tx:[], orders:Array.isArray(st.orders)?st.orders:[]});
+  Object.assign(NET,{flow:st.flow||0, bonus:st.bonus||0, reqStatus:st.reqStatus||{}});
+  if(Array.isArray(st.assets)){
+    S.assets=buildAssets();
+    S.assets.forEach(a=>{ const x=st.assets.find(y=>y.sym===a.sym); if(!x) return;
+      a.units=x.units||0; a.entry=x.entry||0;
+      if(x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
+  }
+}
+function beginSession(j, isNew){
+  NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
+  applyServer(j); saveLocal(); startSync();
+  show('app'); if(S.assets) startLive();
+  if(isNew) notice('🏦 คุณได้รับเงินในบัญชีธนาคาร '+F(j.bankStart)+' ฿',
+    'นี่คือเงินจำลองในบัญชีธนาคารของคุณ ไปที่เมนู "ฝากเงิน" เพื่อโอนเข้าแอปแล้วเริ่มเทรด — เงินก้อนนี้ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ');
+}
+function formErr(id,msg){ const e=document.getElementById(id); e.textContent=msg||''; e.hidden=!msg; }
+const looksLikePhone=v=>String(v).replace(/\D/g,'').length>=6;
+async function doLogin(){
+  const uEl=document.getElementById('lgUser'), pEl=document.getElementById('lgPass');
+  const user=uEl.value.trim(), pass=pEl.value;
+  formErr('lgErr','');
+  if(!user || !pass) return formErr('lgErr','กรอกชื่อผู้ใช้และรหัสผ่าน (ถ้ายังไม่มีบัญชี กดสมัครสมาชิกก่อน)');
+  if(!NET.online) return localLogin(user,pass);
+  const btn=document.getElementById('lgIn'); btn.disabled=true;
+  try{
+    const j=await api('api/room',{action:'login',user,pass});
+    pEl.value='';
+    if(j.admin) return loginAsPresenter(j.token);
+    freshUser(j.name); restoreSaved(j.saved); beginSession(j,false);
+    toast('ยินดีต้อนรับกลับ คุณ'+j.name);
+  }catch(e){ formErr('lgErr', e.message||'เข้าสู่ระบบไม่สำเร็จ'); }
+  finally{ btn.disabled=false; }
+}
+async function doSignup(){
+  const g=id=>document.getElementById(id);
+  const name=g('suName').value.trim().replace(/\s+/g,' '), pass=g('suPass').value, pass2=g('suPass2').value;
+  formErr('suErr','');
+  const len=[...name].length;
+  if(len<2 || len>24) return formErr('suErr','ชื่อผู้ใช้ต้องมี 2–24 ตัวอักษร');
+  if(looksLikePhone(name)) return formErr('suErr','ห้ามใช้เบอร์โทรเป็นชื่อผู้ใช้ — ใช้ชื่อเล่นแทน');
+  if(pass.length<4) return formErr('suErr','รหัสผ่านต้องมีอย่างน้อย 4 ตัวอักษร');
+  if(pass!==pass2) return formErr('suErr','รหัสผ่านทั้งสองช่องไม่ตรงกัน');
+  const phone=g('suPhone').value.trim()||'08x-xxx-xxxx';   // อยู่แค่ในเครื่องนี้ ไม่ส่งออก
+  if(!NET.online) return localSignup(name,pass,phone);
+  const btn=g('suGo'); btn.disabled=true;
+  try{
+    const j=await api('api/room',{action:'signup',name,pass});
+    ['suName','suPhone','suPass','suPass2'].forEach(id=>g(id).value='');
+    freshUser(j.name); S.userPhone=phone; beginSession(j,true);
+    toast('สมัครสำเร็จ! (สาธิต)');
+  }catch(e){ formErr('suErr', e.message||'สมัครไม่สำเร็จ'); }
+  finally{ btn.disabled=false; }
+}
+function loginAsPresenter(token){
+  freshUser('ผู้บรรยาย'); try{ localStorage.removeItem(LS_KEY); }catch{}
+  NET.token=token; ssSet(SS_TOKEN,token); S.presenter=true; togglePresenter();
+  show('app'); toast('เข้าสู่โหมดผู้บรรยายแล้ว');
+}
+/* ออฟไลน์ (เปิดจากไฟล์ / เชื่อมห้องไม่ได้): บัญชีเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น */
+const LOCAL_ACC='agt-local-accounts';
+async function pwDigest(s){
+  try{ const b=await crypto.subtle.digest('SHA-256',new TextEncoder().encode('agt-local:'+s));
+    return Array.from(new Uint8Array(b),x=>x.toString(16).padStart(2,'0')).join(''); }
+  catch{ return 'x'+[...String(s)].reduce((h,c)=>(h*31+c.codePointAt(0))>>>0,7); }
+}
+async function localSignup(name,pass,phone){
+  const acc=lsGet(LOCAL_ACC)||{}, k=name.toLowerCase();
+  if(k==='admin') return formErr('suErr','ชื่อนี้สงวนไว้สำหรับผู้บรรยาย');
+  if(acc[k]) return formErr('suErr','ชื่อผู้ใช้นี้มีคนใช้แล้ว ลองชื่ออื่น');
+  acc[k]={name,hash:await pwDigest(pass)}; lsSet(LOCAL_ACC,acc);
+  ['suName','suPhone','suPass','suPass2'].forEach(id=>document.getElementById(id).value='');
+  freshUser(name); S.userPhone=phone; show('app'); toast('สมัครสำเร็จ! (สาธิต — บัญชีอยู่ในเครื่องนี้)');
+}
+async function localLogin(user,pass){
+  if(user.toLowerCase()==='admin'){
+    freshUser('ผู้บรรยาย'); S.presenter=true; togglePresenter(); show('app');
+    return toast('โหมดผู้บรรยาย (ออฟไลน์ — มีผลเฉพาะเครื่องนี้)');
+  }
+  const acc=(lsGet(LOCAL_ACC)||{})[user.toLowerCase()];
+  if(!acc || acc.hash!==await pwDigest(pass)) return formErr('lgErr','ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (ถ้ายังไม่มีบัญชี กดสมัครสมาชิกก่อน)');
+  document.getElementById('lgPass').value='';
+  freshUser(acc.name); show('app');
+}
+function logout(){
+  if(S.presenter){ S.presenter=false; NET.token=''; ssSet(SS_TOKEN,''); togglePresenter(); }
+  try{ localStorage.removeItem(LS_KEY); }catch{}
+  freshUser();
+  document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
+  show('login');
+}
+function sessionEnded(title,text){ logout(); notice(title,text); }
 function startSync(){ if(NET.timer || !NET.joined) return; NET.timer=setInterval(netSync,SYNC_MS); netSync(); }
 function stopSync(){ clearInterval(NET.timer); NET.timer=null; }
 function buildReport(){
   // ส่งยอดให้ผู้บรรยายเห็นเฉพาะตอนเปลี่ยน (หรือทุก 20 วินาที)
-  const r={name:S.userName,value:r2(pfValue()),cash:r2(S.cash),at:Date.now()};
+  const r={value:r2(pfValue()),cash:r2(S.cash),at:Date.now()};
   const l=NET.lastReport;
-  if(l && l.name===r.name && l.cash===r.cash && Math.abs(r.value-l.value)<=Math.max(1,Math.abs(l.value)*0.005) && r.at-l.at<20000) return undefined;
+  if(l && l.cash===r.cash && l.n===S.tx.length && Math.abs(r.value-l.value)<=Math.max(1,Math.abs(l.value)*0.005) && r.at-l.at<20000) return undefined;
+  r.n=S.tx.length; r.state=snapshotState();
   return r;
 }
 async function netSync(){
@@ -1551,21 +1659,18 @@ async function netSync(){
   NET.busy=true;
   try{
     const report=buildReport();
-    const j=await api('api/room',{action:'sync',id:NET.id,since:NET.evSeq,report});
+    const j=await papi({action:'sync',since:NET.evSeq,report});
     if(report) NET.lastReport=report;
     if(j.missing || (j.epoch && j.epoch!==NET.epoch)){ roomWasReset(); return; }
     applyServer(j);
     for(const ev of j.events||[]){ if(ev.seq>NET.evSeq){ NET.evSeq=ev.seq; runEvent(ev); } }
     NET.evSeq=Math.max(NET.evSeq,j.evseq||0);
     saveLocal();
-  }catch(e){ if(e.status===404) roomWasReset(); /* อย่างอื่น = เน็ตสะดุด ลองใหม่รอบถัดไป */ }
+  }catch(e){ if(e.status===404 && NET.joined) roomWasReset(); /* อย่างอื่น = เน็ตสะดุด ลองใหม่รอบถัดไป */ }
   finally{ NET.busy=false; }
 }
 function roomWasReset(){
-  NET.joined=false; stopSync();
-  Object.assign(NET,{epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
-  reset('ผู้บรรยายเริ่มการสาธิตรอบใหม่');
-  netJoin();
+  sessionEnded('ผู้บรรยายเริ่มการสาธิตรอบใหม่','บัญชีเดิมถูกลบแล้ว กรุณาสมัครสมาชิกใหม่เพื่อเข้าร่วมอีกครั้ง');
 }
 /* นำยอดจากเซิร์ฟเวอร์มาใช้: เงินสดในแอป = เงินฝากที่อนุมัติ − ยอดถอนที่ค้าง/สำเร็จ + โบนัสจากแอดมิน + กำไรขาดทุนจากการเทรดในเครื่อง */
 function applyServer(j){
@@ -1619,7 +1724,7 @@ async function depositOnline(amt){
   const btn=document.getElementById('depGo'); if(btn) btn.disabled=true;
   try{
     const before=NET.flow;
-    applyServer(await api('api/room',{action:'deposit',id:NET.id,amount:amt})); saveLocal();
+    applyServer(await papi({action:'deposit',amount:amt})); saveLocal();
     if(NET.flow>before) S.tab='trade';
     renderApp();
   }catch(e){ toast(e.message); }
@@ -1629,7 +1734,7 @@ async function withdrawOnline(amt){
   if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
   if(amt>S.cash+0.001) return toast('เงินสดในพอร์ตไม่พอ — ขายสินทรัพย์ก่อนถอน (เงินสด '+F(S.cash)+' ฿)');
   const btn=document.getElementById('wdGo'); if(btn) btn.disabled=true;
-  try{ applyServer(await api('api/room',{action:'withdraw',id:NET.id,amount:amt})); saveLocal(); renderApp(); }
+  try{ applyServer(await papi({action:'withdraw',amount:amt})); saveLocal(); renderApp(); }
   catch(e){ toast(e.message); }
   finally{ if(btn) btn.disabled=false; }
 }
@@ -1644,11 +1749,11 @@ function openTax(r){
   openOv('ovWithdraw');
 }
 async function payTax(id){
-  try{ const j=await api('api/room',{action:'paytax',id:NET.id,requestId:id}); closeOv('ovWithdraw'); applyServer(j); saveLocal(); }
+  try{ const j=await papi({action:'paytax',requestId:id}); closeOv('ovWithdraw'); applyServer(j); saveLocal(); }
   catch(e){
     if(e.status===400) notice('เงินในบัญชีไม่พอ','เงินในบัญชีธนาคารของคุณเหลือ '+F(NET.bank)+' ฿ ไม่พอจ่ายค่าภาษี',
       'ในชีวิตจริง เหยื่อจำนวนมากไปกู้ยืมเงินมาจ่าย "ค่าภาษี" ทั้งที่ไม่มีวันได้เงินคืน');
-    else toast(e.message);
+    else if(e.status!==401) toast(e.message);
   }
 }
 document.getElementById('wPay').onclick=e=>payTax(Number(e.currentTarget.dataset.req));
@@ -1673,19 +1778,11 @@ async function adminApi(body){
   catch(e){ if(e.status===401){ exitPresenter(); toast('หมดเวลาโหมดผู้บรรยาย — เข้าสู่ระบบใหม่'); } throw e; }
 }
 function enterPresenter(){
-  closeOv('ovAdmin'); document.getElementById('adPass').value=''; S.presenter=true; togglePresenter();
-  leaveRoom();   // เครื่องผู้บรรยายไม่ต้องอยู่ในรายชื่อผู้ฟัง
+  closeOv('ovAdmin'); document.getElementById('adPass').value='';
+  if(NET.joined){ freshUser('ผู้บรรยาย'); try{ localStorage.removeItem(LS_KEY); }catch{} }   // เครื่องผู้บรรยายไม่ต้องอยู่ในรายชื่อผู้ฟัง
+  S.presenter=true; togglePresenter(); if(S.screen==='app') renderApp();
 }
-function exitPresenter(){ S.presenter=false; NET.token=''; ssSet(SS_TOKEN,''); togglePresenter(); closeOv('ovPanel'); }
-async function leaveRoom(){
-  if(!NET.joined) return;
-  const id=NET.id; NET.joined=false; stopSync();
-  S.cash=r2(S.cash-NET.flow); S.deposited=0;
-  Object.assign(NET,{epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
-  try{ localStorage.removeItem(LS_KEY); }catch{}
-  try{ await api('api/room',{action:'leave',id}); }catch{}
-  if(S.screen==='app') renderApp();
-}
+function exitPresenter(){ closeOv('ovPanel'); logout(); }
 const EV_LABEL={pump:'ปั่นราคาพุ่ง',vip:'ป๊อปอัพ VIP',flags:'เฉลย Red Flags',notice:'ข้อความแจ้งเตือน'};
 async function presenterAct(type, opts={}){
   if(opts.local!==false){ if(type==='pump') pump(); else if(type==='vip') openVip(); else if(type==='flags') openFlags(); }
@@ -1862,19 +1959,13 @@ document.getElementById('apBody').addEventListener('click',async e=>{
   const row=t.closest('[data-pexp]'); if(row){ AP.expanded=AP.expanded===row.dataset.pexp?'':row.dataset.pexp; renderPanelDynamic(); }
 });
 
-// login / signup
-function enterApp(name){
-  const nick=nickname(name); if(nick) S.userName=nick;
-  show('app'); if(!S.presenter) netJoin();
-}
-document.getElementById('lgIn').onclick=()=>enterApp(document.getElementById('lgUser').value);
-document.getElementById('lgUp').onclick=()=>show('signup');
-document.getElementById('suBack').onclick=()=>show('login');
-document.getElementById('suGo').onclick=()=>{
-  S.userPhone=(document.getElementById('suPhone').value.trim())||'08x-xxx-xxxx';   // อยู่แค่ในเครื่องนี้ ไม่ส่งออก
-  enterApp(document.getElementById('suName').value); toast('สมัครสำเร็จ! (สาธิต)');
-};
-['lgUser','lgPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('lgIn').click(); }));
+// login / signup — เข้าแอปได้ต้องมีบัญชี (ผู้บรรยายใช้ชื่อ admin + รหัสผู้บรรยาย)
+document.getElementById('lgIn').onclick=doLogin;
+document.getElementById('lgUp').onclick=()=>{ formErr('lgErr',''); show('signup'); };
+document.getElementById('suBack').onclick=()=>{ formErr('suErr',''); show('login'); };
+document.getElementById('suGo').onclick=doSignup;
+['lgUser','lgPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); }));
+['suName','suPhone','suPass','suPass2'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doSignup(); }));
 
 // presenter mode: ออนไลน์ตรวจรหัสที่เซิร์ฟเวอร์ (ADMIN_PASSWORD) — ไม่มีรหัสอยู่ในไฟล์นี้
 document.getElementById('lockBtn').onclick=()=>{
@@ -1925,25 +2016,29 @@ document.addEventListener('visibilitychange',()=>{
 window.addEventListener('resize',()=>{ if(S.screen==='app' && (S.tab==='home'||S.tab==='trade')) drawChart(); });
 
 /* ---------- hot-reload position ---------- */
-function snapshot(){ try{ window.claude?.hot?.snapshot(()=>S); }catch(e){} saveLocal(); }
-async function start(data){
-  if(data&&data.screen){ S=Object.assign(S,data); }
-  show(S.screen==='app'?'app':'login');
-  togglePresenter();
-  if(S.assets) startLive();
+function snapshot(){ saveLocal(); }
+async function start(){
+  show('login'); togglePresenter();
   if(!(await detectOnline())) return;
   const tok=ssGet(SS_TOKEN);
-  if(tok){ NET.token=tok; S.presenter=true; togglePresenter(); }
-  // มือถือผู้ฟังรีเฟรช/ล็อกจอ: กลับเข้าห้องเดิมพร้อมยอดเดิม
+  if(tok) return loginAsPresenter(tok);   // แท็บเดิมของผู้บรรยาย (หมดอายุจะถูกพากลับหน้า login เอง)
+  // มือถือผู้ฟังรีเฟรช/ล็อกจอ: ถ้าบัญชียังอยู่ กลับเข้าพร้อมยอดเดิม
   const saved=lsGet(LS_KEY);
-  if(!tok && saved && saved.net && saved.net.id && saved.S && saved.S.screen==='app'){
-    Object.assign(S, saved.S, {presenter:S.presenter});
-    if(S.assets) S.assets=S.assets.map(a=>({...a, candles:seedAround(ASSET_DEFS.find(d=>d.sym===a.sym)||a, a.price)}));
-    Object.assign(NET, saved.net, {joined:true});
-    show('app'); startLive(); startSync();
+  if(saved && saved.net && saved.net.ptoken && saved.S){
+    try{
+      const j=await api('api/room',{action:'session',token:saved.net.ptoken});
+      freshUser(saved.S.userName);
+      Object.assign(S, saved.S, {presenter:false});
+      if(S.assets) S.assets=S.assets.map(a=>({...a, candles:seedAround(ASSET_DEFS.find(d=>d.sym===a.sym)||a, a.price)}));
+      Object.assign(NET, saved.net);
+      beginSession({...j, token:saved.net.ptoken}, false);
+    }catch(e){
+      try{ localStorage.removeItem(LS_KEY); }catch{}
+      if(e.status===401) formErr('lgErr', e.message);
+    }
   }
 }
-(window.claude?.hot?.ready ? window.claude.hot.ready(start) : start(window.claude?.hot?.data ?? {}));
+start();
 </script>
 </body>
 </html>

@@ -9,7 +9,7 @@ module.exports = handle(async (req, res) => {
   if (req.method !== 'POST') return res.status(405).json({ error: 'method not allowed' });
   const b = body(req);
 
-  if (b.action === 'login') return res.status(200).json(await room.login(b.user, b.pass, clientIp(req)));
+  if (b.action === 'login') return res.status(200).json(await room.adminLogin(b.user, b.pass, clientIp(req)));
 
   const auth = String(req.headers.authorization || '');
   if (!room.verifyToken(auth.replace(/^Bearer\s+/i, ''))) {
