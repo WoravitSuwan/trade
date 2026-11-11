@@ -380,3 +380,36 @@ test('chat: user and bot messages, presenter takeover and replies', async () => 
   // login returns chat history
   assert.equal((await P({ action: 'login', user: 'Alpha', pass: PW })).body.chat.length, 4);
 });
+
+test('quotes: simulated without a key; Finnhub quotes are cached and shared', async () => {
+  delete process.env.FINNHUB_API_KEY;
+  assert.deepEqual((await call('/api/quotes?market=us')).body, { available: false, reason: 'no-key' });
+  assert.equal((await call('/api/quotes?market=th')).body.reason, 'no-free-source');
+
+  const realFetch = global.fetch;
+  let calls = 0;
+  global.fetch = async (url, opts) => {
+    if (String(url).startsWith('https://finnhub.io/')) {
+      calls++;
+      const sym = new globalThis.URL(url).searchParams.get('symbol');
+      const c = sym === 'GOOGL' ? 0 : 100 + calls;   // GOOGL: "no data"
+      return new Response(JSON.stringify({ c, o: 99, h: 120, l: 90, pc: 98, t: 1700000000 }), { status: 200 });
+    }
+    return realFetch(url, opts);
+  };
+  process.env.FINNHUB_API_KEY = 'test-key';
+  try {
+    const q1 = (await call('/api/quotes?market=us')).body;
+    assert.equal(q1.available, true);
+    assert.equal(q1.source, 'finnhub');
+    assert.deepEqual(Object.keys(q1.quotes).sort(), ['AAPL', 'AMZN', 'MSFT', 'NVDA', 'TSLA']);
+    assert.equal(q1.quotes.AAPL.o, 99);
+    const before = calls;
+    const q2 = (await call('/api/quotes?market=us')).body;   // within 12 s: served from the shared cache
+    assert.equal(calls, before);
+    assert.deepEqual(q2.quotes, q1.quotes);
+  } finally {
+    global.fetch = realFetch;
+    delete process.env.FINNHUB_API_KEY;
+  }
+});

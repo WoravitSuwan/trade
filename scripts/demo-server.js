@@ -17,6 +17,7 @@ const routes = {
   '/api/room': require('../api/room'),
   '/api/admin': require('../api/admin'),
   '/api/qr': require('../api/qr'),
+  '/api/quotes': require('../api/quotes'),
 };
 
 function adapt(handler) {

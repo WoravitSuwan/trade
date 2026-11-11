@@ -612,6 +612,19 @@
   .pay-info>div{display:flex;justify-content:space-between;gap:10px}
   .pay-info span{color:var(--faint)} .pay-info b{text-align:right}
 
+  /* ---------- market (country) tabs ---------- */
+  .mkt-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:2px 0}
+  .mkt-tabs::-webkit-scrollbar{display:none}
+  .mtab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);font-size:12.5px;font-weight:600;color:var(--dim);white-space:nowrap;transition:all .15s}
+  .mtab span{font-size:15px}
+  .mtab i{font-style:normal;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px}
+  .mtab i.live{background:rgba(34,214,138,.15);color:var(--green)} .mtab i.sim{background:rgba(148,163,184,.14);color:var(--faint)}
+  .mtab:hover{border-color:var(--line-2);color:var(--ink)}
+  .mtab.on{border-color:rgba(245,200,76,.7);background:rgba(245,200,76,.1);color:var(--ink)}
+  .src-note{font-size:11px;color:var(--faint);margin-top:3px}
+  @media (min-width:900px){ .mkt-tabs{flex-wrap:wrap;overflow:visible} }
+
   /* ---------- live room (QR join + presenter money controls) ---------- */
   body:not(.online) .net-only{display:none}
   body.online .offline-only{display:none}
@@ -1009,18 +1022,42 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const icon = (name, extra='') => `<svg class="i" ${extra}><use href="#i-${name}"/></svg>`;
 
 /* ---- สินทรัพย์ให้เลือกเทรด (แก้รายชื่อ/ราคาตั้งต้นได้ที่นี่) ---- */
-const ASSET_DEFS = [   // bn = คู่เทรดบน Binance (ราคาจริง) · base = ราคาตั้งต้น USD ใช้ตอนเชื่อมต่อตลาดไม่ได้
-  {sym:'GOLD', name:'ทองคำ (PAXG)', col:'#f5c84c', bn:'PAXGUSDT', base:3300,  vol:0.006},
-  {sym:'BTC',  name:'Bitcoin',      col:'#f7931a', bn:'BTCUSDT',  base:95000, vol:0.012},
-  {sym:'ETH',  name:'Ethereum',     col:'#7b8cff', bn:'ETHUSDT',  base:3500,  vol:0.015},
-  {sym:'SOL',  name:'Solana',       col:'#22d68a', bn:'SOLUSDT',  base:180,   vol:0.018},
-  {sym:'XRP',  name:'XRP',          col:'#5ab0ff', bn:'XRPUSDT',  base:2.4,   vol:0.018},
+/* ตลาดให้เลือกตามประเทศ — ตลาดที่มี API ฟรีใช้ราคาจริง ที่เหลือจำลองเอง
+   crypto: Binance (ฟรี ไม่ต้องใช้ key, เรียลไทม์) · us: Finnhub (ฟรีเมื่อใส่ FINNHUB_API_KEY บนเซิร์ฟเวอร์) · th/jp/hk: จำลอง */
+const MARKETS=[['crypto','คริปโต & ทองคำ','🪙'],['us','หุ้นสหรัฐฯ','🇺🇸'],['th','หุ้นไทย','🇹🇭'],['jp','หุ้นญี่ปุ่น','🇯🇵'],['hk','หุ้นฮ่องกง/จีน','🇭🇰']];
+const ASSET_DEFS = [   // base = ราคาตั้งต้น (สกุลเงินของตลาดนั้น) ใช้ตอนจำลอง
+  {mkt:'crypto', sym:'GOLD',  name:'ทองคำ (PAXG)', col:'#f5c84c', bn:'PAXGUSDT', cur:'USD', base:3300,  vol:0.006},
+  {mkt:'crypto', sym:'BTC',   name:'Bitcoin',      col:'#f7931a', bn:'BTCUSDT',  cur:'USD', base:95000, vol:0.012},
+  {mkt:'crypto', sym:'ETH',   name:'Ethereum',     col:'#7b8cff', bn:'ETHUSDT',  cur:'USD', base:3500,  vol:0.015},
+  {mkt:'crypto', sym:'SOL',   name:'Solana',       col:'#22d68a', bn:'SOLUSDT',  cur:'USD', base:180,   vol:0.018},
+  {mkt:'crypto', sym:'XRP',   name:'XRP',          col:'#5ab0ff', bn:'XRPUSDT',  cur:'USD', base:2.4,   vol:0.018},
+  {mkt:'us', sym:'AAPL',  name:'Apple',      col:'#a3aab8', cur:'USD', base:230, vol:0.006},
+  {mkt:'us', sym:'NVDA',  name:'NVIDIA',     col:'#76b900', cur:'USD', base:140, vol:0.010},
+  {mkt:'us', sym:'TSLA',  name:'Tesla',      col:'#e82127', cur:'USD', base:350, vol:0.012},
+  {mkt:'us', sym:'MSFT',  name:'Microsoft',  col:'#00a4ef', cur:'USD', base:430, vol:0.006},
+  {mkt:'us', sym:'AMZN',  name:'Amazon',     col:'#ff9900', cur:'USD', base:210, vol:0.008},
+  {mkt:'us', sym:'GOOGL', name:'Alphabet',   col:'#4285f4', cur:'USD', base:180, vol:0.008},
+  {mkt:'th', sym:'PTT',    name:'ปตท.',                 col:'#1e88e5', cur:'THB', base:34,  vol:0.006},
+  {mkt:'th', sym:'DELTA',  name:'เดลต้า อีเลคโทรนิคส์', col:'#5ab0ff', cur:'THB', base:120, vol:0.012},
+  {mkt:'th', sym:'AOT',    name:'ท่าอากาศยานไทย',       col:'#7e57c2', cur:'THB', base:55,  vol:0.007},
+  {mkt:'th', sym:'CPALL',  name:'ซีพี ออลล์',            col:'#22a854', cur:'THB', base:55,  vol:0.006},
+  {mkt:'th', sym:'KBANK',  name:'ธ.กสิกรไทย',           col:'#138f2d', cur:'THB', base:150, vol:0.006},
+  {mkt:'th', sym:'ADVANC', name:'แอดวานซ์ อินโฟร์',      col:'#9ccc00', cur:'THB', base:280, vol:0.005},
+  {mkt:'jp', sym:'7203', name:'Toyota',         col:'#eb0a1e', cur:'JPY', base:2900, vol:0.007},
+  {mkt:'jp', sym:'6758', name:'Sony',           col:'#cfd8dc', cur:'JPY', base:3200, vol:0.008},
+  {mkt:'jp', sym:'9984', name:'SoftBank Group', col:'#ffd600', cur:'JPY', base:9000, vol:0.012},
+  {mkt:'jp', sym:'7974', name:'Nintendo',       col:'#e60012', cur:'JPY', base:9000, vol:0.009},
+  {mkt:'hk', sym:'0700', name:'Tencent',  col:'#1aad19', cur:'HKD', base:480, vol:0.009},
+  {mkt:'hk', sym:'9988', name:'Alibaba',  col:'#ff6a00', cur:'HKD', base:120, vol:0.011},
+  {mkt:'hk', sym:'1810', name:'Xiaomi',   col:'#ff6900', cur:'HKD', base:45,  vol:0.012},
+  {mkt:'hk', sym:'0005', name:'HSBC',     col:'#db0011', cur:'HKD', base:90,  vol:0.006},
 ];
 const N_HIST=600, N_MAX=1000, CANDLE_MS=60000;   // แท่งพื้นฐาน = 1 นาที
-/* ตลาด: ราคาจริงจาก Binance (REST ประวัติ + WebSocket เรียลไทม์) แปลงเป็นบาท — ถ้าเชื่อมต่อไม่ได้ใช้ราคาจำลอง
-   a.k = ตัวคูณที่ผู้บรรยาย "ปั่น" ทับราคาจริง (แพลตฟอร์มหลอกแก้ตัวเลขที่แสดงได้ แม้กราฟจะมาจากตลาดจริง) */
-const MARKET={mode:'sim', fx:34, ws:null, wsTry:0, wsTimer:null, hold:null};
+/* a.src = ที่มาของราคา ('binance' | 'finnhub' | 'sim')
+   a.k   = ตัวคูณที่ผู้บรรยาย "ปั่น" ทับราคา (แพลตฟอร์มหลอกแก้ตัวเลขที่แสดงได้ แม้ราคาจะมาจากตลาดจริง) */
+const MARKET={mode:'sim', fx:34, fxr:{THB:1,USD:34,JPY:0.23,HKD:4.35}, ws:null, wsTry:0, wsTimer:null, usTimer:null, hold:null};
 const BN_REST='https://api.binance.com/api/v3', BN_WS='wss://stream.binance.com:9443/stream?streams=';
+const CRYPTO=ASSET_DEFS.filter(d=>d.bn);
 function seedCandles(n, start, vol){
   const cs=[], s=vol*0.12, t0=Math.floor(Date.now()/CANDLE_MS)*CANDLE_MS-(n-1)*CANDLE_MS;
   let p=start*0.97;
@@ -1032,42 +1069,87 @@ function seedCandles(n, start, vol){
   }
   return cs;
 }
-function buildAssets(){   // ตลาดจำลอง (ใช้เมื่อดึงราคาจริงไม่ได้)
-  return ASSET_DEFS.map(d=>{ const candles=seedCandles(N_HIST,d.base*MARKET.fx,d.vol);
-    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,k:1,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,
-      volume:Math.floor(Math.random()*4e6+8e5),stat:null,depth:null}; });
+function seedTo(d, price){   // ประวัติจำลองที่จบตรงราคาที่กำหนด (ใช้กับหุ้นที่มีราคาจริงแต่ไม่มีกราฟย้อนหลังฟรี)
+  const cs=seedCandles(N_HIST, price, d.vol), k=price/cs[cs.length-1].c;
+  cs.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; });
+  return cs;
 }
+function makeAsset(d, candles, extra){
+  return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,mkt:d.mkt,cur:d.cur,k:1,candles,price:candles[candles.length-1].c,
+    units:0,entry:0,dir:1,volume:Math.floor(Math.random()*4e6+8e5),stat:null,depth:null,src:'sim',...extra};
+}
+const simAsset=d=>makeAsset(d, seedCandles(N_HIST, d.base*(MARKET.fxr[d.cur]||1), d.vol));
+function buildAssets(){ return ASSET_DEFS.map(simAsset); }
 async function fetchJSON(url, ms=6000){
   const c=new AbortController(), t=setTimeout(()=>c.abort(),ms);
   try{ const r=await fetch(url,{signal:c.signal,cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }
   finally{ clearTimeout(t); }
 }
 async function loadFx(){
-  try{ const j=await fetchJSON('https://open.er-api.com/v6/latest/USD',4000); const r=j&&j.rates&&j.rates.THB; if(r>20&&r<60) MARKET.fx=r; }catch{}
+  try{
+    const r=(await fetchJSON('https://open.er-api.com/v6/latest/USD',4000)).rates;
+    if(r && r.THB>20 && r.THB<60){
+      MARKET.fx=r.THB;
+      MARKET.fxr={THB:1, USD:r.THB, JPY:r.JPY>0?r.THB/r.JPY:MARKET.fxr.JPY, HKD:r.HKD>0?r.THB/r.HKD:MARKET.fxr.HKD};
+    }
+  }catch{}
 }
-async function loadLive(){
-  await loadFx();
-  const fx=MARKET.fx, syms=ASSET_DEFS.map(d=>d.bn);
+async function loadCrypto(){   // Binance: แท่ง 1 นาทีจริง + สถิติ 24 ชม.
+  const fx=MARKET.fx, syms=CRYPTO.map(d=>d.bn);
   const [tick,...kl]=await Promise.all([
     fetchJSON(`${BN_REST}/ticker/24hr?symbols=${encodeURIComponent(JSON.stringify(syms))}`),
-    ...ASSET_DEFS.map(d=>fetchJSON(`${BN_REST}/klines?symbol=${d.bn}&interval=1m&limit=${N_MAX}`))]);
-  return ASSET_DEFS.map((d,i)=>{
+    ...CRYPTO.map(d=>fetchJSON(`${BN_REST}/klines?symbol=${d.bn}&interval=1m&limit=${N_MAX}`))]);
+  const out={};
+  CRYPTO.forEach((d,i)=>{
     const t=(tick||[]).find(x=>x.symbol===d.bn), rows=kl[i]||[];
     if(!t || !rows.length) throw new Error('no data '+d.bn);
-    const candles=rows.map(k=>({t:k[0],o:+k[1]*fx,h:+k[2]*fx,l:+k[3]*fx,c:+k[4]*fx,v:+k[5]}));
-    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,k:1,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,
-      volume:+t.volume,stat:{o:+t.openPrice*fx,h:+t.highPrice*fx,l:+t.lowPrice*fx},depth:null};
+    out[d.sym]=makeAsset(d, rows.map(k=>({t:k[0],o:+k[1]*fx,h:+k[2]*fx,l:+k[3]*fx,c:+k[4]*fx,v:+k[5]})),
+      {src:'binance', volume:+t.volume, stat:{o:+t.openPrice*fx,h:+t.highPrice*fx,l:+t.lowPrice*fx}});
   });
+  return out;
+}
+async function loadUS(){   // Finnhub ผ่านเซิร์ฟเวอร์ของเรา (key อยู่ที่เซิร์ฟเวอร์) — ราคาจริง แต่กราฟย้อนหลังจำลองให้จบที่ราคาจริง
+  if(location.protocol==='file:') return null;
+  const j=await fetchJSON('api/quotes?market=us',5000);
+  if(!j || !j.available) return null;
+  const fx=MARKET.fxr.USD, out={};
+  ASSET_DEFS.filter(d=>d.mkt==='us').forEach(d=>{ const q=j.quotes[d.sym]; if(!q) return;
+    out[d.sym]=makeAsset(d, seedTo(d, q.c*fx), {src:'finnhub', stat:{o:q.o*fx,h:q.h*fx,l:q.l*fx}}); });
+  return Object.keys(out).length?out:null;
+}
+function startUsPoll(){
+  clearInterval(MARKET.usTimer);
+  MARKET.usTimer=setInterval(async()=>{
+    if(!S.assets || document.hidden) return;
+    try{
+      const j=await fetchJSON('api/quotes?market=us',5000); if(!j || !j.available) return;
+      const minute=Math.floor(Date.now()/CANDLE_MS)*CANDLE_MS;
+      S.assets.filter(a=>a.src==='finnhub').forEach(a=>{ const q=j.quotes[a.sym]; if(!q) return;
+        const fx=MARKET.fxr.USD*(a.k||1), p=q.c*fx, last=a.candles[a.candles.length-1];
+        if(minute>last.t){ a.candles.push({t:minute,o:last.c,h:Math.max(last.c,p),l:Math.min(last.c,p),c:p,v:0}); if(a.candles.length>N_MAX) a.candles.shift(); }
+        else { last.c=p; if(p>last.h) last.h=p; if(p<last.l) last.l=p; }
+        a.dir=p>=a.price?1:-1; a.price=p; a.stat={o:q.o*fx,h:q.h*fx,l:q.l*fx};
+      });
+    }catch{}
+  },15000);
 }
 function applyHold(assets){   // ใส่หุ้นที่ถืออยู่ (จากบัญชี/เครื่อง) กลับเข้าไป
   const h=MARKET.hold; MARKET.hold=null; if(!Array.isArray(h)) return;
   assets.forEach(a=>{ const x=h.find(y=>y.sym===a.sym); if(!x) return;
     a.units=x.units||0; a.entry=x.entry||0;
-    if(MARKET.mode==='sim' && x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
+    if(a.src==='sim' && x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
 }
+const srcLabel=a=>!a?'':a.src==='binance'?'ราคาจริงแบบเรียลไทม์ (Binance)'
+  :a.src==='finnhub'?'ราคาจริง (Finnhub) อัปเดตทุก 15 วิ · กราฟย้อนหลังจำลอง':'ข้อมูลจำลอง (ไม่มีแหล่งราคาฟรี)';
+const nativePx=a=>!a||a.cur==='THB'?'':'≈ '+(a.price/(MARKET.fxr[a.cur]||1)).toLocaleString('en-US',{maximumFractionDigits:a.price/(MARKET.fxr[a.cur]||1)<10?4:2})+' '+a.cur;
+const mktOf=k=>MARKETS.find(m=>m[0]===k)||MARKETS[0];
+const mktAssets=()=>S.assets?S.assets.map((a,i)=>[a,i]).filter(([a])=>a.mkt===(S.market||'crypto')):[];
+const mktTabs=()=>`<div class="mkt-tabs">${MARKETS.map(([k,l,f])=>{
+  const live=S.assets&&S.assets.some(a=>a.mkt===k&&a.src!=='sim');
+  return `<button class="mtab${(S.market||'crypto')===k?' on':''}" data-mkt="${k}"><span>${f}</span>${l}<i class="${live?'live':'sim'}">${live?'LIVE':'จำลอง'}</i></button>`; }).join('')}</div>`;
 function openStream(){
   closeStream();
-  const streams=ASSET_DEFS.flatMap(d=>{ const s=d.bn.toLowerCase(); return [s+'@kline_1m', s+'@miniTicker', s+'@depth10@1000ms']; }).join('/');
+  const streams=CRYPTO.flatMap(d=>{ const s=d.bn.toLowerCase(); return [s+'@kline_1m', s+'@miniTicker', s+'@depth10@1000ms']; }).join('/');
   let ws; try{ ws=new WebSocket(BN_WS+streams); }catch{ return; }
   MARKET.ws=ws;
   ws.onopen=()=>{ MARKET.wsTry=0; };
@@ -1075,7 +1157,7 @@ function openStream(){
   ws.onclose=()=>{ if(MARKET.ws!==ws) return; MARKET.ws=null;
     MARKET.wsTimer=setTimeout(()=>{ if(S.assets && MARKET.mode==='live') openStream(); }, Math.min(30000,1000*2**MARKET.wsTry++)); };
 }
-function closeStream(){ clearTimeout(MARKET.wsTimer); const ws=MARKET.ws; MARKET.ws=null; if(ws){ try{ ws.close(); }catch{} } }
+function closeStream(){ clearTimeout(MARKET.wsTimer); clearInterval(MARKET.usTimer); const ws=MARKET.ws; MARKET.ws=null; if(ws){ try{ ws.close(); }catch{} } }
 function onStream(msg){
   if(!S.assets) return;
   const d=msg.data||msg, stream=msg.stream||'', sym=String(d.s||stream.split('@')[0]).toUpperCase();
@@ -1097,29 +1179,31 @@ let marketLoading=false, liveTimer=null, tickCount=0;
 async function loadMarket(){
   if(S.assets || marketLoading) return;
   marketLoading=true;
-  let assets=null;
-  try{ assets=await loadLive(); MARKET.mode='live'; }
-  catch(e){ MARKET.mode='sim'; assets=buildAssets(); }
+  await loadFx();
+  const [crypto, us]=await Promise.all([loadCrypto().catch(()=>null), loadUS().catch(()=>null)]);
+  const assets=ASSET_DEFS.map(d=>(crypto&&crypto[d.sym]) || (us&&us[d.sym]) || simAsset(d));
+  MARKET.mode=crypto?'live':'sim';
   applyHold(assets);
   S.assets=assets; marketLoading=false;
   if(S.screen==='app') renderApp();
   startLive();
-  if(MARKET.mode==='live') openStream();
+  if(crypto) openStream();
+  if(us) startUsPoll();
 }
 function startLive(){ if(reduce || liveTimer) return; liveTimer=setInterval(liveTick,900); }
 function stopLive(){ if(liveTimer){ clearInterval(liveTimer); liveTimer=null; } }
-function liveTick(){
+function liveTick(){   // ราคาจริงมาจาก WebSocket/การดึงข้อมูล — เดินราคาเองเฉพาะสินทรัพย์จำลอง
   if(!S.assets) return;
-  if(MARKET.mode==='live'){ checkOrders(); drawChart(); refreshLive(); return; }   // ราคาจริงมาจาก WebSocket
-  S.assets.forEach(a=>{
+  const sims=S.assets.filter(a=>a.src==='sim');
+  sims.forEach(a=>{
     const cur=a.candles[a.candles.length-1];
-    const np=Math.max(0.01, a.price*(1+((Math.random()*2-1)*a.vol*0.09 + a.vol*0.004)));
+    const np=Math.max(0.0001, a.price*(1+((Math.random()*2-1)*a.vol*0.09 + a.vol*0.004)));
     a.dir = np>=a.price ? 1 : -1; a.price=np;
     cur.c=np; if(np>cur.h)cur.h=np; if(np<cur.l)cur.l=np;
     cur.v=(cur.v||0)+Math.round(Math.random()*30)/100;
     a.volume += Math.floor(Math.random()*6000);
   });
-  if(++tickCount%5===0){ S.assets.forEach(a=>{ const last=a.candles[a.candles.length-1];
+  if(++tickCount%5===0){ sims.forEach(a=>{ const last=a.candles[a.candles.length-1];
     a.candles.push({t:last.t+CANDLE_MS,o:a.price,h:a.price,l:a.price,c:a.price,v:0}); if(a.candles.length>N_MAX) a.candles.shift(); }); }
   checkOrders();
   drawChart(); refreshLive();
@@ -1234,14 +1318,14 @@ function viewHome(){
         <div class="d ${pnl>=0?'up':'down'}" id="pfPnl">${pnl>=0?'▲ ':'▼ '}${F(Math.abs(pnl))} ฿ (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
         <div class="chart-head">
           ${a?coin(a):''}
-          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>${MARKET.mode==='live'?'กราฟแท่งเทียน · ราคาจริงแบบเรียลไทม์ (Binance)':'กราฟแท่งเทียน · ข้อมูลจำลอง (เชื่อมต่อตลาดไม่ได้)'}</small>`:'กำลังโหลด...'}</div>
+          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>กราฟแท่งเทียน · ${srcLabel(a)}</small>`:'กำลังโหลด...'}</div>
           <div class="sp"></div>
-          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?(MARKET.mode==='live'?'<span class="live-dot"></span>LIVE':'⚙ จำลอง'):'⟳ กำลังเชื่อมต่อ'}</span>
+          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?(a&&a.src!=='sim'?'<span class="live-dot"></span>LIVE':'⚙ จำลอง'):'⟳ กำลังเชื่อมต่อ'}</span>
         </div>
         ${S.assets?chartTools():''}
         <div class="chartwrap"><canvas id="chart"></canvas></div>
         <div class="chart-foot">
-          <span>${!S.assets?'⟳ กำลังเชื่อมต่อตลาด...':MARKET.mode==='live'?'ราคาจริงจากตลาด แปลงเป็นบาท (1 USD ≈ '+MARKET.fx.toFixed(2)+' ฿)':'ข้อมูลจำลอง ไม่ได้เชื่อมต่อตลาดจริง'}</span>
+          <span>${!S.assets||!a?'⟳ กำลังเชื่อมต่อตลาด...':(a.src==='sim'?'ข้อมูลจำลอง · ':'ราคาจริง · ')+(a.cur==='THB'?'สกุลเงินบาท':'แปลงเป็นบาท (1 '+a.cur+' ≈ '+MARKET.fxr[a.cur].toFixed(a.cur==='JPY'?4:2)+' ฿)')}</span>
           <span id="livePrice"></span>
         </div>
       </div>
@@ -1253,8 +1337,10 @@ function viewHome(){
       <div class="promo"><span class="em">${icon('bot')}</span><div>ระบบ AI ทำกำไรให้คุณอัตโนมัติ 24 ชม. วันนี้ตลาดดีเป็นพิเศษ <b style="color:var(--green)">+3.2%</b></div></div>
     </div>
     <div class="dash-side">
-      <div class="sec-t">วอทช์ลิสต์ · แตะเพื่อเลือกสินทรัพย์</div>
-      <div class="holdings">${S.assets?S.assets.map(assetRow).join(''):'<div class="empty">กำลังโหลด...</div>'}</div>
+      <div class="sec-t">เลือกตลาด</div>
+      ${mktTabs()}
+      <div class="sec-t">วอทช์ลิสต์ · ${mktOf(S.market||'crypto')[1]}</div>
+      <div class="holdings">${S.assets?mktAssets().map(([x,i])=>assetRow(x,i)).join(''):'<div class="empty">กำลังโหลดราคาตลาด...</div>'}</div>
     </div>
   </div>`;
 }
@@ -1262,7 +1348,8 @@ function viewTrade(){
   const a=A(); if(!a) return '<div class="empty">กำลังโหลดข้อมูลตลาด...</div>';
   const chg=chg24(a), uP=a.units*(a.price-a.entry), uPct=a.entry>0?((a.price-a.entry)/a.entry*100):0, lim=S.orderType==='limit';
   return `
-  <div class="asset-tabs">${S.assets.map((x,i)=>`<div class="atab${i===S.sel?' sel':''}" data-sel="${i}">${coin(x,'xs')}${x.sym}<span id="px-${x.sym}">${fmtPx(x.price)}</span></div>`).join('')}</div>
+  ${mktTabs()}
+  <div class="asset-tabs">${mktAssets().map(([x,i])=>`<div class="atab${i===S.sel?' sel':''}" data-sel="${i}">${coin(x,'xs')}${x.sym}<span id="px-${x.sym}">${fmtPx(x.price)}</span></div>`).join('')}</div>
 
   <div class="card mkt-head">
     <div class="mkt-main">
@@ -1270,7 +1357,9 @@ function viewTrade(){
       <div>
         <div class="mkt-sym">${a.sym} <span>· ${a.name}</span></div>
         <div class="mkt-price" id="mktPrice">${fmtPx(a.price)} ฿</div>
+        ${a.cur!=='THB'?`<div class="src-note mono" id="mktNative">${nativePx(a)}</div>`:''}
         <div class="mkt-chg pill ${chg>=0?'up':'down'}" id="mktChg">${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}% วันนี้</div>
+        <div class="src-note">${a.src!=='sim'?'🟢 ':'⚙ '}${srcLabel(a)}</div>
       </div>
     </div>
     <div class="mkt-stats">
@@ -1606,7 +1695,7 @@ function refreshLive(){
       mp.classList.remove('flash-up','flash-down'); void mp.offsetWidth; mp.classList.add(a.dir>=0?'flash-up':'flash-down'); }
     const ch=chg24(a), chEl=document.getElementById('mktChg');
     if(chEl){ chEl.textContent=(ch>=0?'▲':'▼')+' '+Math.abs(ch).toFixed(2)+'% วันนี้'; chEl.className='mkt-chg pill '+(ch>=0?'up':'down'); }
-    set('mktHi',fmtPx(hi24(a))); set('mktLo',fmtPx(lo24(a))); set('mktVol',F0(a.volume));
+    set('mktNative', nativePx(a)); set('mktHi',fmtPx(hi24(a))); set('mktLo',fmtPx(lo24(a))); set('mktVol',F0(a.volume));
     set('mktBid',fmtPx(bid(a))); set('mktAsk',fmtPx(ask(a))); set('bookMid',fmtPx(a.price));
     renderBook(a);
     // position live
@@ -1726,6 +1815,8 @@ function bindTabEvents(){
   const lo=g('logoutBtn'); if(lo) lo.onclick=()=>logout();
   // เลือกสินทรัพย์จากวอทช์ลิสต์ (มีได้ทั้งหน้าหลักและหน้าเทรด)
   document.querySelectorAll('[data-sel]').forEach(r=>r.onclick=()=>{ S.sel=+r.dataset.sel; renderApp(); });
+  document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{
+    S.market=b.dataset.mkt; const first=mktAssets()[0]; if(first) S.sel=first[1]; HOVER=null; renderApp(); });
   if(S.tab==='trade'){
     document.querySelectorAll('[data-otype]').forEach(t=>t.onclick=()=>{ S.orderType=t.dataset.otype; renderApp(); });
     document.querySelectorAll('[data-pct]').forEach(c=>c.onclick=()=>{ g('ordAmt').value=Math.floor(S.cash*parseFloat(c.dataset.pct)); });
@@ -1812,7 +1903,7 @@ function freshUser(name){
   stopSync(); stopLive(); closeStream(); MARKET.hold=null;
   Object.assign(NET,{joined:false,ptoken:'',chat:[],chatLast:0,unread:0,vip:false,revealed:false,epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
-    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต'});
+    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',market:'crypto'});
 }
 function restoreSaved(st){   // เข้าสู่ระบบจากเครื่องใหม่: เอาพอร์ตที่บันทึกไว้ในบัญชีกลับมา
   if(!st || st.v!==1) return;
