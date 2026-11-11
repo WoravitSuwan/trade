@@ -587,6 +587,7 @@
   .chat-fab svg{width:25px;height:25px;stroke-width:2.2}
   .chat-fab b{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--red);color:#fff;font:700 11px var(--mono);display:grid;place-items:center}
   @media (min-width:900px){ .chat-fab{right:30px;bottom:30px} }
+  @media (max-width:899px){ #app .content{padding-bottom:86px} }
 
   /* ---------- deposit: payment methods + PromptPay QR (fake, crossed out) ---------- */
   .pay-methods{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;margin-bottom:14px}
@@ -772,7 +773,7 @@
 
   <div class="bg-fx" aria-hidden="true"><div class="grid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 
-  <div class="edu-ribbon">🎓 <b>สื่อสาธิตเพื่อการศึกษา</b> ไม่ใช่เว็บลงทุนจริง • ทุกตัวเลขเป็นของปลอม สำหรับสอนให้รู้ทันมิจฉาชีพ</div>
+  <div class="edu-ribbon">🎓 <b>สื่อสาธิตเพื่อการศึกษา</b> ไม่ใช่เว็บลงทุนจริง • ยอดเงินทั้งหมดเป็นของปลอม (ราคาตลาดอ้างอิงของจริง) สำหรับสอนให้รู้ทันมิจฉาชีพ</div>
 
   <div class="stage">
     <!-- LOGIN -->
@@ -780,7 +781,7 @@
       <div class="fchip fc1" aria-hidden="true"><span class="coin" style="--c:#f5c84c">G</span><div><b>GOLD</b><small>2,431.20</small></div><em class="up">+2.41%</em></div>
       <div class="fchip fc2" aria-hidden="true"><span class="coin" style="--c:#f7931a">B</span><div><b>BTC</b><small>96,820</small></div><em class="up">+5.08%</em></div>
       <div class="fchip fc3" aria-hidden="true"><span class="coin" style="--c:#7b8cff">E</span><div><b>ETH</b><small>3,612.40</small></div><em class="up">+3.74%</em></div>
-      <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#5ab0ff">D</span><div><b>DELTA</b><small>121.50</small></div><em class="up">+1.96%</em></div>
+      <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#22d68a">S</span><div><b>SOL</b><small>6,214.90</small></div><em class="up">+1.96%</em></div>
       <div class="login-card">
         <div class="brand-big">
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
@@ -1008,33 +1009,87 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const icon = (name, extra='') => `<svg class="i" ${extra}><use href="#i-${name}"/></svg>`;
 
 /* ---- สินทรัพย์ให้เลือกเทรด (แก้รายชื่อ/ราคาตั้งต้นได้ที่นี่) ---- */
-const ASSET_DEFS = [
-  {sym:'GOLD',  name:'ทองคำ AI',  col:'#f5c84c', base:2400,  vol:0.010},
-  {sym:'BTC',   name:'Bitcoin',   col:'#f7931a', base:95000, vol:0.018},
-  {sym:'ETH',   name:'Ethereum',  col:'#7b8cff', base:3500,  vol:0.020},
-  {sym:'PTT',   name:'ปตท.',      col:'#22d68a', base:35,    vol:0.013},
-  {sym:'DELTA', name:'เดลต้า',    col:'#5ab0ff', base:118,   vol:0.016},
+const ASSET_DEFS = [   // bn = คู่เทรดบน Binance (ราคาจริง) · base = ราคาตั้งต้น USD ใช้ตอนเชื่อมต่อตลาดไม่ได้
+  {sym:'GOLD', name:'ทองคำ (PAXG)', col:'#f5c84c', bn:'PAXGUSDT', base:3300,  vol:0.006},
+  {sym:'BTC',  name:'Bitcoin',      col:'#f7931a', bn:'BTCUSDT',  base:95000, vol:0.012},
+  {sym:'ETH',  name:'Ethereum',     col:'#7b8cff', bn:'ETHUSDT',  base:3500,  vol:0.015},
+  {sym:'SOL',  name:'Solana',       col:'#22d68a', bn:'SOLUSDT',  base:180,   vol:0.018},
+  {sym:'XRP',  name:'XRP',          col:'#5ab0ff', bn:'XRPUSDT',  base:2.4,   vol:0.018},
 ];
-const N_HIST=600, N_MAX=900, CANDLE_MS=60000;   // แท่งพื้นฐาน = 1 นาที (ตลาดจำลองเดินเร็วกว่าเวลาจริง)
+const N_HIST=600, N_MAX=1000, CANDLE_MS=60000;   // แท่งพื้นฐาน = 1 นาที
+/* ตลาด: ราคาจริงจาก Binance (REST ประวัติ + WebSocket เรียลไทม์) แปลงเป็นบาท — ถ้าเชื่อมต่อไม่ได้ใช้ราคาจำลอง
+   a.k = ตัวคูณที่ผู้บรรยาย "ปั่น" ทับราคาจริง (แพลตฟอร์มหลอกแก้ตัวเลขที่แสดงได้ แม้กราฟจะมาจากตลาดจริง) */
+const MARKET={mode:'sim', fx:34, ws:null, wsTry:0, wsTimer:null, hold:null};
+const BN_REST='https://api.binance.com/api/v3', BN_WS='wss://stream.binance.com:9443/stream?streams=';
 function seedCandles(n, start, vol){
   const cs=[], s=vol*0.12, t0=Math.floor(Date.now()/CANDLE_MS)*CANDLE_MS-(n-1)*CANDLE_MS;
-  let p=start*0.93;
+  let p=start*0.97;
   for(let i=0;i<n;i++){
-    const o=p, c=Math.max(0.01, o*(1+(Math.random()-0.47)*s*2));
+    const o=p, c=Math.max(0.0001, o*(1+(Math.random()-0.47)*s*2));
     const h=Math.max(o,c)*(1+Math.random()*s*0.8), l=Math.min(o,c)*(1-Math.random()*s*0.8);
     const v=Math.round((0.35+Math.random()*1.3)*(1+Math.abs(c-o)/o/s)*1000)/100;
     cs.push({t:t0+i*CANDLE_MS,o,h,l,c,v}); p=c;
   }
   return cs;
 }
-function seedAround(def, price){   // สร้างประวัติราคาใหม่ให้จบที่ราคาที่บันทึกไว้
-  const cs=seedCandles(N_HIST, def.base||price, def.vol||0.012), k=price/cs[cs.length-1].c;
-  cs.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; });
-  return cs;
+function buildAssets(){   // ตลาดจำลอง (ใช้เมื่อดึงราคาจริงไม่ได้)
+  return ASSET_DEFS.map(d=>{ const candles=seedCandles(N_HIST,d.base*MARKET.fx,d.vol);
+    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,k:1,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,
+      volume:Math.floor(Math.random()*4e6+8e5),stat:null,depth:null}; });
 }
-function buildAssets(){
-  return ASSET_DEFS.map(d=>{ const candles=seedCandles(N_HIST,d.base,d.vol);
-    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,volume:Math.floor(Math.random()*4e6+8e5)}; });
+async function fetchJSON(url, ms=6000){
+  const c=new AbortController(), t=setTimeout(()=>c.abort(),ms);
+  try{ const r=await fetch(url,{signal:c.signal,cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }
+  finally{ clearTimeout(t); }
+}
+async function loadFx(){
+  try{ const j=await fetchJSON('https://open.er-api.com/v6/latest/USD',4000); const r=j&&j.rates&&j.rates.THB; if(r>20&&r<60) MARKET.fx=r; }catch{}
+}
+async function loadLive(){
+  await loadFx();
+  const fx=MARKET.fx, syms=ASSET_DEFS.map(d=>d.bn);
+  const [tick,...kl]=await Promise.all([
+    fetchJSON(`${BN_REST}/ticker/24hr?symbols=${encodeURIComponent(JSON.stringify(syms))}`),
+    ...ASSET_DEFS.map(d=>fetchJSON(`${BN_REST}/klines?symbol=${d.bn}&interval=1m&limit=${N_MAX}`))]);
+  return ASSET_DEFS.map((d,i)=>{
+    const t=(tick||[]).find(x=>x.symbol===d.bn), rows=kl[i]||[];
+    if(!t || !rows.length) throw new Error('no data '+d.bn);
+    const candles=rows.map(k=>({t:k[0],o:+k[1]*fx,h:+k[2]*fx,l:+k[3]*fx,c:+k[4]*fx,v:+k[5]}));
+    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,k:1,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,
+      volume:+t.volume,stat:{o:+t.openPrice*fx,h:+t.highPrice*fx,l:+t.lowPrice*fx},depth:null};
+  });
+}
+function applyHold(assets){   // ใส่หุ้นที่ถืออยู่ (จากบัญชี/เครื่อง) กลับเข้าไป
+  const h=MARKET.hold; MARKET.hold=null; if(!Array.isArray(h)) return;
+  assets.forEach(a=>{ const x=h.find(y=>y.sym===a.sym); if(!x) return;
+    a.units=x.units||0; a.entry=x.entry||0;
+    if(MARKET.mode==='sim' && x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
+}
+function openStream(){
+  closeStream();
+  const streams=ASSET_DEFS.flatMap(d=>{ const s=d.bn.toLowerCase(); return [s+'@kline_1m', s+'@miniTicker', s+'@depth10@1000ms']; }).join('/');
+  let ws; try{ ws=new WebSocket(BN_WS+streams); }catch{ return; }
+  MARKET.ws=ws;
+  ws.onopen=()=>{ MARKET.wsTry=0; };
+  ws.onmessage=e=>{ try{ onStream(JSON.parse(e.data)); }catch{} };
+  ws.onclose=()=>{ if(MARKET.ws!==ws) return; MARKET.ws=null;
+    MARKET.wsTimer=setTimeout(()=>{ if(S.assets && MARKET.mode==='live') openStream(); }, Math.min(30000,1000*2**MARKET.wsTry++)); };
+}
+function closeStream(){ clearTimeout(MARKET.wsTimer); const ws=MARKET.ws; MARKET.ws=null; if(ws){ try{ ws.close(); }catch{} } }
+function onStream(msg){
+  if(!S.assets) return;
+  const d=msg.data||msg, stream=msg.stream||'', sym=String(d.s||stream.split('@')[0]).toUpperCase();
+  const a=S.assets.find(x=>x.bn===sym); if(!a) return;
+  const fx=MARKET.fx*(a.k||1);
+  if(d.e==='kline'){
+    const k=d.k, c={t:k.t,o:+k.o*fx,h:+k.h*fx,l:+k.l*fx,c:+k.c*fx,v:+k.v}, last=a.candles[a.candles.length-1];
+    if(last && last.t===c.t) Object.assign(last,c);
+    else if(!last || c.t>last.t){ a.candles.push(c); if(a.candles.length>N_MAX) a.candles.shift(); }
+    a.dir=c.c>=a.price?1:-1; a.price=c.c;
+  } else if(d.e==='24hrMiniTicker'){ a.stat={o:+d.o*fx,h:+d.h*fx,l:+d.l*fx}; a.volume=+d.v; }
+  else if(stream.includes('@depth')){
+    a.depth={asks:(d.asks||[]).slice(0,5).map(([p,q])=>[+p*fx,+q]), bids:(d.bids||[]).slice(0,5).map(([p,q])=>[+p*fx,+q])};
+  }
 }
 const A = () => (S.assets ? S.assets[S.sel] : null);
 const fmtPx = p => p>=1000 ? F0(p) : p.toFixed(2);
@@ -1042,16 +1097,20 @@ let marketLoading=false, liveTimer=null, tickCount=0;
 async function loadMarket(){
   if(S.assets || marketLoading) return;
   marketLoading=true;
-  await new Promise(r=>setTimeout(r, reduce?0:320));   // จำลอง latency ของ API
-  S.assets = buildAssets();
-  marketLoading=false;
-  if(S.screen==='app' && (S.tab==='home'||S.tab==='trade')) renderApp();
+  let assets=null;
+  try{ assets=await loadLive(); MARKET.mode='live'; }
+  catch(e){ MARKET.mode='sim'; assets=buildAssets(); }
+  applyHold(assets);
+  S.assets=assets; marketLoading=false;
+  if(S.screen==='app') renderApp();
   startLive();
+  if(MARKET.mode==='live') openStream();
 }
 function startLive(){ if(reduce || liveTimer) return; liveTimer=setInterval(liveTick,900); }
 function stopLive(){ if(liveTimer){ clearInterval(liveTimer); liveTimer=null; } }
 function liveTick(){
   if(!S.assets) return;
+  if(MARKET.mode==='live'){ checkOrders(); drawChart(); refreshLive(); return; }   // ราคาจริงมาจาก WebSocket
   S.assets.forEach(a=>{
     const cur=a.candles[a.candles.length-1];
     const np=Math.max(0.01, a.price*(1+((Math.random()*2-1)*a.vol*0.09 + a.vol*0.004)));
@@ -1067,7 +1126,9 @@ function liveTick(){
 }
 function injectJump(pct){   // ปั่นราคา → สินทรัพย์ที่เลือกกระชากขึ้น
   const a=A(); if(!a) return;
-  a.price*=(1+pct); const cur=a.candles[a.candles.length-1];
+  a.price*=(1+pct); a.k=(a.k||1)*(1+pct); const cur=a.candles[a.candles.length-1];
+  if(a.depth) a.depth={asks:a.depth.asks.map(([p,q])=>[p*(1+pct),q]), bids:a.depth.bids.map(([p,q])=>[p*(1+pct),q])};
+  if(a.stat) a.stat={...a.stat,h:Math.max(a.stat.h,a.price)};
   cur.c=a.price; if(a.price>cur.h)cur.h=a.price; cur.v=(cur.v||0)*3+40; a.dir=1;
   drawChart(); refreshLive();
 }
@@ -1125,10 +1186,11 @@ const pfValue   = () => S.cash + (S.assets ? S.assets.reduce((s,a)=>s+a.units*a.
 const holdValue = () => S.assets ? S.assets.reduce((s,a)=>s+a.units*a.price,0) : 0;
 const unrealAll = () => S.assets ? S.assets.reduce((s,a)=>s+a.units*(a.price-a.entry),0) : 0;
 const feeRate=0.001, spreadPct=0.0005;                 // ค่าธรรมเนียม 0.10% · สเปรด 0.05%
-const ask=a=>a.price*(1+spreadPct), bid=a=>a.price*(1-spreadPct);
-const chg24=a=>{const o=a.candles[0].o; return (a.price-o)/o*100;};
-const hi24=a=>Math.max(...a.candles.map(c=>c.h));
-const lo24=a=>Math.min(...a.candles.map(c=>c.l));
+const ask=a=>a.depth&&a.depth.asks.length?a.depth.asks[0][0]:a.price*(1+spreadPct);
+const bid=a=>a.depth&&a.depth.bids.length?a.depth.bids[0][0]:a.price*(1-spreadPct);
+const chg24=a=>{const o=a.stat?a.stat.o:a.candles[0].o; return (a.price-o)/o*100;};
+const hi24=a=>a.stat?Math.max(a.stat.h,a.price):Math.max(...a.candles.map(c=>c.h));
+const lo24=a=>a.stat?Math.min(a.stat.l,a.price):Math.min(...a.candles.map(c=>c.l));
 const coin=(a,cls='')=>`<span class="coin ${cls}" style="--c:${a.col}">${a.sym[0]}</span>`;
 function sparkPaths(a){
   const cs=a.candles.slice(-60).map(c=>c.c), hi=Math.max(...cs), lo=Math.min(...cs), rg=(hi-lo)||1, n=cs.length-1;
@@ -1136,7 +1198,9 @@ function sparkPaths(a){
   const line='M'+pts.map(p=>p.join(',')).join('L');
   return [line, line+'L64,26L0,26Z'];
 }
-function bookRows(a){ const asks=[],bids=[],s=spreadPct;
+function bookRows(a){
+  if(a.depth && a.depth.asks.length && a.depth.bids.length) return {asks:[...a.depth.asks].reverse(), bids:a.depth.bids};   // ความลึกตลาดจริง
+  const asks=[],bids=[],s=spreadPct;
   for(let i=5;i>=1;i--) asks.push([a.price*(1+s*i*1.8), Math.random()*3+0.2]);
   for(let i=1;i<=5;i++) bids.push([a.price*(1-s*i*1.8), Math.random()*3+0.2]);
   return {asks,bids}; }
@@ -1170,14 +1234,14 @@ function viewHome(){
         <div class="d ${pnl>=0?'up':'down'}" id="pfPnl">${pnl>=0?'▲ ':'▼ '}${F(Math.abs(pnl))} ฿ (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
         <div class="chart-head">
           ${a?coin(a):''}
-          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>กราฟแท่งเทียน · ราคาเรียลไทม์จาก API จำลอง</small>`:'กำลังโหลด...'}</div>
+          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>${MARKET.mode==='live'?'กราฟแท่งเทียน · ราคาจริงแบบเรียลไทม์ (Binance)':'กราฟแท่งเทียน · ข้อมูลจำลอง (เชื่อมต่อตลาดไม่ได้)'}</small>`:'กำลังโหลด...'}</div>
           <div class="sp"></div>
-          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?'<span class="live-dot"></span>LIVE':'⟳ กำลังเชื่อมต่อ'}</span>
+          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?(MARKET.mode==='live'?'<span class="live-dot"></span>LIVE':'⚙ จำลอง'):'⟳ กำลังเชื่อมต่อ'}</span>
         </div>
         ${S.assets?chartTools():''}
         <div class="chartwrap"><canvas id="chart"></canvas></div>
         <div class="chart-foot">
-          <span>${S.assets?'ข้อมูลจำลอง ไม่ได้เชื่อมต่อตลาดจริง':'⟳ กำลังเชื่อมต่อ API ตลาด...'}</span>
+          <span>${!S.assets?'⟳ กำลังเชื่อมต่อตลาด...':MARKET.mode==='live'?'ราคาจริงจากตลาด แปลงเป็นบาท (1 USD ≈ '+MARKET.fx.toFixed(2)+' ฿)':'ข้อมูลจำลอง ไม่ได้เชื่อมต่อตลาดจริง'}</span>
           <span id="livePrice"></span>
         </div>
       </div>
@@ -1622,7 +1686,7 @@ function pump(pct=0.2, msg='ปั่นราคาพุ่ง +20% (โหม
   injectJump(pct);
   S.tab='home'; if(S.screen==='app') renderApp(); toast(msg);
 }
-function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],bank:S.bankStart||5000}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
+function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); closeStream(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],bank:S.bankStart||5000}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
 function renderUsers(){
   const cur={name:S.userName+' (คุณ — ผู้ใช้ปัจจุบัน)',phone:S.userPhone,bal:pfValue(),inv:S.deposited,st:'ออนไลน์',me:true};
   const all=[cur,...SEED_USERS];
@@ -1745,7 +1809,7 @@ function snapshotState(){
     assets:S.assets?S.assets.map(a=>({sym:a.sym,units:a.units,entry:a.entry,price:a.price})):null};
 }
 function freshUser(name){
-  stopSync(); stopLive();
+  stopSync(); stopLive(); closeStream(); MARKET.hold=null;
   Object.assign(NET,{joined:false,ptoken:'',chat:[],chatLast:0,unread:0,vip:false,revealed:false,epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
     bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต'});
@@ -1755,12 +1819,7 @@ function restoreSaved(st){   // เข้าสู่ระบบจากเค
   Object.assign(S,{cash:r2(st.cash), deposited:st.deposited||0, sel:st.sel||0,
     tx:Array.isArray(st.tx)?st.tx:[], orders:Array.isArray(st.orders)?st.orders:[]});
   Object.assign(NET,{flow:st.flow||0, bonus:st.bonus||0, reqStatus:st.reqStatus||{}});
-  if(Array.isArray(st.assets)){
-    S.assets=buildAssets();
-    S.assets.forEach(a=>{ const x=st.assets.find(y=>y.sym===a.sym); if(!x) return;
-      a.units=x.units||0; a.entry=x.entry||0;
-      if(x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
-  }
+  if(Array.isArray(st.assets)){ MARKET.hold=st.assets; S.assets=null; }
 }
 function beginSession(j, isNew){
   NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
@@ -2432,7 +2491,7 @@ async function start(){
       const j=await api('api/room',{action:'session',token:saved.net.ptoken});
       freshUser(saved.S.userName);
       Object.assign(S, saved.S, {presenter:false});
-      if(S.assets) S.assets=S.assets.map(a=>({...a, candles:seedAround(ASSET_DEFS.find(d=>d.sym===a.sym)||a, a.price)}));
+      if(S.assets){ MARKET.hold=S.assets.map(({sym,units,entry,price})=>({sym,units,entry,price})); S.assets=null; }
       Object.assign(NET, saved.net);
       beginSession({...j, token:saved.net.ptoken}, false);
     }catch(e){
