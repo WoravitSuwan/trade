@@ -14,8 +14,9 @@ module.exports = handle(async (req, res) => {
     case 'signup': return res.status(200).json(await room.signup(b.name, b.pass));
     case 'login': return res.status(200).json(await room.login(b.user, b.pass, clientIp(req)));
     case 'session': return res.status(200).json(await room.session(b.token));
-    case 'sync': return res.status(200).json(await room.sync(b.token, b.since, b.report));
-    case 'deposit': return res.status(200).json(await room.deposit(b.token, b.amount));
+    case 'sync': return res.status(200).json(await room.sync(b.token, b.since, b.report, b.chatSince));
+    case 'chat': return res.status(200).json(await room.chatPost(b.token, b.text, b.as, b.teach));
+    case 'deposit': return res.status(200).json(await room.deposit(b.token, b.amount, b.method));
     case 'withdraw': return res.status(200).json(await room.withdraw(b.token, b.amount));
     case 'paytax': return res.status(200).json(await room.payTax(b.token, b.requestId));
     default: return res.status(400).json({ error: 'action ไม่ถูกต้อง' });

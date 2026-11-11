@@ -490,6 +490,141 @@
   .preset{font-family:var(--sans)!important;flex:1 1 230px!important;text-align:left;line-height:1.5}
   @media (max-width:600px){ .rq{flex-wrap:wrap} .rq .acts{width:100%;justify-content:flex-start;padding-left:46px} .ap-body{padding:14px} }
 
+  /* ---------- admin dashboard page ---------- */
+  body.adm .stage{max-width:none!important;border:none!important;box-shadow:none!important}
+  #admin{background:linear-gradient(180deg,rgba(6,10,19,.82),rgba(6,10,19,.95))}
+  .adm-top{flex:0 0 auto;display:flex;align-items:center;gap:10px;flex-wrap:wrap;padding:10px 14px;border-bottom:1px solid var(--line);
+    background:rgba(10,15,27,.88);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px)}
+  .adm-top .nm{font-weight:700;font-size:15.5px;line-height:1.2}
+  .adm-top .nm small{display:block;font-size:11px;color:var(--faint);font-weight:500}
+  .adm-top .sp{flex:1}
+  .adm-btns{display:flex;gap:8px;flex-wrap:wrap}
+  .adm-btn{display:inline-flex;align-items:center;gap:6px;padding:8px 12px;border-radius:10px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.03);font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap;transition:all .15s}
+  .adm-btn svg{width:15px;height:15px}
+  .adm-btn:hover{border-color:var(--gold)} .adm-btn.danger:hover{border-color:var(--red);color:var(--red)}
+  #admin .ap-tabs{background:rgba(10,15,27,.6)}
+  #admin .ap-body{flex:1 1 auto;min-height:0}
+  @media (min-width:900px){
+    #admin.on{display:grid;grid-template-columns:240px minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);grid-template-areas:"top top" "nav main"}
+    .adm-top{grid-area:top;padding:12px 24px}
+    #admin .ap-tabs{grid-area:nav;flex-direction:column;border-bottom:none;border-right:1px solid var(--line);padding:18px 12px;overflow:visible}
+    #admin .ap-tab{width:100%;padding:12px 14px;font-size:14px}
+    #admin .ap-body{grid-area:main;padding:24px 30px 40px}
+    #admin .ap-body>*{max-width:1200px}
+  }
+  .grant{padding:16px;margin-bottom:14px;display:grid;gap:12px}
+  .grant-kinds{display:grid;grid-template-columns:repeat(4,1fr);gap:8px}
+  .gk{display:flex;flex-direction:column;align-items:center;gap:4px;padding:11px 6px;border-radius:13px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.03);color:var(--dim);font-size:13px;font-weight:700;transition:all .15s}
+  .gk span{font-size:21px}
+  .gk:hover{border-color:rgba(245,200,76,.5)}
+  .gk.on{border-color:var(--gold);background:rgba(245,200,76,.12);color:var(--gold);box-shadow:0 0 18px -8px var(--gold)}
+  .grant-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .grant-row .chips{margin:8px 0 0}
+  .grant-row textarea.ap-in{min-height:88px}
+  .glab{display:block;font-size:12px;color:var(--dim);margin-bottom:6px}
+  .grant-go{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+  .gsel{font-size:13px;font-weight:700;color:var(--gold)}
+  .gbtns{display:flex;gap:8px;flex-wrap:wrap}
+  .gbtns .btn{width:auto;padding:11px 18px;margin:0}
+  .ulist-head{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:4px 4px 8px}
+  .pick{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;color:var(--dim);cursor:pointer;flex:0 0 auto}
+  .pick input{width:19px;height:19px;accent-color:var(--gold);cursor:pointer;margin:0}
+  .prow.picked{border-color:rgba(245,200,76,.6);background:linear-gradient(90deg,rgba(245,200,76,.09),transparent),var(--panel)}
+  .pd-acts{display:flex;gap:8px;padding:8px 0 4px}
+  .badge.vip{background:rgba(245,200,76,.16);color:var(--gold)}
+  .vip-chip{display:inline-block;vertical-align:middle;margin-left:8px;font-size:12px;font-weight:700;padding:3px 10px;border-radius:999px;
+    background:linear-gradient(135deg,#ffe08a,var(--gold-2));color:#2a1a00;-webkit-text-fill-color:#2a1a00}
+  @media (max-width:640px){ .grant-kinds{grid-template-columns:repeat(2,1fr)} .grant-row{grid-template-columns:1fr} }
+  /* admin chat */
+  .ca{display:grid;grid-template-columns:300px minmax(0,1fr);gap:14px}
+  .ca-list{padding:6px;overflow-y:auto;max-height:620px}
+  .ca-item{display:flex;gap:10px;align-items:center;padding:10px;border-radius:12px;cursor:pointer;transition:background .15s}
+  .ca-item:hover{background:rgba(255,255,255,.035)} .ca-item.on{background:rgba(245,200,76,.1)}
+  .ca-item .mn{min-width:0;flex:1}
+  .ca-item .a{font-weight:600;font-size:13.5px}
+  .ca-item .b{font-size:11.5px;color:var(--faint);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .ca-thread{display:flex;flex-direction:column;height:620px;overflow:hidden}
+  .ca-head{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line);flex-wrap:wrap}
+  .ca-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+  .ca-input{display:flex;gap:8px;padding:10px;border-top:1px solid var(--line)}
+  .ca-input .btn{width:auto;padding:10px 20px;margin:0}
+  @media (max-width:760px){ .ca{grid-template-columns:1fr} .ca-list{max-height:230px} .ca-thread{height:520px} }
+
+  /* ---------- chat bubbles (user + admin) ---------- */
+  .cm{max-width:84%;display:flex;flex-direction:column}
+  .cm.me{align-self:flex-end;align-items:flex-end} .cm.them{align-self:flex-start}
+  .cm-b{padding:9px 13px;border-radius:15px;font-size:13.5px;line-height:1.55;white-space:pre-wrap;word-break:break-word}
+  .cm.me .cm-b{background:linear-gradient(135deg,#ffe08a,var(--gold-2));color:#2a1a00;border-bottom-right-radius:5px}
+  .cm.them .cm-b{background:var(--panel-3);border-bottom-left-radius:5px}
+  .cm.from-bot .cm-b{background:linear-gradient(135deg,#6d5bd0,#4c3fa6);color:#fff}
+  .cm.from-admin .cm-b{background:linear-gradient(135deg,#ffe08a,var(--gold-2));color:#2a1a00}
+  .cm-who{font-size:10.5px;color:var(--faint);margin:0 4px 3px}
+  .cm-t{font-size:10px;color:var(--faint);margin:3px 4px 0}
+  .cm.sys{align-self:center;max-width:92%;text-align:center;font-size:12px;line-height:1.55;color:var(--gold);
+    background:rgba(245,200,76,.08);border:1px solid rgba(245,200,76,.25);padding:7px 12px;border-radius:12px}
+  .cm-teach{margin-top:5px;max-width:100%;font-size:11.5px;line-height:1.5;color:#d6e6ff;background:var(--teach-bg);
+    border:1px solid rgba(96,165,250,.35);border-radius:10px;padding:6px 9px}
+  .typing span{display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--dim);margin:0 2px;animation:blink 1.2s infinite}
+  .typing span:nth-child(2){animation-delay:.2s} .typing span:nth-child(3){animation-delay:.4s}
+  @keyframes blink{0%,80%,100%{opacity:.25}40%{opacity:1}}
+  .chat-modal{width:min(440px,96vw);height:min(660px,88vh);max-height:none;padding:0;display:flex;flex-direction:column;overflow:hidden}
+  .chat-head{display:flex;align-items:center;gap:11px;padding:13px 14px;border-bottom:1px solid var(--line);background:rgba(10,15,27,.6)}
+  .chat-head .x{position:static;margin-left:auto}
+  .chat-head .meta{display:flex;align-items:center;gap:6px}
+  .chat-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:9px}
+  .chat-quick{display:flex;gap:6px;overflow-x:auto;padding:8px 12px;border-top:1px solid var(--line);scrollbar-width:none}
+  .chat-quick::-webkit-scrollbar{display:none}
+  .qchip{flex:0 0 auto;white-space:nowrap;padding:6px 11px;border-radius:999px;border:1px solid var(--line-2);background:rgba(255,255,255,.03);font-size:12px;color:var(--dim)}
+  .qchip:hover{border-color:var(--gold);color:var(--ink)}
+  .chat-input{display:flex;gap:8px;padding:10px 12px 12px}
+  .chat-input input{flex:1;min-width:0;padding:11px 13px;border-radius:12px;border:1px solid var(--line-2);background:rgba(6,10,19,.6);color:var(--ink);font:500 14px var(--sans);outline:none}
+  .chat-input input:focus{border-color:var(--gold)}
+  .chat-input .btn{width:auto;padding:10px 18px;margin:0}
+  .chat-fab{position:fixed;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:20;width:54px;height:54px;border-radius:50%;border:none;
+    display:grid;place-items:center;color:#2a1a00;background:linear-gradient(135deg,#ffe08a,var(--gold-2));box-shadow:0 14px 30px -10px rgba(245,200,76,.85)}
+  .chat-fab svg{width:25px;height:25px;stroke-width:2.2}
+  .chat-fab b{position:absolute;top:-3px;right:-3px;min-width:20px;height:20px;padding:0 5px;border-radius:999px;background:var(--red);color:#fff;font:700 11px var(--mono);display:grid;place-items:center}
+  @media (min-width:900px){ .chat-fab{right:30px;bottom:30px} }
+  @media (max-width:899px){ #app .content{padding-bottom:86px} }
+
+  /* ---------- deposit: payment methods + PromptPay QR (fake, crossed out) ---------- */
+  .pay-methods{display:grid;grid-template-columns:repeat(auto-fill,minmax(98px,1fr));gap:8px;margin-bottom:14px}
+  .pm{display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;border-radius:13px;border:1px solid var(--line-2);
+    background:rgba(255,255,255,.03);transition:all .15s;color:var(--ink)}
+  .pm b{font-size:12.5px} .pm small{font-size:10.5px;color:var(--faint)}
+  .pm:hover{border-color:rgba(245,200,76,.5)}
+  .pm.on{border-color:var(--gold);background:rgba(245,200,76,.1);box-shadow:0 0 16px -8px var(--gold)}
+  .pm-ic{width:36px;height:36px;border-radius:11px;display:grid;place-items:center;font:800 11px var(--sans);color:#fff;background:var(--c,#334155)}
+  .pm-ic.pp{background:linear-gradient(135deg,#1e3a8a,#0e7490);font-size:12px}
+  .pay-modal{width:min(420px,94vw)}
+  .pay-brand{display:flex;align-items:center;gap:11px;margin-bottom:14px}
+  .pay-amt{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;border-radius:13px;background:rgba(6,10,19,.5);border:1px solid var(--line);margin-bottom:14px}
+  .pay-amt span{font-size:12.5px;color:var(--dim)} .pay-amt b{font:600 22px var(--mono);color:var(--gold)}
+  .pay-qr{position:relative;width:min(240px,70vw);margin:0 auto 14px;padding:12px;background:#fff;border-radius:16px;overflow:hidden}
+  .pay-qr svg{display:block;width:100%;height:auto;opacity:.55;filter:blur(.4px)}
+  .pay-qr::before,.pay-qr::after{content:"";position:absolute;left:-10%;top:50%;width:120%;height:7px;background:#dc2626;border-radius:4px;box-shadow:0 0 0 2px #fff}
+  .pay-qr::before{transform:rotate(45deg)} .pay-qr::after{transform:rotate(-45deg)}
+  .pay-stamp{position:absolute;left:50%;top:50%;transform:translate(-50%,-50%) rotate(-8deg);z-index:2;background:#dc2626;color:#fff;
+    font-weight:800;font-size:14px;line-height:1.35;text-align:center;padding:7px 14px;border-radius:9px;border:3px solid #fff;box-shadow:0 6px 18px rgba(0,0,0,.35)}
+  .pay-info{display:grid;gap:7px;font-size:12.5px;margin-bottom:14px}
+  .pay-info>div{display:flex;justify-content:space-between;gap:10px}
+  .pay-info span{color:var(--faint)} .pay-info b{text-align:right}
+
+  /* ---------- market (country) tabs ---------- */
+  .mkt-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:2px 0}
+  .mkt-tabs::-webkit-scrollbar{display:none}
+  .mtab{flex:0 0 auto;display:inline-flex;align-items:center;gap:6px;padding:7px 11px;border-radius:999px;border:1px solid var(--line);
+    background:var(--panel);font-size:12.5px;font-weight:600;color:var(--dim);white-space:nowrap;transition:all .15s}
+  .mtab span{font-size:15px}
+  .mtab i{font-style:normal;font-size:9.5px;font-weight:700;padding:1px 6px;border-radius:999px}
+  .mtab i.live{background:rgba(34,214,138,.15);color:var(--green)} .mtab i.sim{background:rgba(148,163,184,.14);color:var(--faint)}
+  .mtab:hover{border-color:var(--line-2);color:var(--ink)}
+  .mtab.on{border-color:rgba(245,200,76,.7);background:rgba(245,200,76,.1);color:var(--ink)}
+  .src-note{font-size:11px;color:var(--faint);margin-top:3px}
+  @media (min-width:900px){ .mkt-tabs{flex-wrap:wrap;overflow:visible} }
+
   /* ---------- live room (QR join + presenter money controls) ---------- */
   body:not(.online) .net-only{display:none}
   body.online .offline-only{display:none}
@@ -651,7 +786,7 @@
 
   <div class="bg-fx" aria-hidden="true"><div class="grid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
 
-  <div class="edu-ribbon">🎓 <b>สื่อสาธิตเพื่อการศึกษา</b> ไม่ใช่เว็บลงทุนจริง • ทุกตัวเลขเป็นของปลอม สำหรับสอนให้รู้ทันมิจฉาชีพ</div>
+  <div class="edu-ribbon">🎓 <b>สื่อสาธิตเพื่อการศึกษา</b> ไม่ใช่เว็บลงทุนจริง • ยอดเงินทั้งหมดเป็นของปลอม (ราคาตลาดอ้างอิงของจริง) สำหรับสอนให้รู้ทันมิจฉาชีพ</div>
 
   <div class="stage">
     <!-- LOGIN -->
@@ -659,7 +794,7 @@
       <div class="fchip fc1" aria-hidden="true"><span class="coin" style="--c:#f5c84c">G</span><div><b>GOLD</b><small>2,431.20</small></div><em class="up">+2.41%</em></div>
       <div class="fchip fc2" aria-hidden="true"><span class="coin" style="--c:#f7931a">B</span><div><b>BTC</b><small>96,820</small></div><em class="up">+5.08%</em></div>
       <div class="fchip fc3" aria-hidden="true"><span class="coin" style="--c:#7b8cff">E</span><div><b>ETH</b><small>3,612.40</small></div><em class="up">+3.74%</em></div>
-      <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#5ab0ff">D</span><div><b>DELTA</b><small>121.50</small></div><em class="up">+1.96%</em></div>
+      <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#22d68a">S</span><div><b>SOL</b><small>6,214.90</small></div><em class="up">+1.96%</em></div>
       <div class="login-card">
         <div class="brand-big">
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
@@ -748,6 +883,23 @@
           <div class="hot"><svg class="i"><use href="#i-call"/></svg>แจ้งเหตุ โทร 1441</div>
         </div>
       </nav>
+      <button class="chat-fab" id="chatFab" aria-label="ติดต่อแอดมิน"><svg class="i"><use href="#i-chat"/></svg><b id="chatBadge" hidden>0</b></button>
+    </section>
+
+    <!-- ADMIN DASHBOARD (เข้าด้วยบัญชีแอดมิน) -->
+    <section class="screen" id="admin">
+      <div class="adm-top">
+        <div class="logo sm"><svg class="i"><use href="#i-logo"/></svg></div>
+        <div class="nm">หลังบ้านแอดมิน · AI Gold Trade<small id="apSub">ห้องสาธิตสด</small></div>
+        <div class="sp"></div>
+        <div class="adm-btns">
+          <button class="adm-btn" id="admQr">📱 QR ให้ผู้ฟังสแกน</button>
+          <button class="adm-btn" id="admApp">👁 ดูหน้าแอปผู้ใช้</button>
+          <button class="adm-btn danger" id="admOut"><svg class="i"><use href="#i-back"/></svg>ออกจากระบบ</button>
+        </div>
+      </div>
+      <nav class="ap-tabs" id="apTabs"></nav>
+      <div class="ap-body" id="apBody"></div>
     </section>
   </div>
 
@@ -780,7 +932,7 @@
     <p>ระบบตรวจพบว่าต้องชำระค่าภาษีก่อนจึงจะปลดล็อกการถอนได้ กรุณา <b>ชำระค่าภาษีหรือติดต่อแอดมิน</b> ภายใน 24 ชม. มิฉะนั้นบัญชีจะถูกยึด</p>
     <button class="btn btn-gold" id="wPay" hidden></button>
     <div class="mini-note" id="wBank" hidden></div>
-    <button class="btn btn-gold" id="wLine" data-close><svg class="i"><use href="#i-chat"/></svg>ติดต่อแอดมิน (LINE: @ตัวอย่าง-ไม่มีจริง)</button>
+    <button class="btn btn-gold" id="wLine" data-close><svg class="i"><use href="#i-chat"/></svg>ติดต่อแอดมิน (แชท)</button>
     <div class="teach-tip" id="wTeach" style="display:none">💡 <span><b>จุดสอน:</b> นี่คือกับดักที่ชัดที่สุด — ของจริงไม่มีการให้ "จ่ายเพิ่มเพื่อถอนเงินตัวเอง" ถ้าเจอข้อความแบบนี้คือถูกหลอก 100% ให้หยุดโอน เก็บหลักฐาน แล้วโทร 1441</span></div>
   </div></div>
 
@@ -813,16 +965,6 @@
     <div class="teach-tip">💡 <span><b>จุดสอน:</b> ข้อมูลที่เหยื่อกรอกตอนสมัคร (ชื่อ เบอร์โทร) ตกอยู่ในมือมิจฉาชีพทั้งหมด และเขาเห็นว่าใครมีเงินเท่าไร เพื่อเลือกเป้าหมายที่จะรีดต่อ<span class="net-only"> — และแอดมินกด + / − เปลี่ยนตัวเลขยอดเงินของใครก็ได้ ตัวเลขบนจอจึงไม่ใช่เงินจริง</span><span class="offline-only"> — ข้อมูลตัวอย่างในนี้เป็นของสมมติเพื่อการสอน</span></span></div>
   </div></div>
 
-  <div class="ov" id="ovPanel"><div class="modal panel">
-    <div class="ap-head">
-      <div class="m-ic"><svg class="i"><use href="#i-sliders"/></svg></div>
-      <div><h3>หลังบ้านแอดมิน</h3><div class="meta" id="apSub">ห้องสาธิตสด</div></div>
-      <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
-    </div>
-    <div class="ap-tabs" id="apTabs"></div>
-    <div class="ap-body" id="apBody"></div>
-  </div></div>
-
   <div class="ov" id="ovNotice"><div class="modal">
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
     <div class="m-ic" style="--icbg:rgba(245,200,76,.14);--icfg:var(--gold);--icbd:rgba(245,200,76,.45)"><svg class="i"><use href="#i-chat"/></svg></div>
@@ -841,6 +983,35 @@
     <div class="qr-count"><span class="pdot on"></span>ผู้ฟังเข้าร่วมแล้ว <b id="qrCount">0</b> คน</div>
   </div></div>
 
+  <div class="ov" id="ovChat"><div class="modal chat-modal">
+    <div class="chat-head">
+      <div class="avatar me">🎧</div>
+      <div><b>ฝ่ายบริการลูกค้า AI Gold Trade</b>
+        <div class="meta"><span class="live-dot"></span>ออนไลน์ 24 ชม. · แชทจำลอง (บอทตอบอัตโนมัติเพื่อการสอน)</div></div>
+      <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs"></div>
+    <div class="chat-quick" id="chatQuick"></div>
+    <div class="chat-input"><input id="chatText" maxlength="300" placeholder="พิมพ์ข้อความถึงเจ้าหน้าที่..." autocomplete="off"><button class="btn btn-gold" id="chatSend">ส่ง</button></div>
+  </div></div>
+
+  <div class="ov" id="ovPay"><div class="modal pay-modal">
+    <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="pay-brand"><span class="pm-ic pp">QR</span><div><b>ชำระเงินผ่านพร้อมเพย์</b><div class="meta">Thai QR Payment · หน้าจำลอง</div></div></div>
+    <div class="pay-amt"><span>ยอดชำระ</span><b id="payAmt">0.00 ฿</b></div>
+    <div class="pay-qr"><div id="payQr"></div><div class="pay-stamp">QR ตัวอย่าง<br>ห้ามสแกน</div></div>
+    <div class="pay-info">
+      <div><span>ชื่อบัญชีผู้รับ</span><b>นาย สมมติ ตัวอย่าง</b></div>
+      <div><span>เลขอ้างอิง</span><b class="mono" id="payRef">—</b></div>
+      <div><span>ชำระภายใน</span><b class="mono" id="payT" style="color:var(--red)">15:00</b></div>
+      <div><span>ตัดเงินจาก</span><b id="payFrom">บัญชีธนาคารของคุณ (เงินจำลอง)</b></div>
+    </div>
+    <button class="btn btn-gold" id="payGo">ชำระเงินแล้ว</button>
+    <button class="btn btn-ghost" data-close>ยกเลิก</button>
+    <div class="mini-note">🔎 สาธิต: QR นี้เป็นภาพปลอมที่ขีดฆ่าไว้ สแกนไม่ได้และไม่มีการตัดเงินจริง — กด "ชำระเงินแล้ว" เพื่อจำลองว่าโอนสำเร็จ (หักจากบัญชีธนาคารจำลอง)</div>
+    <div class="teach-tip" id="payTeach" hidden>💡 <span><b>จุดสอน:</b> ชื่อบัญชีผู้รับเป็น "บุคคล" ไม่ตรงกับชื่อแพลตฟอร์ม = บัญชีม้า และยังเร่งด้วยเวลานับถอยหลัง — ก่อนโอนต้องตรวจชื่อบัญชีผู้รับทุกครั้ง</span></div>
+  </div></div>
+
   <div id="toast"></div>
 
 <script>
@@ -851,33 +1022,156 @@ const esc = s => String(s).replace(/[&<>"]/g,c=>({'&':'&amp;','<':'&lt;','>':'&g
 const icon = (name, extra='') => `<svg class="i" ${extra}><use href="#i-${name}"/></svg>`;
 
 /* ---- สินทรัพย์ให้เลือกเทรด (แก้รายชื่อ/ราคาตั้งต้นได้ที่นี่) ---- */
-const ASSET_DEFS = [
-  {sym:'GOLD',  name:'ทองคำ AI',  col:'#f5c84c', base:2400,  vol:0.010},
-  {sym:'BTC',   name:'Bitcoin',   col:'#f7931a', base:95000, vol:0.018},
-  {sym:'ETH',   name:'Ethereum',  col:'#7b8cff', base:3500,  vol:0.020},
-  {sym:'PTT',   name:'ปตท.',      col:'#22d68a', base:35,    vol:0.013},
-  {sym:'DELTA', name:'เดลต้า',    col:'#5ab0ff', base:118,   vol:0.016},
+/* ตลาดให้เลือกตามประเทศ — ตลาดที่มี API ฟรีใช้ราคาจริง ที่เหลือจำลองเอง
+   crypto: Binance (ฟรี ไม่ต้องใช้ key, เรียลไทม์) · us: Finnhub (ฟรีเมื่อใส่ FINNHUB_API_KEY บนเซิร์ฟเวอร์) · th/jp/hk: จำลอง */
+const MARKETS=[['crypto','คริปโต & ทองคำ','🪙'],['us','หุ้นสหรัฐฯ','🇺🇸'],['th','หุ้นไทย','🇹🇭'],['jp','หุ้นญี่ปุ่น','🇯🇵'],['hk','หุ้นฮ่องกง/จีน','🇭🇰']];
+const ASSET_DEFS = [   // base = ราคาตั้งต้น (สกุลเงินของตลาดนั้น) ใช้ตอนจำลอง
+  {mkt:'crypto', sym:'GOLD',  name:'ทองคำ (PAXG)', col:'#f5c84c', bn:'PAXGUSDT', cur:'USD', base:3300,  vol:0.006},
+  {mkt:'crypto', sym:'BTC',   name:'Bitcoin',      col:'#f7931a', bn:'BTCUSDT',  cur:'USD', base:95000, vol:0.012},
+  {mkt:'crypto', sym:'ETH',   name:'Ethereum',     col:'#7b8cff', bn:'ETHUSDT',  cur:'USD', base:3500,  vol:0.015},
+  {mkt:'crypto', sym:'SOL',   name:'Solana',       col:'#22d68a', bn:'SOLUSDT',  cur:'USD', base:180,   vol:0.018},
+  {mkt:'crypto', sym:'XRP',   name:'XRP',          col:'#5ab0ff', bn:'XRPUSDT',  cur:'USD', base:2.4,   vol:0.018},
+  {mkt:'us', sym:'AAPL',  name:'Apple',      col:'#a3aab8', cur:'USD', base:230, vol:0.006},
+  {mkt:'us', sym:'NVDA',  name:'NVIDIA',     col:'#76b900', cur:'USD', base:140, vol:0.010},
+  {mkt:'us', sym:'TSLA',  name:'Tesla',      col:'#e82127', cur:'USD', base:350, vol:0.012},
+  {mkt:'us', sym:'MSFT',  name:'Microsoft',  col:'#00a4ef', cur:'USD', base:430, vol:0.006},
+  {mkt:'us', sym:'AMZN',  name:'Amazon',     col:'#ff9900', cur:'USD', base:210, vol:0.008},
+  {mkt:'us', sym:'GOOGL', name:'Alphabet',   col:'#4285f4', cur:'USD', base:180, vol:0.008},
+  {mkt:'th', sym:'PTT',    name:'ปตท.',                 col:'#1e88e5', cur:'THB', base:34,  vol:0.006},
+  {mkt:'th', sym:'DELTA',  name:'เดลต้า อีเลคโทรนิคส์', col:'#5ab0ff', cur:'THB', base:120, vol:0.012},
+  {mkt:'th', sym:'AOT',    name:'ท่าอากาศยานไทย',       col:'#7e57c2', cur:'THB', base:55,  vol:0.007},
+  {mkt:'th', sym:'CPALL',  name:'ซีพี ออลล์',            col:'#22a854', cur:'THB', base:55,  vol:0.006},
+  {mkt:'th', sym:'KBANK',  name:'ธ.กสิกรไทย',           col:'#138f2d', cur:'THB', base:150, vol:0.006},
+  {mkt:'th', sym:'ADVANC', name:'แอดวานซ์ อินโฟร์',      col:'#9ccc00', cur:'THB', base:280, vol:0.005},
+  {mkt:'jp', sym:'7203', name:'Toyota',         col:'#eb0a1e', cur:'JPY', base:2900, vol:0.007},
+  {mkt:'jp', sym:'6758', name:'Sony',           col:'#cfd8dc', cur:'JPY', base:3200, vol:0.008},
+  {mkt:'jp', sym:'9984', name:'SoftBank Group', col:'#ffd600', cur:'JPY', base:9000, vol:0.012},
+  {mkt:'jp', sym:'7974', name:'Nintendo',       col:'#e60012', cur:'JPY', base:9000, vol:0.009},
+  {mkt:'hk', sym:'0700', name:'Tencent',  col:'#1aad19', cur:'HKD', base:480, vol:0.009},
+  {mkt:'hk', sym:'9988', name:'Alibaba',  col:'#ff6a00', cur:'HKD', base:120, vol:0.011},
+  {mkt:'hk', sym:'1810', name:'Xiaomi',   col:'#ff6900', cur:'HKD', base:45,  vol:0.012},
+  {mkt:'hk', sym:'0005', name:'HSBC',     col:'#db0011', cur:'HKD', base:90,  vol:0.006},
 ];
-const N_HIST=600, N_MAX=900, CANDLE_MS=60000;   // แท่งพื้นฐาน = 1 นาที (ตลาดจำลองเดินเร็วกว่าเวลาจริง)
+const N_HIST=600, N_MAX=1000, CANDLE_MS=60000;   // แท่งพื้นฐาน = 1 นาที
+/* a.src = ที่มาของราคา ('binance' | 'finnhub' | 'sim')
+   a.k   = ตัวคูณที่ผู้บรรยาย "ปั่น" ทับราคา (แพลตฟอร์มหลอกแก้ตัวเลขที่แสดงได้ แม้ราคาจะมาจากตลาดจริง) */
+const MARKET={mode:'sim', fx:34, fxr:{THB:1,USD:34,JPY:0.23,HKD:4.35}, ws:null, wsTry:0, wsTimer:null, usTimer:null, hold:null};
+const BN_REST='https://api.binance.com/api/v3', BN_WS='wss://stream.binance.com:9443/stream?streams=';
+const CRYPTO=ASSET_DEFS.filter(d=>d.bn);
 function seedCandles(n, start, vol){
   const cs=[], s=vol*0.12, t0=Math.floor(Date.now()/CANDLE_MS)*CANDLE_MS-(n-1)*CANDLE_MS;
-  let p=start*0.93;
+  let p=start*0.97;
   for(let i=0;i<n;i++){
-    const o=p, c=Math.max(0.01, o*(1+(Math.random()-0.47)*s*2));
+    const o=p, c=Math.max(0.0001, o*(1+(Math.random()-0.47)*s*2));
     const h=Math.max(o,c)*(1+Math.random()*s*0.8), l=Math.min(o,c)*(1-Math.random()*s*0.8);
     const v=Math.round((0.35+Math.random()*1.3)*(1+Math.abs(c-o)/o/s)*1000)/100;
     cs.push({t:t0+i*CANDLE_MS,o,h,l,c,v}); p=c;
   }
   return cs;
 }
-function seedAround(def, price){   // สร้างประวัติราคาใหม่ให้จบที่ราคาที่บันทึกไว้
-  const cs=seedCandles(N_HIST, def.base||price, def.vol||0.012), k=price/cs[cs.length-1].c;
+function seedTo(d, price){   // ประวัติจำลองที่จบตรงราคาที่กำหนด (ใช้กับหุ้นที่มีราคาจริงแต่ไม่มีกราฟย้อนหลังฟรี)
+  const cs=seedCandles(N_HIST, price, d.vol), k=price/cs[cs.length-1].c;
   cs.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; });
   return cs;
 }
-function buildAssets(){
-  return ASSET_DEFS.map(d=>{ const candles=seedCandles(N_HIST,d.base,d.vol);
-    return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,candles,price:candles[candles.length-1].c,units:0,entry:0,dir:1,volume:Math.floor(Math.random()*4e6+8e5)}; });
+function makeAsset(d, candles, extra){
+  return {sym:d.sym,name:d.name,col:d.col,vol:d.vol,bn:d.bn,mkt:d.mkt,cur:d.cur,k:1,candles,price:candles[candles.length-1].c,
+    units:0,entry:0,dir:1,volume:Math.floor(Math.random()*4e6+8e5),stat:null,depth:null,src:'sim',...extra};
+}
+const simAsset=d=>makeAsset(d, seedCandles(N_HIST, d.base*(MARKET.fxr[d.cur]||1), d.vol));
+function buildAssets(){ return ASSET_DEFS.map(simAsset); }
+async function fetchJSON(url, ms=6000){
+  const c=new AbortController(), t=setTimeout(()=>c.abort(),ms);
+  try{ const r=await fetch(url,{signal:c.signal,cache:'no-store'}); if(!r.ok) throw new Error('HTTP '+r.status); return await r.json(); }
+  finally{ clearTimeout(t); }
+}
+async function loadFx(){
+  try{
+    const r=(await fetchJSON('https://open.er-api.com/v6/latest/USD',4000)).rates;
+    if(r && r.THB>20 && r.THB<60){
+      MARKET.fx=r.THB;
+      MARKET.fxr={THB:1, USD:r.THB, JPY:r.JPY>0?r.THB/r.JPY:MARKET.fxr.JPY, HKD:r.HKD>0?r.THB/r.HKD:MARKET.fxr.HKD};
+    }
+  }catch{}
+}
+async function loadCrypto(){   // Binance: แท่ง 1 นาทีจริง + สถิติ 24 ชม.
+  const fx=MARKET.fx, syms=CRYPTO.map(d=>d.bn);
+  const [tick,...kl]=await Promise.all([
+    fetchJSON(`${BN_REST}/ticker/24hr?symbols=${encodeURIComponent(JSON.stringify(syms))}`),
+    ...CRYPTO.map(d=>fetchJSON(`${BN_REST}/klines?symbol=${d.bn}&interval=1m&limit=${N_MAX}`))]);
+  const out={};
+  CRYPTO.forEach((d,i)=>{
+    const t=(tick||[]).find(x=>x.symbol===d.bn), rows=kl[i]||[];
+    if(!t || !rows.length) throw new Error('no data '+d.bn);
+    out[d.sym]=makeAsset(d, rows.map(k=>({t:k[0],o:+k[1]*fx,h:+k[2]*fx,l:+k[3]*fx,c:+k[4]*fx,v:+k[5]})),
+      {src:'binance', volume:+t.volume, stat:{o:+t.openPrice*fx,h:+t.highPrice*fx,l:+t.lowPrice*fx}});
+  });
+  return out;
+}
+async function loadUS(){   // Finnhub ผ่านเซิร์ฟเวอร์ของเรา (key อยู่ที่เซิร์ฟเวอร์) — ราคาจริง แต่กราฟย้อนหลังจำลองให้จบที่ราคาจริง
+  if(location.protocol==='file:') return null;
+  const j=await fetchJSON('api/quotes?market=us',5000);
+  if(!j || !j.available) return null;
+  const fx=MARKET.fxr.USD, out={};
+  ASSET_DEFS.filter(d=>d.mkt==='us').forEach(d=>{ const q=j.quotes[d.sym]; if(!q) return;
+    out[d.sym]=makeAsset(d, seedTo(d, q.c*fx), {src:'finnhub', stat:{o:q.o*fx,h:q.h*fx,l:q.l*fx}}); });
+  return Object.keys(out).length?out:null;
+}
+function startUsPoll(){
+  clearInterval(MARKET.usTimer);
+  MARKET.usTimer=setInterval(async()=>{
+    if(!S.assets || document.hidden) return;
+    try{
+      const j=await fetchJSON('api/quotes?market=us',5000); if(!j || !j.available) return;
+      const minute=Math.floor(Date.now()/CANDLE_MS)*CANDLE_MS;
+      S.assets.filter(a=>a.src==='finnhub').forEach(a=>{ const q=j.quotes[a.sym]; if(!q) return;
+        const fx=MARKET.fxr.USD*(a.k||1), p=q.c*fx, last=a.candles[a.candles.length-1];
+        if(minute>last.t){ a.candles.push({t:minute,o:last.c,h:Math.max(last.c,p),l:Math.min(last.c,p),c:p,v:0}); if(a.candles.length>N_MAX) a.candles.shift(); }
+        else { last.c=p; if(p>last.h) last.h=p; if(p<last.l) last.l=p; }
+        a.dir=p>=a.price?1:-1; a.price=p; a.stat={o:q.o*fx,h:q.h*fx,l:q.l*fx};
+      });
+    }catch{}
+  },15000);
+}
+function applyHold(assets){   // ใส่หุ้นที่ถืออยู่ (จากบัญชี/เครื่อง) กลับเข้าไป
+  const h=MARKET.hold; MARKET.hold=null; if(!Array.isArray(h)) return;
+  assets.forEach(a=>{ const x=h.find(y=>y.sym===a.sym); if(!x) return;
+    a.units=x.units||0; a.entry=x.entry||0;
+    if(a.src==='sim' && x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
+}
+const srcLabel=a=>!a?'':a.src==='binance'?'ราคาจริงแบบเรียลไทม์ (Binance)'
+  :a.src==='finnhub'?'ราคาจริง (Finnhub) อัปเดตทุก 15 วิ · กราฟย้อนหลังจำลอง':'ข้อมูลจำลอง (ไม่มีแหล่งราคาฟรี)';
+const nativePx=a=>!a||a.cur==='THB'?'':'≈ '+(a.price/(MARKET.fxr[a.cur]||1)).toLocaleString('en-US',{maximumFractionDigits:a.price/(MARKET.fxr[a.cur]||1)<10?4:2})+' '+a.cur;
+const mktOf=k=>MARKETS.find(m=>m[0]===k)||MARKETS[0];
+const mktAssets=()=>S.assets?S.assets.map((a,i)=>[a,i]).filter(([a])=>a.mkt===(S.market||'crypto')):[];
+const mktTabs=()=>`<div class="mkt-tabs">${MARKETS.map(([k,l,f])=>{
+  const live=S.assets&&S.assets.some(a=>a.mkt===k&&a.src!=='sim');
+  return `<button class="mtab${(S.market||'crypto')===k?' on':''}" data-mkt="${k}"><span>${f}</span>${l}<i class="${live?'live':'sim'}">${live?'LIVE':'จำลอง'}</i></button>`; }).join('')}</div>`;
+function openStream(){
+  closeStream();
+  const streams=CRYPTO.flatMap(d=>{ const s=d.bn.toLowerCase(); return [s+'@kline_1m', s+'@miniTicker', s+'@depth10@1000ms']; }).join('/');
+  let ws; try{ ws=new WebSocket(BN_WS+streams); }catch{ return; }
+  MARKET.ws=ws;
+  ws.onopen=()=>{ MARKET.wsTry=0; };
+  ws.onmessage=e=>{ try{ onStream(JSON.parse(e.data)); }catch{} };
+  ws.onclose=()=>{ if(MARKET.ws!==ws) return; MARKET.ws=null;
+    MARKET.wsTimer=setTimeout(()=>{ if(S.assets && MARKET.mode==='live') openStream(); }, Math.min(30000,1000*2**MARKET.wsTry++)); };
+}
+function closeStream(){ clearTimeout(MARKET.wsTimer); clearInterval(MARKET.usTimer); const ws=MARKET.ws; MARKET.ws=null; if(ws){ try{ ws.close(); }catch{} } }
+function onStream(msg){
+  if(!S.assets) return;
+  const d=msg.data||msg, stream=msg.stream||'', sym=String(d.s||stream.split('@')[0]).toUpperCase();
+  const a=S.assets.find(x=>x.bn===sym); if(!a) return;
+  const fx=MARKET.fx*(a.k||1);
+  if(d.e==='kline'){
+    const k=d.k, c={t:k.t,o:+k.o*fx,h:+k.h*fx,l:+k.l*fx,c:+k.c*fx,v:+k.v}, last=a.candles[a.candles.length-1];
+    if(last && last.t===c.t) Object.assign(last,c);
+    else if(!last || c.t>last.t){ a.candles.push(c); if(a.candles.length>N_MAX) a.candles.shift(); }
+    a.dir=c.c>=a.price?1:-1; a.price=c.c;
+  } else if(d.e==='24hrMiniTicker'){ a.stat={o:+d.o*fx,h:+d.h*fx,l:+d.l*fx}; a.volume=+d.v; }
+  else if(stream.includes('@depth')){
+    a.depth={asks:(d.asks||[]).slice(0,5).map(([p,q])=>[+p*fx,+q]), bids:(d.bids||[]).slice(0,5).map(([p,q])=>[+p*fx,+q])};
+  }
 }
 const A = () => (S.assets ? S.assets[S.sel] : null);
 const fmtPx = p => p>=1000 ? F0(p) : p.toFixed(2);
@@ -885,32 +1179,40 @@ let marketLoading=false, liveTimer=null, tickCount=0;
 async function loadMarket(){
   if(S.assets || marketLoading) return;
   marketLoading=true;
-  await new Promise(r=>setTimeout(r, reduce?0:320));   // จำลอง latency ของ API
-  S.assets = buildAssets();
-  marketLoading=false;
-  if(S.screen==='app' && (S.tab==='home'||S.tab==='trade')) renderApp();
+  await loadFx();
+  const [crypto, us]=await Promise.all([loadCrypto().catch(()=>null), loadUS().catch(()=>null)]);
+  const assets=ASSET_DEFS.map(d=>(crypto&&crypto[d.sym]) || (us&&us[d.sym]) || simAsset(d));
+  MARKET.mode=crypto?'live':'sim';
+  applyHold(assets);
+  S.assets=assets; marketLoading=false;
+  if(S.screen==='app') renderApp();
   startLive();
+  if(crypto) openStream();
+  if(us) startUsPoll();
 }
 function startLive(){ if(reduce || liveTimer) return; liveTimer=setInterval(liveTick,900); }
 function stopLive(){ if(liveTimer){ clearInterval(liveTimer); liveTimer=null; } }
-function liveTick(){
+function liveTick(){   // ราคาจริงมาจาก WebSocket/การดึงข้อมูล — เดินราคาเองเฉพาะสินทรัพย์จำลอง
   if(!S.assets) return;
-  S.assets.forEach(a=>{
+  const sims=S.assets.filter(a=>a.src==='sim');
+  sims.forEach(a=>{
     const cur=a.candles[a.candles.length-1];
-    const np=Math.max(0.01, a.price*(1+((Math.random()*2-1)*a.vol*0.09 + a.vol*0.004)));
+    const np=Math.max(0.0001, a.price*(1+((Math.random()*2-1)*a.vol*0.09 + a.vol*0.004)));
     a.dir = np>=a.price ? 1 : -1; a.price=np;
     cur.c=np; if(np>cur.h)cur.h=np; if(np<cur.l)cur.l=np;
     cur.v=(cur.v||0)+Math.round(Math.random()*30)/100;
     a.volume += Math.floor(Math.random()*6000);
   });
-  if(++tickCount%5===0){ S.assets.forEach(a=>{ const last=a.candles[a.candles.length-1];
+  if(++tickCount%5===0){ sims.forEach(a=>{ const last=a.candles[a.candles.length-1];
     a.candles.push({t:last.t+CANDLE_MS,o:a.price,h:a.price,l:a.price,c:a.price,v:0}); if(a.candles.length>N_MAX) a.candles.shift(); }); }
   checkOrders();
   drawChart(); refreshLive();
 }
 function injectJump(pct){   // ปั่นราคา → สินทรัพย์ที่เลือกกระชากขึ้น
   const a=A(); if(!a) return;
-  a.price*=(1+pct); const cur=a.candles[a.candles.length-1];
+  a.price*=(1+pct); a.k=(a.k||1)*(1+pct); const cur=a.candles[a.candles.length-1];
+  if(a.depth) a.depth={asks:a.depth.asks.map(([p,q])=>[p*(1+pct),q]), bids:a.depth.bids.map(([p,q])=>[p*(1+pct),q])};
+  if(a.stat) a.stat={...a.stat,h:Math.max(a.stat.h,a.price)};
   cur.c=a.price; if(a.price>cur.h)cur.h=a.price; cur.v=(cur.v||0)*3+40; a.dir=1;
   drawChart(); refreshLive();
 }
@@ -944,7 +1246,9 @@ let S = {
 function show(scr){
   S.screen=scr;
   document.querySelectorAll('.screen').forEach(s=>s.classList.toggle('on', s.id===scr));
+  document.body.classList.toggle('adm', scr==='admin');
   if(scr==='app') renderApp();
+  if(typeof updChatBadge==='function') updChatBadge();
 }
 function renderApp(){
   document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.classList.toggle('on', b.dataset.tab===S.tab));
@@ -966,10 +1270,11 @@ const pfValue   = () => S.cash + (S.assets ? S.assets.reduce((s,a)=>s+a.units*a.
 const holdValue = () => S.assets ? S.assets.reduce((s,a)=>s+a.units*a.price,0) : 0;
 const unrealAll = () => S.assets ? S.assets.reduce((s,a)=>s+a.units*(a.price-a.entry),0) : 0;
 const feeRate=0.001, spreadPct=0.0005;                 // ค่าธรรมเนียม 0.10% · สเปรด 0.05%
-const ask=a=>a.price*(1+spreadPct), bid=a=>a.price*(1-spreadPct);
-const chg24=a=>{const o=a.candles[0].o; return (a.price-o)/o*100;};
-const hi24=a=>Math.max(...a.candles.map(c=>c.h));
-const lo24=a=>Math.min(...a.candles.map(c=>c.l));
+const ask=a=>a.depth&&a.depth.asks.length?a.depth.asks[0][0]:a.price*(1+spreadPct);
+const bid=a=>a.depth&&a.depth.bids.length?a.depth.bids[0][0]:a.price*(1-spreadPct);
+const chg24=a=>{const o=a.stat?a.stat.o:a.candles[0].o; return (a.price-o)/o*100;};
+const hi24=a=>a.stat?Math.max(a.stat.h,a.price):Math.max(...a.candles.map(c=>c.h));
+const lo24=a=>a.stat?Math.min(a.stat.l,a.price):Math.min(...a.candles.map(c=>c.l));
 const coin=(a,cls='')=>`<span class="coin ${cls}" style="--c:${a.col}">${a.sym[0]}</span>`;
 function sparkPaths(a){
   const cs=a.candles.slice(-60).map(c=>c.c), hi=Math.max(...cs), lo=Math.min(...cs), rg=(hi-lo)||1, n=cs.length-1;
@@ -977,7 +1282,9 @@ function sparkPaths(a){
   const line='M'+pts.map(p=>p.join(',')).join('L');
   return [line, line+'L64,26L0,26Z'];
 }
-function bookRows(a){ const asks=[],bids=[],s=spreadPct;
+function bookRows(a){
+  if(a.depth && a.depth.asks.length && a.depth.bids.length) return {asks:[...a.depth.asks].reverse(), bids:a.depth.bids};   // ความลึกตลาดจริง
+  const asks=[],bids=[],s=spreadPct;
   for(let i=5;i>=1;i--) asks.push([a.price*(1+s*i*1.8), Math.random()*3+0.2]);
   for(let i=1;i<=5;i++) bids.push([a.price*(1-s*i*1.8), Math.random()*3+0.2]);
   return {asks,bids}; }
@@ -1001,7 +1308,7 @@ const chartTools=()=>`<div class="chart-tools"><div class="tfs">${Object.keys(TF
 function viewHome(){
   const pv=pfValue(), pnl=pv-S.deposited, pc=S.deposited>0?(pnl/S.deposited*100):0, a=A();
   return `
-  <div class="greet"><div><h2>สวัสดี <span>คุณ${esc(S.userName)}</span> 👋</h2><div class="greet-sub">ยินดีต้อนรับกลับเข้าสู่พอร์ตการลงทุน</div></div>
+  <div class="greet"><div><h2>สวัสดี <span>คุณ${esc(S.userName)}</span> 👋${NET.vip?'<span class="vip-chip">👑 VIP</span>':''}</h2><div class="greet-sub">ยินดีต้อนรับกลับเข้าสู่พอร์ตการลงทุน</div></div>
     <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
   <div class="dash">
     <div class="dash-main">
@@ -1011,14 +1318,14 @@ function viewHome(){
         <div class="d ${pnl>=0?'up':'down'}" id="pfPnl">${pnl>=0?'▲ ':'▼ '}${F(Math.abs(pnl))} ฿ (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
         <div class="chart-head">
           ${a?coin(a):''}
-          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>กราฟแท่งเทียน · ราคาเรียลไทม์จาก API จำลอง</small>`:'กำลังโหลด...'}</div>
+          <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>กราฟแท่งเทียน · ${srcLabel(a)}</small>`:'กำลังโหลด...'}</div>
           <div class="sp"></div>
-          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?'<span class="live-dot"></span>LIVE':'⟳ กำลังเชื่อมต่อ'}</span>
+          <span class="live-badge ${S.assets?'':'wait'}">${S.assets?(a&&a.src!=='sim'?'<span class="live-dot"></span>LIVE':'⚙ จำลอง'):'⟳ กำลังเชื่อมต่อ'}</span>
         </div>
         ${S.assets?chartTools():''}
         <div class="chartwrap"><canvas id="chart"></canvas></div>
         <div class="chart-foot">
-          <span>${S.assets?'ข้อมูลจำลอง ไม่ได้เชื่อมต่อตลาดจริง':'⟳ กำลังเชื่อมต่อ API ตลาด...'}</span>
+          <span>${!S.assets||!a?'⟳ กำลังเชื่อมต่อตลาด...':(a.src==='sim'?'ข้อมูลจำลอง · ':'ราคาจริง · ')+(a.cur==='THB'?'สกุลเงินบาท':'แปลงเป็นบาท (1 '+a.cur+' ≈ '+MARKET.fxr[a.cur].toFixed(a.cur==='JPY'?4:2)+' ฿)')}</span>
           <span id="livePrice"></span>
         </div>
       </div>
@@ -1030,8 +1337,10 @@ function viewHome(){
       <div class="promo"><span class="em">${icon('bot')}</span><div>ระบบ AI ทำกำไรให้คุณอัตโนมัติ 24 ชม. วันนี้ตลาดดีเป็นพิเศษ <b style="color:var(--green)">+3.2%</b></div></div>
     </div>
     <div class="dash-side">
-      <div class="sec-t">วอทช์ลิสต์ · แตะเพื่อเลือกสินทรัพย์</div>
-      <div class="holdings">${S.assets?S.assets.map(assetRow).join(''):'<div class="empty">กำลังโหลด...</div>'}</div>
+      <div class="sec-t">เลือกตลาด</div>
+      ${mktTabs()}
+      <div class="sec-t">วอทช์ลิสต์ · ${mktOf(S.market||'crypto')[1]}</div>
+      <div class="holdings">${S.assets?mktAssets().map(([x,i])=>assetRow(x,i)).join(''):'<div class="empty">กำลังโหลดราคาตลาด...</div>'}</div>
     </div>
   </div>`;
 }
@@ -1039,7 +1348,8 @@ function viewTrade(){
   const a=A(); if(!a) return '<div class="empty">กำลังโหลดข้อมูลตลาด...</div>';
   const chg=chg24(a), uP=a.units*(a.price-a.entry), uPct=a.entry>0?((a.price-a.entry)/a.entry*100):0, lim=S.orderType==='limit';
   return `
-  <div class="asset-tabs">${S.assets.map((x,i)=>`<div class="atab${i===S.sel?' sel':''}" data-sel="${i}">${coin(x,'xs')}${x.sym}<span id="px-${x.sym}">${fmtPx(x.price)}</span></div>`).join('')}</div>
+  ${mktTabs()}
+  <div class="asset-tabs">${mktAssets().map(([x,i])=>`<div class="atab${i===S.sel?' sel':''}" data-sel="${i}">${coin(x,'xs')}${x.sym}<span id="px-${x.sym}">${fmtPx(x.price)}</span></div>`).join('')}</div>
 
   <div class="card mkt-head">
     <div class="mkt-main">
@@ -1047,7 +1357,9 @@ function viewTrade(){
       <div>
         <div class="mkt-sym">${a.sym} <span>· ${a.name}</span></div>
         <div class="mkt-price" id="mktPrice">${fmtPx(a.price)} ฿</div>
+        ${a.cur!=='THB'?`<div class="src-note mono" id="mktNative">${nativePx(a)}</div>`:''}
         <div class="mkt-chg pill ${chg>=0?'up':'down'}" id="mktChg">${chg>=0?'▲':'▼'} ${Math.abs(chg).toFixed(2)}% วันนี้</div>
+        <div class="src-note">${a.src!=='sim'?'🟢 ':'⚙ '}${srcLabel(a)}</div>
       </div>
     </div>
     <div class="mkt-stats">
@@ -1098,11 +1410,21 @@ function viewTrade(){
 
   <div class="mini-note">🔎 สาธิต: ระบบจำลองการเทรดจริง — Order Book, สเปรด Bid/Ask, ค่าธรรมเนียม, คำสั่ง Market/Limit เงินพอร์ตขึ้น-ลงตามราคาเรียลไทม์ แต่พอจะ "ถอนเงิน" จริงจะโดนบล็อก (กับดักสแกม)</div>`;
 }
+const BANKS=[['kbank','กสิกรไทย','#138f2d','K+'],['scb','ไทยพาณิชย์','#4e2e7f','SCB'],['bbl','กรุงเทพ','#1e4598','BBL'],
+  ['ktb','กรุงไทย','#1ba5e1','KTB'],['bay','กรุงศรี','#b8960c','BAY'],['ttb','ทีทีบี','#0a3cc8','ttb']];
+const bankName=k=>(BANKS.find(b=>b[0]===k)||[,''])[1];
+const payLabel=m=>m==='promptpay'?'พร้อมเพย์':'โอนผ่าน '+bankName(m);
 function viewDeposit(){
+  const m=S.payMethod||'promptpay';
   return `<div class="dep-wrap">${bankCard()}
   <div class="card form-card">
     <div class="fc-head"><div class="fc-ic" style="--icbg:rgba(34,214,138,.12);--icfg:var(--green);--icbd:rgba(34,214,138,.35)">${icon('dep')}</div>
-      <div><h2>โอนเงินเข้าพอร์ต</h2><div class="sub">โอนจากบัญชีธนาคารของคุณ (เงินจำลอง) เข้าแอปเพื่อใช้ซื้อขาย</div></div></div>
+      <div><h2>เติมเงินเข้าพอร์ต</h2><div class="sub">เลือกช่องทาง แล้วใส่จำนวนเงิน — ใช้เงินจากบัญชีธนาคารจำลองของคุณ</div></div></div>
+    <label class="glab">ช่องทางการชำระเงิน</label>
+    <div class="pay-methods">
+      <button class="pm${m==='promptpay'?' on':''}" data-pm="promptpay"><span class="pm-ic pp">QR</span><b>พร้อมเพย์</b><small>สแกน QR</small></button>
+      ${BANKS.map(([k,n,c,ab])=>`<button class="pm${m===k?' on':''}" data-pm="${k}"><span class="pm-ic" style="--c:${c}">${ab}</span><b>${n}</b><small>โอนผ่านแอป</small></button>`).join('')}
+    </div>
     <div class="amt-wrap"><input class="amt-in" id="depAmt" type="number" placeholder="0" inputmode="numeric"></div>
     <div class="chips">
       <button class="chip" data-dep="500">500</button>
@@ -1110,10 +1432,32 @@ function viewDeposit(){
       <button class="chip" data-dep="2000">2,000</button>
       <button class="chip" data-dep="all">ทั้งหมด</button>
     </div>
-    <button class="btn btn-gold" id="depGo">โอนเงินเข้าระบบ</button>
+    <button class="btn btn-gold" id="depGo">${m==='promptpay'?icon('wallet')+'สร้าง QR ชำระเงิน':'โอนเงินจาก '+bankName(m)}</button>
     <div class="mini-note">🔎 สาธิต: เงินในบัญชีมีจำกัด โอนเข้าไปแล้วจะได้คืนหรือไม่ ขึ้นกับ "แอดมิน" ทั้งหมด</div>
   </div>
   ${NET.joined?`<div id="rqList" data-kind="deposit">${reqListHtml('deposit')}</div>`:''}</div>`;
+}
+/* พร้อมเพย์จำลอง: QR เป็นลายสุ่ม (ไม่มีข้อมูลจริง) และขีดฆ่าไว้ สแกนไม่ได้ */
+function fakeQrSvg(){
+  const n=29, on=new Set(), finder=(x,y)=>{ for(let i=0;i<7;i++)for(let j=0;j<7;j++){ const e=i===0||j===0||i===6||j===6, c=i>=2&&i<=4&&j>=2&&j<=4; if(e||c) on.add((x+i)+','+(y+j)); } };
+  finder(0,0); finder(n-7,0); finder(0,n-7);
+  const inF=(x,y)=>(x<8&&y<8)||(x>n-9&&y<8)||(x<8&&y>n-9);
+  for(let x=0;x<n;x++) for(let y=0;y<n;y++) if(!inF(x,y) && Math.random()<0.48) on.add(x+','+y);
+  return `<svg viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges" aria-hidden="true">${[...on].map(k=>{ const [x,y]=k.split(','); return `<rect x="${x}" y="${y}" width="1" height="1"/>`; }).join('')}</svg>`;
+}
+let payTimer=null;
+function openPay(amt){
+  const g=id=>document.getElementById(id);
+  g('payAmt').textContent=F(amt)+' ฿';
+  g('payQr').innerHTML=fakeQrSvg();
+  g('payRef').textContent='AGT'+Date.now().toString().slice(-8);
+  g('payFrom').textContent='บัญชีธนาคารของคุณ (คงเหลือ '+F(curBank())+' ฿)';
+  g('payTeach').hidden=!(S.presenter||NET.revealed);
+  let left=900; g('payT').textContent='15:00'; clearInterval(payTimer);
+  if(!reduce) payTimer=setInterval(()=>{ if(!g('ovPay').classList.contains('on')||left<=0){ clearInterval(payTimer); return; }
+    left--; g('payT').textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0'); },1000);
+  g('payGo').onclick=()=>{ closeOv('ovPay'); clearInterval(payTimer); deposit(amt,'พร้อมเพย์'); };
+  openOv('ovPay');
 }
 function viewWithdraw(){
   if(NET.joined) return `<div class="dep-wrap">
@@ -1176,7 +1520,7 @@ function rqIcon(r){
 const rqBadge=r=>r.kind==='tax'?'<span class="badge paid">เสียไปแล้ว</span>':`<span class="badge ${r.status}">${RQ_STATUS[r.status]}</span>`;
 function rqRow(r, opts={}){
   return `<div class="rq">${rqIcon(r)}
-    <div class="mn"><div class="who">${RQ_LABEL[r.kind]}</div><div class="meta">${fmtTime(r.at)}${r.status==='held'?' · ค่าภาษี '+F(r.fee)+' ฿':''}</div></div>
+    <div class="mn"><div class="who">${RQ_LABEL[r.kind]}</div><div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'?' · ค่าภาษี '+F(r.fee)+' ฿':''}</div></div>
     <div class="amt"><div class="mono">${F(r.amount)} ฿</div>${rqBadge(r)}</div>
     ${r.status==='held'&&opts.pay?`<div class="acts"><button class="btn-sm warn" data-pay="${r.id}">ชำระภาษี</button></div>`:''}</div>`;
 }
@@ -1188,7 +1532,8 @@ function reqListHtml(kind){
 const curBank=()=>NET.joined?NET.bank:S.bank, curBankStart=()=>NET.joined?NET.bankStart:S.bankStart;
 function bankCard(){
   const bank=curBank(), start=curBankStart(), pct=start>0?Math.max(0,Math.min(100,bank/start*100)):0;
-  return `<div class="bank-card"><div class="bk-top"><span>🏦 <b>บัญชีธนาคารของคุณ</b> · ออมทรัพย์ (เงินจำลอง)</span><span>${NET.joined?'ห้องสาธิต':'เครื่องนี้'}</span></div>
+  const bn=S.payMethod&&S.payMethod!=='promptpay'?bankName(S.payMethod):'';
+  return `<div class="bank-card"><div class="bk-top"><span>🏦 <b>${bn?'ธ.'+bn:'บัญชีธนาคารของคุณ'}</b> · ออมทรัพย์ (เงินจำลอง)</span><span>${NET.joined?'ห้องสาธิต':'เครื่องนี้'}</span></div>
     <div class="bk-bal" id="bankBal">${F(bank)} ฿</div>
     <div class="bk-sub">เริ่มต้น ${F0(start)} ฿ — ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ</div>
     <div class="bk-bar"><i id="bankBar" style="width:${pct}%"></i></div></div>`;
@@ -1350,7 +1695,7 @@ function refreshLive(){
       mp.classList.remove('flash-up','flash-down'); void mp.offsetWidth; mp.classList.add(a.dir>=0?'flash-up':'flash-down'); }
     const ch=chg24(a), chEl=document.getElementById('mktChg');
     if(chEl){ chEl.textContent=(ch>=0?'▲':'▼')+' '+Math.abs(ch).toFixed(2)+'% วันนี้'; chEl.className='mkt-chg pill '+(ch>=0?'up':'down'); }
-    set('mktHi',fmtPx(hi24(a))); set('mktLo',fmtPx(lo24(a))); set('mktVol',F0(a.volume));
+    set('mktNative', nativePx(a)); set('mktHi',fmtPx(hi24(a))); set('mktLo',fmtPx(lo24(a))); set('mktVol',F0(a.volume));
     set('mktBid',fmtPx(bid(a))); set('mktAsk',fmtPx(ask(a))); set('bookMid',fmtPx(a.price));
     renderBook(a);
     // position live
@@ -1365,8 +1710,8 @@ function toast(msg){ const t=document.getElementById('toast'); if(!t)return;
 
 /* ---------- actions ---------- */
 function now(){return new Date().toLocaleString('th-TH',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'});}
-function deposit(amt){
-  if(NET.joined) return depositOnline(amt);
+function deposit(amt, method){
+  if(NET.joined) return depositOnline(amt, method);
   if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
   if(amt>S.bank+0.001) return toast('เงินในบัญชีธนาคารไม่พอ (คงเหลือ '+F(S.bank)+' ฿)');
   S.bank=Math.round((S.bank-amt)*100)/100;
@@ -1430,7 +1775,7 @@ function pump(pct=0.2, msg='ปั่นราคาพุ่ง +20% (โหม
   injectJump(pct);
   S.tab='home'; if(S.screen==='app') renderApp(); toast(msg);
 }
-function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],bank:S.bankStart||5000}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
+function reset(msg='รีเซ็ตการสาธิตแล้ว'){ stopLive(); closeStream(); S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],bank:S.bankStart||5000}); loadMarket(); if(S.screen==='app') renderApp(); toast(msg); }
 function renderUsers(){
   const cur={name:S.userName+' (คุณ — ผู้ใช้ปัจจุบัน)',phone:S.userPhone,bal:pfValue(),inv:S.deposited,st:'ออนไลน์',me:true};
   const all=[cur,...SEED_USERS];
@@ -1452,6 +1797,7 @@ document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySele
 function openFlags(){
   document.getElementById('flagsList').innerHTML = RED_FLAGS.map((f,i)=>
     `<div class="flag" style="animation-delay:${i*.06}s"><span class="n">${i+1}</span><span class="t">${f}</span></div>`).join('');
+  NET.revealed=true; if(chatOpen()) renderChat();   // หลังเฉลย ผู้ฟังเห็นจุดสอนในแชทด้วย
   openOv('ovFlags');
 }
 function openVip(){ document.getElementById('vipTeach').style.display=S.presenter?'flex':'none'; openOv('ovVip'); startVipCountdown(); }
@@ -1469,6 +1815,8 @@ function bindTabEvents(){
   const lo=g('logoutBtn'); if(lo) lo.onclick=()=>logout();
   // เลือกสินทรัพย์จากวอทช์ลิสต์ (มีได้ทั้งหน้าหลักและหน้าเทรด)
   document.querySelectorAll('[data-sel]').forEach(r=>r.onclick=()=>{ S.sel=+r.dataset.sel; renderApp(); });
+  document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{
+    S.market=b.dataset.mkt; const first=mktAssets()[0]; if(first) S.sel=first[1]; HOVER=null; renderApp(); });
   if(S.tab==='trade'){
     document.querySelectorAll('[data-otype]').forEach(t=>t.onclick=()=>{ S.orderType=t.dataset.otype; renderApp(); });
     document.querySelectorAll('[data-pct]').forEach(c=>c.onclick=()=>{ g('ordAmt').value=Math.floor(S.cash*parseFloat(c.dataset.pct)); });
@@ -1480,7 +1828,13 @@ function bindTabEvents(){
   }
   if(S.tab==='deposit'){
     document.querySelectorAll('[data-dep]').forEach(c=>c.onclick=()=>g('depAmt').value=c.dataset.dep==='all'?Math.floor(curBank()):c.dataset.dep);
-    g('depGo').onclick=()=>deposit(parseFloat(g('depAmt').value));
+    document.querySelectorAll('[data-pm]').forEach(b=>b.onclick=()=>{ const v=g('depAmt').value; S.payMethod=b.dataset.pm; renderApp(); g('depAmt').value=v; });
+    g('depGo').onclick=()=>{
+      const amt=parseFloat(g('depAmt').value), m=S.payMethod||'promptpay';
+      if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
+      if(amt>curBank()+0.001) return toast('เงินในบัญชีธนาคารไม่พอ (คงเหลือ '+F(curBank())+' ฿)');
+      if(m==='promptpay') openPay(amt); else deposit(amt, payLabel(m));
+    };
   }
   if(S.tab==='withdraw'){
     document.querySelectorAll('[data-wd]').forEach(c=>c.onclick=()=>{
@@ -1495,6 +1849,7 @@ document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.d
    ผู้ฟังสแกน QR เล่นบนมือถือ มี "บัญชีธนาคารจำลอง" คนละ 5,000 ฿ ต้องโอนเข้าแอปก่อนเทรด ใช้หมดแล้วหมดเลย
    ผู้บรรยายคุมทุกอย่างจาก "หลังบ้านแอดมิน" — ถ้าเปิดจากไฟล์ในเครื่องจะเป็นโหมดออฟไลน์เหมือนเดิม */
 const NET = { online:false, store:'', ptoken:'', epoch:'', evSeq:0, joined:false, busy:false, timer:null, token:'',
+  chat:[], chatLast:0, unread:0, vip:false, revealed:false,
   lastReport:null, flow:0, bonus:0, bank:0, bankStart:0, taxPaid:0, requests:[], reqStatus:{} };
 const LS_KEY='agt-player-v3', SS_TOKEN='agt-admin-token', SYNC_MS=4000;
 const lsGet=k=>{ try{ return JSON.parse(localStorage.getItem(k)); }catch{ return null; } };
@@ -1530,7 +1885,8 @@ function saveLocal(){
   lsSet(LS_KEY,{
     S:{...rest, assets: assets ? assets.map(({candles,...x})=>x) : null},
     net:{ptoken:NET.ptoken,epoch:NET.epoch,evSeq:NET.evSeq,flow:NET.flow,bonus:NET.bonus,bank:NET.bank,bankStart:NET.bankStart,
-         taxPaid:NET.taxPaid,requests:NET.requests,reqStatus:NET.reqStatus}});
+         taxPaid:NET.taxPaid,requests:NET.requests,reqStatus:NET.reqStatus,
+         chat:NET.chat.slice(-100),chatLast:NET.chatLast,unread:NET.unread,vip:NET.vip,revealed:NET.revealed}});
 }
 
 /* ----- บัญชีผู้ฟัง: ต้องสมัครก่อนจึงเข้าได้ (ยกเว้นผู้บรรยาย) ----- */
@@ -1544,26 +1900,21 @@ function snapshotState(){
     assets:S.assets?S.assets.map(a=>({sym:a.sym,units:a.units,entry:a.entry,price:a.price})):null};
 }
 function freshUser(name){
-  stopSync(); stopLive();
-  Object.assign(NET,{joined:false,ptoken:'',epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
+  stopSync(); stopLive(); closeStream(); MARKET.hold=null;
+  Object.assign(NET,{joined:false,ptoken:'',chat:[],chatLast:0,unread:0,vip:false,revealed:false,epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
-    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต'});
+    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',market:'crypto'});
 }
 function restoreSaved(st){   // เข้าสู่ระบบจากเครื่องใหม่: เอาพอร์ตที่บันทึกไว้ในบัญชีกลับมา
   if(!st || st.v!==1) return;
   Object.assign(S,{cash:r2(st.cash), deposited:st.deposited||0, sel:st.sel||0,
     tx:Array.isArray(st.tx)?st.tx:[], orders:Array.isArray(st.orders)?st.orders:[]});
   Object.assign(NET,{flow:st.flow||0, bonus:st.bonus||0, reqStatus:st.reqStatus||{}});
-  if(Array.isArray(st.assets)){
-    S.assets=buildAssets();
-    S.assets.forEach(a=>{ const x=st.assets.find(y=>y.sym===a.sym); if(!x) return;
-      a.units=x.units||0; a.entry=x.entry||0;
-      if(x.price>0){ const k=x.price/a.price; a.candles.forEach(c=>{ c.o*=k; c.h*=k; c.l*=k; c.c*=k; }); a.price=x.price; } });
-  }
+  if(Array.isArray(st.assets)){ MARKET.hold=st.assets; S.assets=null; }
 }
 function beginSession(j, isNew){
   NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
-  applyServer(j); saveLocal(); startSync();
+  applyServer(j); if(j.chat) addChat(j.chat,true); saveLocal(); startSync();
   show('app'); if(S.assets) startLive();
   if(isNew) notice('🏦 คุณได้รับเงินในบัญชีธนาคาร '+F(j.bankStart)+' ฿',
     'นี่คือเงินจำลองในบัญชีธนาคารของคุณ ไปที่เมนู "ฝากเงิน" เพื่อโอนเข้าแอปแล้วเริ่มเทรด — เงินก้อนนี้ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ');
@@ -1609,7 +1960,7 @@ async function doSignup(){
 function loginAsPresenter(token){
   freshUser('ผู้บรรยาย'); try{ localStorage.removeItem(LS_KEY); }catch{}
   NET.token=token; ssSet(SS_TOKEN,token); S.presenter=true; togglePresenter();
-  show('app'); toast('เข้าสู่โหมดผู้บรรยายแล้ว');
+  openPanel('overview'); toast('เข้าสู่หลังบ้านแอดมินแล้ว');
 }
 /* ออฟไลน์ (เปิดจากไฟล์ / เชื่อมห้องไม่ได้): บัญชีเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น */
 const LOCAL_ACC='agt-local-accounts';
@@ -1659,10 +2010,10 @@ async function netSync(){
   NET.busy=true;
   try{
     const report=buildReport();
-    const j=await papi({action:'sync',since:NET.evSeq,report});
+    const j=await papi({action:'sync',since:NET.evSeq,report,chatSince:NET.chatLast});
     if(report) NET.lastReport=report;
     if(j.missing || (j.epoch && j.epoch!==NET.epoch)){ roomWasReset(); return; }
-    applyServer(j);
+    applyServer(j); if(j.chat&&j.chat.length) addChat(j.chat);
     for(const ev of j.events||[]){ if(ev.seq>NET.evSeq){ NET.evSeq=ev.seq; runEvent(ev); } }
     NET.evSeq=Math.max(NET.evSeq,j.evseq||0);
     saveLocal();
@@ -1676,6 +2027,7 @@ function roomWasReset(){
 function applyServer(j){
   const dFlow=r2(j.flow-NET.flow), dBonus=r2(j.bonus-NET.bonus);
   NET.flow=j.flow; NET.bonus=j.bonus; NET.bank=j.bank; NET.bankStart=j.bankStart; NET.taxPaid=j.taxPaid;
+  if(!!j.vip!==NET.vip){ NET.vip=!!j.vip; if(S.screen==='app'&&S.tab==='home') renderApp(); }
   S.deposited=r2(j.deposited-j.withdrawn);
   if(dFlow) S.cash=r2(S.cash+dFlow);
   if(dBonus>0){ S.tx.unshift({type:'bonus',amt:dBonus,time:now(),ts:Date.now()}); toast('🎁 ระบบเติมโบนัสให้คุณ +'+F(dBonus)+' ฿'); }
@@ -1718,13 +2070,13 @@ function refreshMoneyViews(changed){
   }
   refreshLive();
 }
-async function depositOnline(amt){
+async function depositOnline(amt, method){
   if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
   if(amt>NET.bank+0.001) return toast('เงินในบัญชีธนาคารไม่พอ (คงเหลือ '+F(NET.bank)+' ฿)');
   const btn=document.getElementById('depGo'); if(btn) btn.disabled=true;
   try{
     const before=NET.flow;
-    applyServer(await papi({action:'deposit',amount:amt})); saveLocal();
+    applyServer(await papi({action:'deposit',amount:amt,method})); saveLocal();
     if(NET.flow>before) S.tab='trade';
     renderApp();
   }catch(e){ toast(e.message); }
@@ -1782,7 +2134,7 @@ function enterPresenter(){
   if(NET.joined){ freshUser('ผู้บรรยาย'); try{ localStorage.removeItem(LS_KEY); }catch{} }   // เครื่องผู้บรรยายไม่ต้องอยู่ในรายชื่อผู้ฟัง
   S.presenter=true; togglePresenter(); if(S.screen==='app') renderApp();
 }
-function exitPresenter(){ closeOv('ovPanel'); logout(); }
+function exitPresenter(){ logout(); }
 const EV_LABEL={pump:'ปั่นราคาพุ่ง',vip:'ป๊อปอัพ VIP',flags:'เฉลย Red Flags',notice:'ข้อความแจ้งเตือน'};
 async function presenterAct(type, opts={}){
   if(opts.local!==false){ if(type==='pump') pump(); else if(type==='vip') openVip(); else if(type==='flags') openFlags(); }
@@ -1794,14 +2146,14 @@ async function presenterReset(){
   if(NET.online && NET.token){
     if(!confirm('เริ่มรอบใหม่สำหรับทุกคน?\nผู้ฟัง ยอดเงิน บัญชีธนาคาร และคำขอทั้งหมดในห้องจะถูกล้าง')) return;
     try{ await adminApi({action:'reset'}); }catch(e){ if(e.status!==401) toast('รีเซ็ตห้องไม่สำเร็จ: '+e.message); return; }
-    if(document.getElementById('ovPanel').classList.contains('on')) loadPanel();
+    if(S.screen==='admin') loadPanel();
   }
   reset();
 }
-let pollTimer=null;
-function pollWhileOpen(ovId, fn){
-  clearInterval(pollTimer);
-  pollTimer=setInterval(()=>{ if(!document.getElementById(ovId).classList.contains('on')){ clearInterval(pollTimer); return; } fn(); },3000);
+const pollTimers={};
+function pollWhileOpen(id, fn){   // รีเฟรชข้อมูลทุก 3 วิ ตราบที่หน้าจอ/หน้าต่างนั้นยังเปิดอยู่
+  clearInterval(pollTimers[id]);
+  pollTimers[id]=setInterval(()=>{ if(!document.getElementById(id).classList.contains('on')){ clearInterval(pollTimers[id]); return; } fn(); },3000);
 }
 function openUsers(){ renderUsers(); openOv('ovUsers'); }   // โหมดออฟไลน์: รายชื่อตัวอย่าง
 async function openQr(){
@@ -1813,37 +2165,68 @@ async function openQr(){
   upd(); pollWhileOpen('ovQr',upd);
 }
 
-/* ----- หลังบ้านแอดมิน ----- */
-const AP={tab:'overview',data:null,expanded:'',filled:false};
-const PANEL_TABS=[['overview','ภาพรวม','pie'],['users','ผู้ใช้','users'],['requests','คำขอฝาก-ถอน','wallet'],['notify','แจ้งเตือน','chat'],['settings','ตั้งค่า','sliders']];
+/* ----- หลังบ้านแอดมิน (หน้าแยก) ----- */
+const AP={tab:'overview',data:null,expanded:'',filled:false,sel:new Set(),gkind:'bonus',chatWith:'',thread:null,threadKey:''};
+const PANEL_TABS=[['overview','ภาพรวม','pie'],['users','บัญชีผู้ใช้','users'],['requests','คำขอฝาก-ถอน','wallet'],
+  ['chat','แชทลูกค้า','chat'],['notify','แจ้งเตือน / เหตุการณ์','flag'],['settings','ตั้งค่า','sliders']];
 const PRESETS=[
   ['📈 ทองกำลังพุ่ง','🔥 ด่วน! ราคาทองพุ่งแรง','AI ตรวจพบสัญญาณราคาทองกำลังพุ่ง ลงทุนเพิ่มภายใน 10 นาทีนี้รับกำไรสูงสุด 2 เท่า'],
   ['👑 สิทธิ์ VIP','ยินดีด้วย! คุณได้รับสิทธิ์ VIP','ฝากเงินเพิ่มวันนี้รับโบนัสทันที 50% สิทธิ์นี้มีจำนวนจำกัดเฉพาะสมาชิกที่ได้รับเลือก'],
   ['🪪 ยืนยันตัวตน','แจ้งเตือนความปลอดภัยบัญชี','บัญชีของคุณต้องยืนยันตัวตน กรุณาชำระค่าธรรมเนียมยืนยันตัวตน 500 ฿ ภายใน 24 ชม. มิฉะนั้นบัญชีจะถูกระงับ'],
   ['🛠️ ระบบปรับปรุง','ระบบปรับปรุงชั่วคราว','งดให้บริการถอนเงิน 48 ชั่วโมงเพื่ออัปเกรดระบบความปลอดภัย ขออภัยในความไม่สะดวก'],
 ];
-function openPanel(tab){ if(tab) AP.tab=tab; renderPanelShell(); openOv('ovPanel'); loadPanel(); pollWhileOpen('ovPanel',loadPanel); }
+const GRANT_KINDS={
+  topup:['💰','เพิ่มเงิน','เติมเงินเข้าพอร์ต — มือถือผู้ใช้ขึ้นข้อความ "ระบบเติมเงินเข้าพอร์ตของคุณ"'],
+  bonus:['🎁','โบนัสพิเศษ','ให้โบนัสพร้อมข้อความยินดีด้วย — ทำให้รู้สึกว่าได้กำไรและอยากฝากเพิ่ม'],
+  vip:['👑','สิทธิ์ VIP','ติดป้าย VIP + ป๊อปอัพสิทธิพิเศษ (ใส่ 0 ถ้าไม่ให้เงินโบนัสด้วย)'],
+  debit:['➖','หักเงิน','หักเงินจากพอร์ต โดยอ้างว่าเป็น "ค่าธรรมเนียมบริการ"'],
+};
+function openPanel(tab){ if(tab) AP.tab=tab; show('admin'); renderPanelShell(); loadPanel(); pollWhileOpen('admin',loadPanel); }
 async function loadPanel(){
-  try{ AP.data=await adminApi({action:'overview'}); renderPanelDynamic(); }
-  catch(e){ if(e.status!==401){ const d=document.getElementById('apDyn'); if(d) d.innerHTML='<div class="empty">โหลดข้อมูลไม่สำเร็จ: '+esc(e.message)+'</div>'; } }
+  try{
+    AP.data=await adminApi({action:'overview'});
+    if(AP.tab==='chat' && AP.chatWith){
+      try{ AP.thread=await adminApi({action:'thread',playerId:AP.chatWith}); }
+      catch(e){ if(e.status===404){ AP.chatWith=''; AP.thread=null; } }
+    }
+    renderPanelDynamic();
+  }catch(e){ if(e.status!==401){ const d=document.getElementById('apDyn'); if(d) d.innerHTML='<div class="empty">โหลดข้อมูลไม่สำเร็จ: '+esc(e.message)+'</div>'; } }
 }
 function renderPanelShell(){
   document.getElementById('apTabs').innerHTML=PANEL_TABS.map(([k,l,ic])=>
-    `<button class="ap-tab${AP.tab===k?' on':''}" data-aptab="${k}">${icon(ic)}<span>${l}</span>${k==='requests'?'<b class="ap-badge" id="apBadge" hidden></b>':''}</button>`).join('');
+    `<button class="ap-tab${AP.tab===k?' on':''}" data-aptab="${k}">${icon(ic)}<span>${l}</span>${k==='requests'?'<b class="ap-badge" id="apBadge" hidden></b>':k==='chat'?'<b class="ap-badge" id="apChatBadge" hidden></b>':''}</button>`).join('');
   document.getElementById('apBody').innerHTML=panelStatic(AP.tab);
-  AP.filled=false;
+  AP.filled=false; AP.threadKey='';
   if(AP.data) renderPanelDynamic();
 }
 const chipStyle='font-family:var(--sans)';
 function panelStatic(tab){
-  if(tab==='users') return `<div class="users-ctl"><label for="adjAmt">จำนวนเงินที่จะเพิ่ม/ลด แล้วกด + หรือ − ที่ชื่อผู้ฟัง — มือถือผู้ฟังจะขึ้นเป็น "โบนัสจากระบบ" หรือ "ระบบหักเงิน" (ไม่กระทบบัญชีธนาคาร)</label>
-      <div class="amt-wrap"><input class="amt-in sm" id="adjAmt" type="number" inputmode="numeric" value="10000"></div>
-      <div class="chips">${[1000,10000,100000,1000000].map(v=>`<button class="chip" data-amt="${v}">${F0(v)}</button>`).join('')}</div></div>
-    <div class="meta" style="margin:0 2px 10px">แตะชื่อผู้ฟังเพื่อดูและจัดการรายการฝาก-ถอนของคนนั้น</div><div id="apDyn"></div>`;
+  if(tab==='users') return `<div class="card grant">
+      <div class="grant-kinds">${Object.entries(GRANT_KINDS).map(([k,[ic,l]])=>`<button class="gk${AP.gkind===k?' on':''}" data-gk="${k}"><span>${ic}</span>${l}</button>`).join('')}</div>
+      <div class="meta" id="gHint">${GRANT_KINDS[AP.gkind][2]}</div>
+      <div class="grant-row">
+        <div><label class="glab" for="gAmt">จำนวนเงิน (฿)</label><div class="amt-wrap"><input class="amt-in sm" id="gAmt" type="number" inputmode="numeric" value="1000"></div>
+          <div class="chips">${[0,500,1000,5000,10000,100000].map(v=>`<button class="chip" data-amt="${v}">${F0(v)}</button>`).join('')}</div></div>
+        <div><label class="glab" for="gMsg">ข้อความถึงผู้ใช้ (ไม่ใส่ = ใช้ข้อความมาตรฐาน)</label>
+          <textarea class="ap-in" id="gMsg" maxlength="300" placeholder="เช่น ยินดีด้วย! คุณคือผู้โชคดีประจำวันนี้"></textarea></div>
+      </div>
+      <div class="grant-go"><span class="gsel" id="gSel"></span>
+        <div class="gbtns"><button class="btn btn-gold" id="gSelBtn">ส่งให้บัญชีที่เลือก</button><button class="btn btn-ghost" id="gAllBtn">ส่งให้ทุกบัญชี</button></div></div>
+    </div>
+    <div class="ulist-head"><label class="pick"><input type="checkbox" id="pickAll"> เลือกทั้งหมด</label><span class="meta">ติ๊กเพื่อเลือก · แตะชื่อเพื่อดูรายละเอียด</span></div>
+    <div id="apDyn"></div>`;
   if(tab==='requests') return `<div class="users-ctl" style="display:flex;gap:14px;align-items:flex-end;flex-wrap:wrap">
       <div style="flex:1;min-width:180px"><label for="apFee">ภาษี/ค่าปลดล็อกที่จะเรียกเก็บเมื่อกด "เรียกภาษี" (%)</label><input class="ap-in" id="apFee" type="number" min="1" max="90" value="15"></div>
       <div class="meta" style="flex:2;min-width:240px;line-height:1.7">อนุมัติฝาก = เงินเข้าแอป · ปฏิเสธฝาก = เงินหายจากบัญชีธนาคาร<br>อนุมัติถอน = เงินกลับเข้าบัญชีธนาคาร · เรียกภาษี = อายัดยอดจนกว่าจะจ่าย · ปฏิเสธถอน = คืนยอดเข้าแอป</div></div>
     <div id="apDyn"></div>`;
+  if(tab==='chat') return `<div class="ca">
+      <div class="card ca-list" id="caList"></div>
+      <div class="card ca-thread">
+        <div class="ca-head" id="caHead"><span class="meta">เลือกบทสนทนาทางซ้าย</span></div>
+        <div class="ca-msgs" id="caMsgs"></div>
+        <div class="ca-input"><input class="ap-in" id="caText" maxlength="500" placeholder="ตอบในนามแอดมิน..." disabled><button class="btn btn-gold" id="caSend" disabled>ส่ง</button></div>
+      </div></div>
+    <div class="meta" style="margin-top:10px">💡 บอทตอบตามสคริปต์ของแอดมินเว็บหลอกลงทุนจริง (ข้อความสีฟ้าคือจุดสอนของแต่ละคำตอบ ผู้ฟังจะเห็นหลังกดเปิดเฉลย Red Flags) — ปิดบอทเพื่อพิมพ์ตอบเอง</div>`;
   if(tab==='notify') return `<div class="ap-form">
       <div><label for="apTitle">หัวข้อ</label><input class="ap-in" id="apTitle" maxlength="60" value="ประกาศจากระบบ"></div>
       <div><label for="apMsg">ข้อความที่จะเด้งขึ้นมือถือผู้ฟังทุกคน</label><textarea class="ap-in" id="apMsg" maxlength="300" placeholder="พิมพ์ข้อความ หรือเลือกตัวอย่างด้านล่าง"></textarea></div>
@@ -1854,15 +2237,16 @@ function panelStatic(tab){
   if(tab==='settings') return `<div class="ap-form">
       <label class="switch"><input type="checkbox" id="apAutoDep"> อนุมัติการโอนเงินเข้าอัตโนมัติ (ปิดไว้ถ้าจะกดอนุมัติ/ปฏิเสธเองทีละรายการ)</label>
       <div><label for="apAutoTax">เรียกภาษีอัตโนมัติเมื่อมีคำขอถอน (%) — ใส่ 0 ถ้าจะพิจารณาเองทีละรายการ (เช่น ให้ถอนก้อนแรกได้เพื่อสร้างความเชื่อใจ)</label><input class="ap-in" id="apAutoTax" type="number" min="0" max="90"></div>
-      <div><label for="apStartBank">เงินในบัญชีธนาคารเริ่มต้นของผู้ฟังที่เข้าใหม่ (฿)</label><input class="ap-in" id="apStartBank" type="number" min="0" step="100"></div>
+      <div><label for="apStartBank">เงินในบัญชีธนาคารเริ่มต้นของผู้ฟังที่สมัครใหม่ (฿)</label><input class="ap-in" id="apStartBank" type="number" min="0" step="100"></div>
       <button class="btn btn-gold" id="apSave">บันทึกการตั้งค่า</button>
       <div class="ap-sec" style="margin-bottom:0">เริ่มรอบใหม่</div>
-      <button class="btn btn-sell" id="apReset">${icon('reset')}รีเซ็ตห้อง: ล้างผู้ฟัง ยอดเงิน และคำขอทั้งหมด</button></div>`;
+      <button class="btn btn-sell" id="apReset">${icon('reset')}รีเซ็ตห้อง: ลบบัญชีผู้ฟัง ยอดเงิน คำขอ และแชททั้งหมด</button></div>`;
   return `<div id="apDyn"></div>`;
 }
 function renderPanelDynamic(){
   const d=AP.data; if(!d) return;
   const b=document.getElementById('apBadge'); if(b){ b.hidden=!d.stats.pending; b.textContent=d.stats.pending; }
+  const cb=document.getElementById('apChatBadge'); if(cb){ cb.hidden=!d.stats.chatsWaiting; cb.textContent=d.stats.chatsWaiting; }
   document.getElementById('apSub').textContent='ผู้ฟัง '+d.stats.players+' คน · ออนไลน์ '+d.stats.online+' คน'+(NET.store==='memory'?' · ⚠️ ยังไม่ได้เชื่อมฐานข้อมูล Supabase':'');
   if(AP.tab==='settings' && !AP.filled){
     document.getElementById('apAutoDep').checked=d.settings.autoDeposit;
@@ -1870,21 +2254,22 @@ function renderPanelDynamic(){
     document.getElementById('apStartBank').value=d.settings.startBank;
     AP.filled=true;
   }
+  if(AP.tab==='chat') return renderAdminChat(d);
   const dyn=document.getElementById('apDyn'); if(!dyn) return;
   if(AP.tab==='overview') dyn.innerHTML=apOverview(d);
-  else if(AP.tab==='users') dyn.innerHTML=apUsers(d);
+  else if(AP.tab==='users'){ dyn.innerHTML=apUsers(d); updSel(); }
   else if(AP.tab==='requests') dyn.innerHTML=apRequests(d.requests);
 }
 const apTile=(k,v,cls='',sub='')=>`<div class="ap-stat ${cls}"><div class="k">${k}</div><div class="v">${v}</div>${sub?`<div class="k" style="margin-top:4px">${sub}</div>`:''}</div>`;
 function apOverview(d){
   const s=d.stats;
   return `<div class="ap-stats">
-    ${apTile('ผู้ฟังในห้อง', s.players+' คน', '', 'ออนไลน์ '+s.online+' คน')}
+    ${apTile('ผู้ฟังในห้อง', s.players+' คน', '', 'ออนไลน์ '+s.online+' คน · VIP '+s.vip+' คน')}
     ${apTile('เงินที่ผู้ฟังโอนออกจากบัญชีธนาคาร', F0(s.lost)+' ฿', 'red', 'รวมยอดที่ถูกปฏิเสธและค่าภาษี')}
     ${apTile('ตัวเลขพอร์ตบนจอผู้ฟังรวม', F0(s.onScreen)+' ฿', 'gold')}
     ${apTile('เงินที่ถอนออกได้จริง', F0(s.paidOut)+' ฿', 'green')}
     ${apTile('ค่าภาษีที่เก็บได้', F0(s.taxPaid)+' ฿', 'red')}
-    ${apTile('คำขอรอดำเนินการ', s.pending+' รายการ', '', 'รอชำระภาษี '+s.held+' รายการ')}
+    ${apTile('คำขอรอดำเนินการ', s.pending+' รายการ', '', 'รอชำระภาษี '+s.held+' · แชทรอตอบ '+s.chatsWaiting)}
   </div>
   <div class="teach-tip">💡 <span><b>จุดสอน:</b> ผู้ฟังทั้งห้องโอนเงินออกจากบัญชีไปแล้ว <b>${F0(s.lost)} ฿</b> แต่ถอนกลับมาได้จริงแค่ <b>${F0(s.paidOut)} ฿</b> ส่วนตัวเลข <b>${F0(s.onScreen)} ฿</b> บนจอ เป็นแค่ตัวเลขในระบบที่แอดมินแก้ได้ตามใจ</span></div>
   <div class="ap-sec">คำขอล่าสุด</div>${apRequests(d.requests.slice(0,8))}`;
@@ -1895,8 +2280,8 @@ function apReqRow(r){
   if(r.kind==='withdraw' && r.status==='pending') act.push(['approve','ok','✓ อนุมัติ'],['tax','warn','เรียกภาษี'],['reject','no','✕ ปฏิเสธ']);
   if(r.kind==='withdraw' && r.status==='held') act.push(['approve','ok','✓ อนุมัติ'],['reject','no','✕ ปฏิเสธ']);
   return `<div class="rq">${rqIcon(r)}
-    <div class="mn"><div class="who">${esc(r.player)} <span style="color:var(--faint);font-weight:500">· ${RQ_LABEL[r.kind]}</span></div>
-      <div class="meta">${fmtTime(r.at)}${r.status==='held'?' · เรียกภาษี '+F(r.fee)+' ฿':''}</div></div>
+    <div class="mn"><div class="who">${esc(r.player||'')} <span style="color:var(--faint);font-weight:500">· ${RQ_LABEL[r.kind]}</span></div>
+      <div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'?' · เรียกภาษี '+F(r.fee)+' ฿':''}</div></div>
     <div class="amt"><div class="mono">${F(r.amount)} ฿</div>${rqBadge(r)}</div>
     ${act.length?`<div class="acts">${act.map(([dd,c,l])=>`<button class="btn-sm ${c}" data-decide="${r.id}" data-d="${dd}">${l}</button>`).join('')}</div>`:''}</div>`;
 }
@@ -1905,31 +2290,98 @@ function apRequests(list){
   return `<div class="card txlist">${list.map(apReqRow).join('')}</div>`;
 }
 function apUsers(d){
-  const btns=id=>`<div class="adj"><button class="adj-b minus" data-adj="${esc(id)}" data-sign="-1" aria-label="ลดเงิน">−</button><button class="adj-b plus" data-adj="${esc(id)}" data-sign="1" aria-label="เพิ่มเงิน">+</button></div>`;
-  const all=`<div class="hrow prow all"><div class="avatar me">${icon('users')}</div>
-    <div class="mn"><div class="a">ผู้ฟังทุกคน</div><div class="b">${d.players.length} คนในห้อง · ออนไลน์ ${d.stats.online} คน</div></div>${btns('all')}</div>`;
-  const rows=d.players.map(p=>{
-    const reqs=d.requests.filter(r=>r.playerId===p.id), open=AP.expanded===p.id, pend=reqs.filter(r=>r.status==='pending').length;
-    return `<div class="hrow prow" data-pexp="${esc(p.id)}" style="cursor:pointer">
+  const ids=new Set(d.players.map(p=>p.id));
+  [...AP.sel].forEach(id=>{ if(!ids.has(id)) AP.sel.delete(id); });
+  const pa=document.getElementById('pickAll'); if(pa) pa.checked=d.players.length>0 && AP.sel.size===d.players.length;
+  if(!d.players.length) return '<div class="card empty">ยังไม่มีผู้ฟังสมัครเข้ามา — กดปุ่ม 📱 QR ด้านบน แล้วฉายขึ้นจอ</div>';
+  return d.players.map(p=>{
+    const reqs=d.requests.filter(r=>r.playerId===p.id), open=AP.expanded===p.id, pend=reqs.filter(r=>r.status==='pending').length, on=AP.sel.has(p.id);
+    return `<div class="hrow prow${on?' picked':''}" data-pexp="${esc(p.id)}" style="cursor:pointer">
+      <label class="pick"><input type="checkbox" data-pick="${esc(p.id)}"${on?' checked':''} aria-label="เลือก ${esc(p.name)}"></label>
       <div class="avatar">${esc([...p.name][0]||'?')}</div>
-      <div class="mn"><div class="a"><span class="pdot${p.online?' on':''}"></span>${esc(p.name)}${pend?` <span class="badge pending">${pend} รอ</span>`:''}</div>
-        <div class="b">ธนาคาร ${F0(p.bank)} · โอนเข้า ${F0(p.deposited)} · ถอนได้จริง ${F0(p.withdrawnOk)}</div></div>
-      <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">บนจอ</div></div>${btns(p.id)}</div>
-      ${open?`<div class="pdetail">${reqs.length?reqs.map(apReqRow).join(''):'<div class="meta" style="padding:8px 0">ยังไม่มีรายการฝาก-ถอน</div>'}</div>`:''}`;
+      <div class="mn"><div class="a"><span class="pdot${p.online?' on':''}"></span>${esc(p.name)}${p.vip?' <span class="badge vip">👑 VIP</span>':''}${pend?` <span class="badge pending">${pend} รอ</span>`:''}</div>
+        <div class="b">ธนาคาร ${F0(p.bank)} · โอนเข้า ${F0(p.deposited)} · ถอนได้จริง ${F0(p.withdrawnOk)} · โบนัส/ปรับ ${F0(p.bonus)}</div></div>
+      <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">บนจอ</div></div></div>
+      ${open?`<div class="pdetail"><div class="pd-acts"><button class="btn-sm warn" data-openchat="${esc(p.id)}">💬 เปิดแชทกับ ${esc(p.name)}</button></div>
+        ${reqs.length?reqs.map(apReqRow).join(''):'<div class="meta" style="padding:8px 0">ยังไม่มีรายการฝาก-ถอน</div>'}</div>`:''}`;
   }).join('');
-  return all+(rows||'<div class="empty">ยังไม่มีผู้ฟังเข้าร่วม — กด "QR ให้ผู้ฟังสแกน" แล้วฉายขึ้นจอ</div>');
 }
-document.getElementById('apTabs').addEventListener('click',e=>{ const b=e.target.closest('[data-aptab]'); if(!b) return; AP.tab=b.dataset.aptab; renderPanelShell(); });
+function updSel(){
+  const el=document.getElementById('gSel'), btn=document.getElementById('gSelBtn'); if(!el) return;
+  el.textContent = AP.sel.size ? 'เลือกแล้ว '+AP.sel.size+' บัญชี' : 'ยังไม่ได้เลือกบัญชี — ติ๊กช่องหน้าชื่อ';
+  btn.disabled = !AP.sel.size;
+}
+async function doGrant(all){
+  const g=id=>document.getElementById(id), kind=AP.gkind, amt=parseFloat(g('gAmt').value)||0, msg=g('gMsg').value.trim();
+  if(kind!=='vip' && !(amt>0)) return toast('ใส่จำนวนเงินก่อน');
+  if(!all && !AP.sel.size) return toast('เลือกบัญชีก่อน (ติ๊กช่องหน้าชื่อ)');
+  const [ic,label]=GRANT_KINDS[kind];
+  if(all && !confirm(`${ic} ${label}${amt>0?' '+F0(amt)+' ฿':''} ให้ผู้ฟังทุกบัญชี?`)) return;
+  try{
+    const r=await adminApi({action:'grant',targets:all?'all':[...AP.sel],kind,amount:Math.max(0,amt),message:msg});
+    toast(`${ic} ${label} → ${r.count} บัญชีแล้ว`); g('gMsg').value=''; loadPanel();
+  }catch(e){ if(e.status!==401) toast(e.message); }
+}
+/* แชทฝั่งแอดมิน */
+const SENDER={user:'ลูกค้า',bot:'บอท',admin:'แอดมิน (คุณ)',system:'ระบบ'};
+function adminBubble(m){
+  if(m.from==='system') return `<div class="cm sys">${esc(m.text)}</div>`;
+  const ours=m.from!=='user';
+  const teach=m.meta&&m.meta.teach?`<div class="cm-teach">💡 ${esc(m.meta.teach)}</div>`:'';
+  return `<div class="cm ${ours?'me':'them'} from-${m.from}"><div class="cm-who">${SENDER[m.from]||''}</div><div class="cm-b">${esc(m.text)}</div><div class="cm-t">${hhmm(m.at)}</div>${teach}</div>`;
+}
+function renderAdminChat(d){
+  const list=document.getElementById('caList'); if(!list) return;
+  const ps=d.players.filter(p=>p.lastChat).sort((a,b)=>b.lastChat.at-a.lastChat.at).concat(d.players.filter(p=>!p.lastChat));
+  list.innerHTML = ps.length ? ps.map(p=>{
+    const lc=p.lastChat, waiting=lc && lc.from==='user' && !p.botOn;
+    return `<div class="ca-item${AP.chatWith===p.id?' on':''}" data-chatwith="${esc(p.id)}"><div class="avatar">${esc([...p.name][0]||'?')}</div>
+      <div class="mn"><div class="a"><span class="pdot${p.online?' on':''}"></span>${esc(p.name)}${p.vip?' 👑':''}${waiting?' <span class="badge held">รอตอบ</span>':''}${p.botOn?'':' <span class="badge pending">ตอบเอง</span>'}</div>
+        <div class="b">${lc?esc((lc.from==='user'?'':SENDER[lc.from]+': ')+lc.text):'ยังไม่มีข้อความ'}</div></div></div>`;
+  }).join('') : '<div class="empty">ยังไม่มีผู้ใช้</div>';
+  const t=AP.thread, head=document.getElementById('caHead'), msgs=document.getElementById('caMsgs');
+  const inp=document.getElementById('caText'), send=document.getElementById('caSend');
+  if(!t || t.player.id!==AP.chatWith){ inp.disabled=send.disabled=true; return; }
+  inp.disabled=send.disabled=false;
+  head.innerHTML=`<div class="avatar">${esc([...t.player.name][0]||'?')}</div><div style="flex:1;min-width:0"><b>${esc(t.player.name)}</b>${t.player.vip?' <span class="badge vip">👑 VIP</span>':''}<div class="meta">${t.messages.length} ข้อความ</div></div>
+    <label class="switch"><input type="checkbox" id="caBot"${t.player.botOn?' checked':''}> บอทตอบอัตโนมัติ</label>`;
+  const key=t.player.id+':'+(t.messages.length?t.messages[t.messages.length-1].id:0);
+  if(key!==AP.threadKey){
+    const atBottom=msgs.scrollHeight-msgs.scrollTop-msgs.clientHeight<60 || !AP.threadKey.startsWith(t.player.id+':');
+    msgs.innerHTML=t.messages.length?t.messages.map(adminBubble).join(''):'<div class="empty">ยังไม่มีข้อความ</div>';
+    AP.threadKey=key; if(atBottom) msgs.scrollTop=msgs.scrollHeight;
+  }
+}
+async function adminSendChat(){
+  const inp=document.getElementById('caText'), text=inp.value.trim(); if(!text||!AP.chatWith) return;
+  try{ await adminApi({action:'reply',playerId:AP.chatWith,text}); inp.value=''; loadPanel(); }
+  catch(e){ if(e.status!==401) toast(e.message); }
+}
+function openChatWith(id){ AP.chatWith=id; AP.thread=null; AP.tab='chat'; renderPanelShell(); loadPanel(); }
+
+document.getElementById('apTabs').addEventListener('click',e=>{ const b=e.target.closest('[data-aptab]'); if(!b) return; AP.tab=b.dataset.aptab; renderPanelShell(); loadPanel(); });
+document.getElementById('apBody').addEventListener('keydown',e=>{ if(e.key==='Enter' && e.target.id==='caText') adminSendChat(); });
 document.getElementById('apBody').addEventListener('click',async e=>{
   const t=e.target, g=id=>document.getElementById(id);
-  const adj=t.closest('[data-adj]');
-  if(adj){
-    const amt=Math.abs(parseFloat(g('adjAmt').value)||0)*Number(adj.dataset.sign);
-    if(!amt) return toast('ใส่จำนวนเงินก่อน');
-    adj.disabled=true;
-    try{ await adminApi({action:'credit',target:adj.dataset.adj,amount:amt});
-      toast((amt>0?'เพิ่ม':'ลด')+'เงิน '+F0(Math.abs(amt))+' ฿ '+(adj.dataset.adj==='all'?'ให้ผู้ฟังทุกคน':'ให้ผู้ฟังคนนี้')+'แล้ว'); loadPanel(); }
-    catch(err){ if(err.status!==401) toast('ไม่สำเร็จ: '+err.message); adj.disabled=false; }
+  // เลือกบัญชี
+  const pick=t.closest('[data-pick]');
+  if(pick){ const id=pick.dataset.pick; pick.checked?AP.sel.add(id):AP.sel.delete(id);
+    pick.closest('.prow').classList.toggle('picked',pick.checked);
+    const pa=g('pickAll'); if(pa&&AP.data) pa.checked=AP.sel.size===AP.data.players.length; updSel(); return; }
+  if(t.closest('.pick')) return;   // คลิกที่ label → ปล่อยให้ checkbox จัดการ
+  if(t.id==='pickAll'){ AP.sel=new Set(t.checked&&AP.data?AP.data.players.map(p=>p.id):[]); renderPanelDynamic(); return; }
+  const gk=t.closest('[data-gk]');
+  if(gk){ AP.gkind=gk.dataset.gk; document.querySelectorAll('[data-gk]').forEach(x=>x.classList.toggle('on',x===gk));
+    g('gHint').textContent=GRANT_KINDS[AP.gkind][2]; if(AP.gkind==='vip') g('gAmt').value=0; else if(!(parseFloat(g('gAmt').value)>0)) g('gAmt').value=1000; return; }
+  if(t.closest('#gSelBtn')) return doGrant(false);
+  if(t.closest('#gAllBtn')) return doGrant(true);
+  const oc=t.closest('[data-openchat]'); if(oc) return openChatWith(oc.dataset.openchat);
+  // แชท
+  const cw=t.closest('[data-chatwith]'); if(cw) return openChatWith(cw.dataset.chatwith);
+  if(t.closest('#caSend')) return adminSendChat();
+  if(t.id==='caBot'){
+    try{ await adminApi({action:'bot',playerId:AP.chatWith,on:t.checked}); toast(t.checked?'เปิดบอทตอบอัตโนมัติแล้ว':'ปิดบอทแล้ว — พิมพ์ตอบเองได้เลย'); loadPanel(); }
+    catch(err){ if(err.status!==401) toast(err.message); }
     return;
   }
   const dec=t.closest('[data-decide]');
@@ -1941,7 +2393,7 @@ document.getElementById('apBody').addEventListener('click',async e=>{
     catch(err){ if(err.status!==401) toast(err.message); loadPanel(); }
     return;
   }
-  const amtChip=t.closest('[data-amt]'); if(amtChip){ g('adjAmt').value=amtChip.dataset.amt; return; }
+  const amtChip=t.closest('[data-amt]'); if(amtChip){ (g('gAmt')||{}).value=amtChip.dataset.amt; return; }
   const pre=t.closest('[data-preset]'); if(pre){ const p=PRESETS[+pre.dataset.preset]; g('apTitle').value=p[1]; g('apMsg').value=p[2]; return; }
   const ev=t.closest('[data-ev]'); if(ev){ presenterAct(ev.dataset.ev,{local:false}); return; }
   if(t.closest('#apSend')){
@@ -1958,6 +2410,107 @@ document.getElementById('apBody').addEventListener('click',async e=>{
   if(t.closest('#apReset')){ presenterReset(); return; }
   const row=t.closest('[data-pexp]'); if(row){ AP.expanded=AP.expanded===row.dataset.pexp?'':row.dataset.pexp; renderPanelDynamic(); }
 });
+document.getElementById('admQr').onclick=()=>openQr();
+document.getElementById('admApp').onclick=()=>{ show('app'); toast('มุมมองหน้าแอปผู้ใช้ — กด 🖥️ หลังบ้านแอดมิน ที่แถบล่างเพื่อกลับ'); };
+document.getElementById('admOut').onclick=()=>logout();
+
+/* ----- แชทติดต่อแอดมินฝั่งผู้ใช้: บอทตอบอัตโนมัติตามสคริปต์ "ฝ่ายบริการลูกค้า" ของเว็บหลอกลงทุน ----- */
+const QUICK=['ถอนเงินไม่ได้','ทำไมต้องจ่ายภาษี','เว็บนี้โกงหรือเปล่า','ฝากเพิ่มได้โบนัสไหม','ไม่มีเงินจ่ายแล้ว'];
+let chatTyping=false;
+function botReply(text){
+  const t=String(text).toLowerCase(), name=S.userName, reqs=NET.joined?NET.requests:[];
+  const has=(...w)=>w.some(x=>t.includes(x));
+  const held=reqs.find(r=>r.kind==='withdraw'&&r.status==='held'), pend=reqs.find(r=>r.kind==='withdraw'&&r.status==='pending');
+  if(has('ไม่มีเงิน','เงินไม่พอ','หมดตัว','กู้','ยืม')) return {text:`เข้าใจค่ะคุณ${name} 🙏 ลูกค้าหลายท่านแก้ปัญหาโดยยืมเงินเพื่อนหรือญาติมาชำระก่อนค่ะ พอถอนได้ก็คืนได้ทันที ยอดในพอร์ตของคุณมากกว่าค่าธรรมเนียมหลายเท่าเลยนะคะ`,
+    teach:'ยุให้กู้ยืมเงินมาจ่าย = สัญญาณอันตรายสูงสุด เงินที่จ่ายไปจะไม่มีวันได้คืน'};
+  if(has('โกง','หลอก','มิจฉา','scam','แจ้งความ','ตำรวจ','ปลอม','1441')) return {text:'บริษัทของเราได้รับใบอนุญาตถูกต้องและมีสมาชิกกว่า 50,000 คนค่ะ 😊 แต่หากยกเลิกหรือแจ้งความตอนนี้ ระบบจะระงับบัญชีและยอดเงินทั้งหมดจะถูกยึดตามเงื่อนไขนะคะ',
+    teach:'อ้างใบอนุญาตลอย ๆ + ขู่ว่าจะยึดเงินถ้าแจ้งความ — ของจริงตรวจสอบรายชื่อได้ที่เว็บไซต์ ก.ล.ต.'};
+  if(has('ภาษี','ค่าธรรมเนียม','ค่าปลดล็อก','ทำไมต้องจ่าย','หักจาก')) return {text:'ค่าภาษี ณ ที่จ่ายเป็นไปตามกฎหมายค่ะ ไม่สามารถหักจากยอดในพอร์ตได้ ต้องโอนแยกเข้ามาเท่านั้นนะคะ ชำระแล้วระบบปลดล็อกภายใน 5 นาทีค่ะ 🙏',
+    teach:'"หักจากยอดไม่ได้ ต้องโอนแยก" = เงินในพอร์ตไม่มีอยู่จริง ของจริงไม่มีใครเก็บภาษีแบบนี้'};
+  if(has('ถอน','withdraw','เงินไม่เข้า','ไม่ได้รับเงิน')){
+    if(held) return {text:`ตรวจสอบแล้วค่ะ รายการถอน ${F(held.amount)} ฿ ของคุณรอชำระภาษี ${F(held.fee)} ฿ อยู่ค่ะ ชำระแล้วระบบจะโอนให้ทันที กดปุ่ม "ชำระภาษี" ที่เมนูถอนเงินได้เลยค่ะ`,
+      teach:'ต้องจ่ายเงินเพิ่มก่อนถึงจะถอนได้ = ถูกหลอก 100%'};
+    if(pend) return {text:`รายการถอน ${F(pend.amount)} ฿ อยู่ระหว่างตรวจสอบโดยฝ่ายการเงินค่ะ ใช้เวลา 24–48 ชม. ระหว่างนี้แนะนำให้เทรดต่อเพื่อเพิ่มกำไรนะคะ 📈`,
+      teach:'ถ่วงเวลา และชวนให้เทรด/ฝากต่อ'};
+    return {text:'การถอนเงินต้องชำระภาษี ณ ที่จ่าย 15% ก่อนค่ะ และสมาชิก VIP จะถอนได้ไวกว่า สนใจอัปเกรด VIP ไหมคะ 👑',
+      teach:'เงื่อนไขการถอนที่ไม่เคยบอกตอนสมัคร + ขายของเพิ่ม'};
+  }
+  if(has('ฝาก','โอน','เติม','deposit')) return {text:'ฝากขั้นต่ำ 500 ฿ ค่ะ 🎁 วันนี้ฝาก 2,000 ฿ ขึ้นไปรับโบนัสเพิ่ม 20% ทันที โปรโมชันหมดเขตเที่ยงคืนนี้นะคะ',
+    teach:'โบนัส + เส้นตาย = กดดันให้รีบโอนก้อนใหญ่'};
+  if(has('vip','โบนัส','สิทธิ')) return {text:'สมาชิก VIP รับโบนัสฝาก 50% ถอนได้ไวกว่า และมีผู้ดูแลส่วนตัวค่ะ เพียงฝากสะสมครบ 10,000 ฿ ค่ะ 👑',
+    teach:'สิทธิพิเศษหลอก ๆ เพื่อให้ฝากเพิ่ม'};
+  if(has('กำไร','การันตี','ปลอดภัย','เสี่ยง','ขาดทุน')) return {text:'ระบบ AI ของเราการันตีกำไร 90% ต่อเดือน ไม่มีขาดทุนแน่นอนค่ะ ลูกค้าหลายท่านได้กำไรหลักแสนแล้ว 💰',
+    teach:'การลงทุนจริงไม่มีใครการันตีกำไรได้'};
+  if(has('คืนเงิน','ยกเลิก','ปิดบัญชี','เลิก')) return {text:'หากปิดบัญชีก่อนครบสัญญา ยอดเงินทั้งหมดจะถูกยึดตามเงื่อนไขค่ะ แนะนำให้ชำระค่าปลดล็อกบัญชีก่อนนะคะ 🙏',
+    teach:'ขู่ยึดเงินเพื่อไม่ให้เหยื่อหยุด'};
+  if(has('ขอบคุณ','thank')) return {text:'ยินดีให้บริการค่ะ 💛 อย่าลืมฝากเพิ่มเพื่อรับโบนัสนะคะ', teach:'ทุกคำตอบวนกลับมาที่ "ฝากเพิ่ม"'};
+  if(has('สวัสดี','หวัดดี','hello','ดีครับ','ดีค่ะ')) return {text:`สวัสดีค่ะคุณ${name} 🙏 ฝ่ายบริการลูกค้า AI Gold Trade ยินดีให้บริการตลอด 24 ชม. ค่ะ มีอะไรให้ช่วยคะ`,
+    teach:'แอดมินสุภาพ ตอบไว เป็นมิตร — เพื่อสร้างความเชื่อใจ'};
+  return {text:'รับทราบค่ะ 🙏 เพื่อความรวดเร็ว แนะนำให้ฝากเงินเพิ่มเพื่อยืนยันตัวตนบัญชีค่ะ หากมีปัญหาเรื่องถอนเงิน พิมพ์คำว่า "ถอนเงิน" ได้เลยค่ะ',
+    teach:'ไม่ว่าถามอะไร คำตอบคือ "ฝากเงินเพิ่ม"'};
+}
+function chatBubble(m){
+  if(m.from==='system') return `<div class="cm sys">${esc(m.text)}</div>`;
+  const mine=m.from==='user';
+  const teach=m.meta&&m.meta.teach&&(S.presenter||NET.revealed)?`<div class="cm-teach">💡 จุดสอน: ${esc(m.meta.teach)}</div>`:'';
+  return `<div class="cm ${mine?'me':'them'}">${mine?'':'<div class="cm-who">เจ้าหน้าที่</div>'}<div class="cm-b">${esc(m.text)}</div><div class="cm-t">${hhmm(m.at)}</div>${teach}</div>`;
+}
+function renderChat(){
+  const box=document.getElementById('chatMsgs');
+  box.innerHTML=(NET.chat.length?NET.chat.map(chatBubble).join(''):'<div class="cm sys">เริ่มสนทนากับฝ่ายบริการลูกค้าได้เลย</div>')
+    +(chatTyping?'<div class="cm them"><div class="cm-b typing"><span></span><span></span><span></span></div></div>':'');
+  box.scrollTop=box.scrollHeight;
+}
+const chatOpen=()=>document.getElementById('ovChat').classList.contains('on');
+function updChatBadge(){
+  const b=document.getElementById('chatBadge'); b.hidden=!NET.unread; b.textContent=NET.unread>9?'9+':NET.unread;
+  document.getElementById('chatFab').hidden=!!S.presenter;
+}
+function addChat(list, silent){
+  const seen=new Set(NET.chat.map(m=>m.id)), fresh=[];
+  for(const m of list||[]){ if(seen.has(m.id)) continue; seen.add(m.id); NET.chat.push(m); fresh.push(m);
+    if(typeof m.id==='number') NET.chatLast=Math.max(NET.chatLast,m.id); }
+  NET.chat.sort((a,b)=>a.at-b.at); if(NET.chat.length>150) NET.chat=NET.chat.slice(-150);
+  if(!silent){
+    const open=chatOpen();
+    fresh.forEach(m=>{
+      if(m.from==='user') return;
+      if(!open) NET.unread++;
+      if(m.from==='system'){ const k=m.meta&&m.meta.kind;
+        if(k==='vip'||k==='bonus') notice(k==='vip'?'👑 สิทธิ์สมาชิก VIP':'🎁 โบนัสพิเศษ', m.text); else toast(m.text); }
+      else if(m.from==='admin' && !open) toast('💬 ข้อความจากเจ้าหน้าที่: '+m.text.slice(0,60));
+    });
+  }
+  updChatBadge(); if(chatOpen()) renderChat();
+}
+function openChat(){
+  closeOv('ovWithdraw'); NET.unread=0; updChatBadge(); renderChat(); openOv('ovChat');
+  document.getElementById('chatQuick').innerHTML=QUICK.map(q=>`<button class="qchip" data-q="${esc(q)}">${esc(q)}</button>`).join('');
+  if(!NET.chat.some(m=>m.from!=='system')) botAnswer('สวัสดี', true);
+  setTimeout(()=>document.getElementById('chatText').focus(),60);
+}
+async function sendChat(text){
+  text=String(text||'').trim(); if(!text) return;
+  document.getElementById('chatText').value='';
+  if(NET.joined){
+    try{ const r=await papi({action:'chat',text}); addChat([r.msg]); if(r.botOn) botAnswer(text); }
+    catch(e){ if(e.status!==401) toast(e.message); }
+  } else { addChat([{id:'l'+Date.now(),from:'user',text,at:Date.now(),meta:{}}]); botAnswer(text); }
+}
+function botAnswer(text, quick){
+  chatTyping=true; renderChat();
+  setTimeout(async()=>{
+    const r=botReply(text);
+    if(NET.joined){ try{ const x=await papi({action:'chat',text:r.text,as:'bot',teach:r.teach}); if(x.msg) addChat([x.msg]); }catch{} }
+    else addChat([{id:'l'+Date.now()+'b',from:'bot',text:r.text,at:Date.now(),meta:{teach:r.teach}}]);
+    chatTyping=false; renderChat();
+  }, quick?500:900+Math.random()*900);
+}
+document.getElementById('chatFab').onclick=openChat;
+document.getElementById('chatSend').onclick=()=>sendChat(document.getElementById('chatText').value);
+document.getElementById('chatText').addEventListener('keydown',e=>{ if(e.key==='Enter') sendChat(e.target.value); });
+document.getElementById('chatQuick').addEventListener('click',e=>{ const q=e.target.closest('[data-q]'); if(q) sendChat(q.dataset.q); });
+document.getElementById('wLine').addEventListener('click',()=>setTimeout(openChat,0));
 
 // login / signup — เข้าแอปได้ต้องมีบัญชี (ผู้บรรยายใช้ชื่อ admin + รหัสผู้บรรยาย)
 document.getElementById('lgIn').onclick=doLogin;
@@ -1988,7 +2541,7 @@ document.getElementById('adGo').onclick=async()=>{
 function togglePresenter(){
   document.getElementById('pbar').classList.toggle('on',S.presenter);
   document.getElementById('lockBtn').classList.toggle('on',S.presenter);
-  setConn();
+  setConn(); updChatBadge();
 }
 function setConn(){
   const el=document.getElementById('connState'); if(!el) return;
@@ -2029,7 +2582,7 @@ async function start(){
       const j=await api('api/room',{action:'session',token:saved.net.ptoken});
       freshUser(saved.S.userName);
       Object.assign(S, saved.S, {presenter:false});
-      if(S.assets) S.assets=S.assets.map(a=>({...a, candles:seedAround(ASSET_DEFS.find(d=>d.sym===a.sym)||a, a.price)}));
+      if(S.assets){ MARKET.hold=S.assets.map(({sym,units,entry,price})=>({sym,units,entry,price})); S.assets=null; }
       Object.assign(NET, saved.net);
       beginSession({...j, token:saved.net.ptoken}, false);
     }catch(e){
