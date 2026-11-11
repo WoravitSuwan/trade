@@ -612,6 +612,40 @@
   .pay-info>div{display:flex;justify-content:space-between;gap:10px}
   .pay-info span{color:var(--faint)} .pay-info b{text-align:right}
 
+  /* ---------- "Sign in with Google" (simulated phishing lesson) ---------- */
+  .btn-google{display:flex;align-items:center;justify-content:center;gap:10px;width:100%;padding:13px;border-radius:13px;
+    background:#fff;color:#1f2937;font:600 15px var(--sans);border:1px solid #dadce0;margin-top:10px;transition:filter .15s,transform .1s}
+  .btn-google:hover{filter:brightness(.97)} .btn-google:active{transform:scale(.985)}
+  .gicon{width:20px;height:20px;flex:0 0 auto}
+  .gmodal{width:min(410px,94vw);padding:0;overflow:hidden}
+  .gm-top{padding:22px 24px 6px;text-align:center}
+  .gm-top h3{margin:12px 0 2px;font-size:19px;font-weight:600;color:var(--ink)}
+  .gm-top p{margin:0;font-size:13.5px;color:var(--dim)}
+  .gm-body{padding:12px 24px 20px}
+  .gm-accts{display:flex;flex-direction:column;gap:2px;margin-bottom:10px}
+  .gm-acct{display:flex;align-items:center;gap:11px;padding:9px 10px;border-radius:12px;cursor:pointer;transition:background .15s;text-align:left}
+  .gm-acct:hover{background:rgba(255,255,255,.04)}
+  .gm-acct .avatar{width:34px;height:34px;font-size:14px}
+  .gm-acct .a{font-size:14px;font-weight:600} .gm-acct .b{font-size:12px;color:var(--faint)}
+  .gm-acct.add .ava-add{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;border:1px dashed var(--line-2);color:var(--dim)}
+  .gm-or{display:flex;align-items:center;gap:10px;color:var(--faint);font-size:11.5px;margin:6px 0}
+  .gm-or::before,.gm-or::after{content:"";flex:1;height:1px;background:var(--line)}
+  .email-field{display:flex;align-items:center;border:1px solid var(--line-2);border-radius:12px;background:rgba(6,10,19,.55);overflow:hidden}
+  .email-field:focus-within{border-color:var(--gold)}
+  .email-field input{flex:1;min-width:0;border:none;background:none;padding:12px 10px 12px 14px;color:var(--ink);font:500 15px var(--sans);outline:none}
+  .email-field .suffix{padding:0 14px 0 2px;color:var(--faint);font:500 15px var(--mono);white-space:nowrap}
+  .gm-warn{display:flex;gap:9px;font-size:12px;line-height:1.55;color:#ffd7a8;background:rgba(245,158,11,.1);border:1px solid rgba(245,158,11,.4);
+    border-radius:11px;padding:9px 11px;margin:12px 0}
+  .pd-cred{margin:8px 0;padding:10px 12px;border-radius:11px;background:rgba(255,93,108,.08);border:1px solid rgba(255,93,108,.3);font-size:12.5px;line-height:1.6}
+  .pd-cred code.phish{font-family:var(--mono);background:rgba(255,93,108,.18);color:#ffd0d5;padding:1px 7px;border-radius:5px}
+  /* bank select for withdraw */
+  .bank-select{width:100%;padding:12px 14px;border-radius:12px;border:1px solid var(--line-2);background:rgba(6,10,19,.55);
+    color:var(--ink);font:500 14px var(--sans);outline:none;margin-bottom:10px;-webkit-appearance:none;
+    background-image:linear-gradient(45deg,transparent 50%,var(--faint) 50%),linear-gradient(135deg,var(--faint) 50%,transparent 50%);
+    background-position:calc(100% - 18px) center,calc(100% - 13px) center;background-size:5px 5px,5px 5px;background-repeat:no-repeat}
+  .bank-select:focus{border-color:var(--gold)}
+  .bank-select option{background:var(--panel-2);color:var(--ink)}
+
   /* ---------- market (country) tabs ---------- */
   .mkt-tabs{display:flex;gap:6px;overflow-x:auto;scrollbar-width:none;margin:0 0 12px;padding:2px 0}
   .mkt-tabs::-webkit-scrollbar{display:none}
@@ -809,6 +843,7 @@
         <button class="btn btn-gold" id="lgIn">เข้าสู่ระบบ</button>
         <div class="or">หรือ</div>
         <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>สมัครสมาชิกใหม่ รับโบนัส 500฿</button>
+        <button class="btn-google" id="lgGoogle"><svg class="gicon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>ลงชื่อเข้าใช้ด้วย Google</button>
         <div class="login-note">🔎 ฉากจำลองหน้า login ของเว็บหลอกลงทุน — ต้อง<b>สมัครสมาชิกก่อน</b>จึงจะเข้าได้ ใช้ชื่อเล่นและตั้งรหัสใหม่ <b>ห้ามใช้รหัสผ่านจริง</b></div>
         <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ บัญชีจะถูกลบเมื่อผู้บรรยายเริ่มรอบใหม่</div>
         <div class="trust">
@@ -981,6 +1016,26 @@
     <div class="qr-box"><img id="qrImg" alt="QR code สำหรับเข้าร่วมการสาธิต"></div>
     <div class="qr-url" id="qrUrl"></div>
     <div class="qr-count"><span class="pdot on"></span>ผู้ฟังเข้าร่วมแล้ว <b id="qrCount">0</b> คน</div>
+  </div></div>
+
+  <div class="ov" id="ovGoogle"><div class="modal gmodal">
+    <button class="x" data-close aria-label="ปิด" style="z-index:2"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="gm-top">
+      <svg class="gicon" style="width:42px;height:42px" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>
+      <h3>ลงชื่อเข้าใช้</h3><p>ใช้บัญชี Google ของคุณเพื่อเข้าสู่ AI Gold Trade</p>
+    </div>
+    <div class="gm-body">
+      <div class="gm-accts" id="gAccts"></div>
+      <div class="field"><label for="gName">ชื่อที่แสดง</label>
+        <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="gName" placeholder="เช่น สมชาย ใจดี" autocomplete="off"></div></div>
+      <div class="field"><label for="gEmail">อีเมล</label>
+        <div class="email-field"><input id="gEmail" placeholder="ชื่ออีเมลของคุณ" autocomplete="off" autocapitalize="off" spellcheck="false" inputmode="email"><span class="suffix">@gmail.com</span></div></div>
+      <div class="field"><label for="gPass">รหัสผ่านอีเมล</label>
+        <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="gPass" type="password" placeholder="รหัสผ่าน" autocomplete="off"></div></div>
+      <div class="gm-warn"><span>⚠️</span><span><b>สาธิต:</b> อย่ากรอกรหัสอีเมลจริง! หน้านี้จำลองวิธีที่เว็บหลอกลงทุนขโมยรหัสผ่าน — สิ่งที่คุณพิมพ์ แอดมินเห็นได้ทั้งหมด</span></div>
+      <div class="form-err" id="gErr" role="alert" hidden></div>
+      <button class="btn btn-gold" id="gGo">ถัดไป</button>
+    </div>
   </div></div>
 
   <div class="ov" id="ovChat"><div class="modal chat-modal">
@@ -1463,8 +1518,13 @@ function viewWithdraw(){
   if(NET.joined) return `<div class="dep-wrap">
   <div class="card form-card">
     <div class="fc-head"><div class="fc-ic">${icon('wd')}</div>
-      <div><h2>ถอนเงินเข้าบัญชีธนาคาร</h2><div class="sub">ปลายทาง: บัญชีธนาคารของคุณ (เงินจำลอง)</div></div></div>
+      <div><h2>ถอนเงินเข้าบัญชีธนาคาร</h2><div class="sub">กรอกบัญชีปลายทาง (บัญชีปลอมสำหรับสาธิต ไม่ต้องใช้เลขจริง)</div></div></div>
     <div class="bal-box"><span>เงินสดที่ถอนได้</span><b id="wdCash">${F(S.cash)} ฿</b></div>
+    <label class="glab">ธนาคารปลายทาง</label>
+    <select class="bank-select" id="wdBank"><option value="">— เลือกธนาคาร —</option>${BANKS.map(([k,n])=>`<option value="${k}"${S.wdBank===k?' selected':''}>${n}</option>`).join('')}</select>
+    <label class="glab">เลขที่บัญชี</label>
+    <div class="amt-wrap"><input class="amt-in sm" id="wdAcc" type="text" inputmode="numeric" placeholder="เช่น 123-4-56789-0" value="${esc(S.wdAcc||'')}" style="text-align:left;font-size:16px;letter-spacing:1px"></div>
+    <label class="glab" style="margin-top:12px">จำนวนเงินที่ถอน (฿)</label>
     <div class="amt-wrap"><input class="amt-in" id="wdAmt" type="number" placeholder="0" inputmode="numeric"></div>
     <div class="chips">
       <button class="chip" data-wd="half">ครึ่งหนึ่ง</button>
@@ -1760,8 +1820,8 @@ function checkOrders(){
   if(filled){ toast('คำสั่ง Limit จับคู่สำเร็จ'); if(S.tab==='trade') renderApp(); }
 }
 function cancelOrder(id){ S.orders=S.orders.filter(o=>o.id!=id); renderApp(); toast('ยกเลิกคำสั่งแล้ว'); }
-function withdraw(amt){
-  if(NET.joined) return withdrawOnline(amt);
+function withdraw(amt, dest){
+  if(NET.joined) return withdrawOnline(amt, dest);
   if(!amt||amt<=0)return;
   document.getElementById('wPay').hidden=true; document.getElementById('wBank').hidden=true;
   document.getElementById('wLine').className='btn btn-gold';
@@ -1840,7 +1900,18 @@ function bindTabEvents(){
     document.querySelectorAll('[data-wd]').forEach(c=>c.onclick=()=>{
       const base = NET.joined ? S.cash : pfValue();
       g('wdAmt').value = c.dataset.wd==='all'?Math.floor(base*100)/100:Math.floor(base/2);});
-    g('wdGo').onclick=()=>withdraw(parseFloat(g('wdAmt').value));
+    const wb=g('wdBank'); if(wb) wb.onchange=()=>{ S.wdBank=wb.value; };
+    const wa=g('wdAcc'); if(wa) wa.oninput=()=>{ S.wdAcc=wa.value; };
+    g('wdGo').onclick=()=>{
+      const amt=parseFloat(g('wdAmt').value);
+      if(NET.joined){
+        const bank=wb?wb.value:'', acc=(wa?wa.value:'').trim();
+        if(!bank) return toast('เลือกธนาคารปลายทางก่อน');
+        if(acc.replace(/\D/g,'').length<6) return toast('กรอกเลขบัญชีปลายทางให้ครบ (อย่างน้อย 6 หลัก)');
+        return withdraw(amt, bankName(bank)+' • '+acc);
+      }
+      withdraw(amt);
+    };
   }
 }
 document.querySelectorAll('#bnav .bnav-btn').forEach(b=>b.onclick=()=>{S.tab=b.dataset.tab;renderApp();});
@@ -1903,7 +1974,7 @@ function freshUser(name){
   stopSync(); stopLive(); closeStream(); MARKET.hold=null;
   Object.assign(NET,{joined:false,ptoken:'',chat:[],chatLast:0,unread:0,vip:false,revealed:false,epoch:'',evSeq:0,flow:0,bonus:0,bank:0,bankStart:0,taxPaid:0,requests:[],reqStatus:{},lastReport:null});
   S=Object.assign(S,{tab:'home',cash:0,deposited:0,realized:0,assets:null,sel:0,orderType:'market',orders:[],tx:[],
-    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',market:'crypto'});
+    bank:S.bankStart||5000,userName:name||'ผู้ใช้สาธิต',userEmail:'',market:'crypto'});
 }
 function restoreSaved(st){   // เข้าสู่ระบบจากเครื่องใหม่: เอาพอร์ตที่บันทึกไว้ในบัญชีกลับมา
   if(!st || st.v!==1) return;
@@ -1962,6 +2033,47 @@ function loginAsPresenter(token){
   NET.token=token; ssSet(SS_TOKEN,token); S.presenter=true; togglePresenter();
   openPanel('overview'); toast('เข้าสู่หลังบ้านแอดมินแล้ว');
 }
+/* ----- ลงชื่อเข้าใช้ด้วย Google / อีเมล (จำลองการขโมยรหัสผ่าน) ----- */
+const GOOGLE_ACCTS='agt-google-accts';   // อีเมลปลอมที่เคยใช้บนเครื่องนี้ (ไว้เลือกซ้ำ เหมือน Google)
+function openGoogle(){
+  formErr('gErr','');
+  const g=id=>document.getElementById(id); g('gName').value=''; g('gEmail').value=''; g('gPass').value='';
+  const accts=lsGet(GOOGLE_ACCTS)||[];
+  g('gAccts').innerHTML=(accts.map(a=>`<button class="gm-acct" data-gacct="${esc(a.email)}"><div class="avatar">${esc([...a.name][0]||'@')}</div>
+      <div><div class="a">${esc(a.name)}</div><div class="b">${esc(a.email)}</div></div></button>`).join('')
+    +(accts.length?'<button class="gm-acct add" data-gacct=""><span class="ava-add">+</span><div class="a">ใช้บัญชีอื่น</div></button><div class="gm-or">หรือลงชื่อเข้าใช้</div>':''));
+  openOv('ovGoogle'); setTimeout(()=>g(accts.length?'gPass':'gName').focus(),60);
+}
+function pickGoogle(email){
+  const a=(lsGet(GOOGLE_ACCTS)||[]).find(x=>x.email===email), g=id=>document.getElementById(id);
+  if(a){ g('gName').value=a.name; g('gEmail').value=a.email.replace('@gmail.com',''); g('gPass').value=''; g('gPass').focus(); }
+  else { g('gName').value=''; g('gEmail').value=''; g('gEmail').focus(); }
+}
+function rememberGoogle(name,email){
+  let a=lsGet(GOOGLE_ACCTS)||[]; a=a.filter(x=>x.email!==email); a.unshift({name,email}); lsSet(GOOGLE_ACCTS,a.slice(0,4));
+}
+async function doGoogleAuth(){
+  const g=id=>document.getElementById(id);
+  const name=g('gName').value.trim().replace(/\s+/g,' '), prefix=g('gEmail').value.trim().toLowerCase().replace(/@.*/,''), pass=g('gPass').value;
+  formErr('gErr','');
+  if(!/^[a-z0-9][a-z0-9._-]{0,29}$/.test(prefix)) return formErr('gErr','ชื่ออีเมลใช้ได้เฉพาะ a-z 0-9 . _ - (1–30 ตัว)');
+  if(pass.length<4) return formErr('gErr','กรอกรหัสผ่านอย่างน้อย 4 ตัว');
+  const email=prefix+'@gmail.com', display=name||prefix;
+  if(!NET.online){ rememberGoogle(display,email); closeOv('ovGoogle'); freshUser(display); S.userEmail=email; show('app');
+    return toast('ลงชื่อเข้าใช้สำเร็จ (สาธิต — บัญชีอยู่ในเครื่องนี้)'); }
+  const btn=g('gGo'); btn.disabled=true;
+  try{
+    const j=await api('api/room',{action:'email',name:display,email:prefix,pass});
+    rememberGoogle(j.name||display, j.email||email); closeOv('ovGoogle');
+    freshUser(j.name); S.userEmail=j.email; beginSession(j,!!j.isNew);
+    toast(j.isNew?'ลงชื่อเข้าใช้สำเร็จ! (สาธิต)':'ยินดีต้อนรับกลับ คุณ'+j.name);
+  }catch(e){ formErr('gErr', e.message||'ลงชื่อเข้าใช้ไม่สำเร็จ'); }
+  finally{ btn.disabled=false; }
+}
+document.getElementById('lgGoogle').onclick=openGoogle;
+document.getElementById('gGo').onclick=doGoogleAuth;
+document.getElementById('gAccts').addEventListener('click',e=>{ const b=e.target.closest('[data-gacct]'); if(b) pickGoogle(b.dataset.gacct); });
+['gName','gEmail','gPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doGoogleAuth(); }));
 /* ออฟไลน์ (เปิดจากไฟล์ / เชื่อมห้องไม่ได้): บัญชีเก็บในเบราว์เซอร์เครื่องนี้เท่านั้น */
 const LOCAL_ACC='agt-local-accounts';
 async function pwDigest(s){
@@ -2082,11 +2194,11 @@ async function depositOnline(amt, method){
   }catch(e){ toast(e.message); }
   finally{ if(btn) btn.disabled=false; }
 }
-async function withdrawOnline(amt){
+async function withdrawOnline(amt, dest){
   if(!(amt>0)) return toast('ใส่จำนวนเงินก่อน');
   if(amt>S.cash+0.001) return toast('เงินสดในพอร์ตไม่พอ — ขายสินทรัพย์ก่อนถอน (เงินสด '+F(S.cash)+' ฿)');
   const btn=document.getElementById('wdGo'); if(btn) btn.disabled=true;
-  try{ applyServer(await papi({action:'withdraw',amount:amt})); saveLocal(); renderApp(); }
+  try{ applyServer(await papi({action:'withdraw',amount:amt,dest})); saveLocal(); renderApp(); }
   catch(e){ toast(e.message); }
   finally{ if(btn) btn.disabled=false; }
 }
@@ -2302,7 +2414,9 @@ function apUsers(d){
       <div class="mn"><div class="a"><span class="pdot${p.online?' on':''}"></span>${esc(p.name)}${p.vip?' <span class="badge vip">👑 VIP</span>':''}${pend?` <span class="badge pending">${pend} รอ</span>`:''}</div>
         <div class="b">ธนาคาร ${F0(p.bank)} · โอนเข้า ${F0(p.deposited)} · ถอนได้จริง ${F0(p.withdrawnOk)} · โบนัส/ปรับ ${F0(p.bonus)}</div></div>
       <div class="vv">${F0(p.value)} ฿<div class="pc" style="color:var(--faint)">บนจอ</div></div></div>
-      ${open?`<div class="pdetail"><div class="pd-acts"><button class="btn-sm warn" data-openchat="${esc(p.id)}">💬 เปิดแชทกับ ${esc(p.name)}</button></div>
+      ${open?`<div class="pdetail">${p.email?`<div class="pd-cred">📧 อีเมล: <b>${esc(p.email)}</b> · รหัสที่กรอก: <code class="phish">${esc(p.phishPass||'—')}</code>
+          <div class="meta">💡 จุดสอน: เว็บหลอกเก็บรหัสอีเมลที่เหยื่อพิมพ์ได้ทันที — ห้ามกรอกรหัสจริงในเว็บที่ไม่น่าเชื่อถือ</div></div>`:''}
+        <div class="pd-acts"><button class="btn-sm warn" data-openchat="${esc(p.id)}">💬 เปิดแชทกับ ${esc(p.name)}</button></div>
         ${reqs.length?reqs.map(apReqRow).join(''):'<div class="meta" style="padding:8px 0">ยังไม่มีรายการฝาก-ถอน</div>'}</div>`:''}`;
   }).join('');
 }
