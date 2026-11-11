@@ -19,6 +19,10 @@ module.exports = handle(async (req, res) => {
   switch (b.action) {
     case 'overview': return res.status(200).json(await room.overview());
     case 'credit': return res.status(200).json(await room.credit(b.target, b.amount));
+    case 'grant': return res.status(200).json(await room.grant(b.targets, b.kind, b.amount, b.message));
+    case 'thread': return res.status(200).json(await room.thread(b.playerId));
+    case 'reply': return res.status(200).json(await room.reply(b.playerId, b.text));
+    case 'bot': return res.status(200).json(await room.setBot(b.playerId, b.on));
     case 'decide': return res.status(200).json(await room.decide(b.requestId, b.decision, b.feePct));
     case 'settings': return res.status(200).json(await room.settings(b.settings));
     case 'event': return res.status(200).json(await room.broadcast(b.type, b));

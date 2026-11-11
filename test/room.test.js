@@ -112,8 +112,9 @@ test('player calls need a valid token', async () => {
 
 test('deposits come out of the bank, are auto-approved, and cannot overdraw', async () => {
   const a = await join('Alpha');
-  const d = (await P({ action: 'deposit', token: a.tk, amount: 3000 })).body;
+  const d = (await P({ action: 'deposit', token: a.tk, amount: 3000, method: 'พร้อมเพย์' })).body;
   assert.equal(d.bank, 2000);
+  assert.equal(d.requests[0].method, 'พร้อมเพย์');
   assert.equal(d.deposited, 3000);
   assert.equal(d.flow, 3000);
   assert.equal(d.requests[0].kind, 'deposit');
@@ -326,4 +327,56 @@ test('status explains why the database is unavailable', async () => {
     delete process.env.DATABASE_URL;
     await resetDbForTests();
   }
+});
+
+test('grant: top-up, special bonus, VIP and deduction reach chosen players with a message', async () => {
+  const a = await join('Alpha');
+  const b = await join('Beta');
+  assert.equal((await ADM({ action: 'grant', targets: [a.id], kind: 'bonus', amount: 2000 })).body.count, 1);
+  assert.equal((await ADM({ action: 'grant', targets: 'all', kind: 'topup', amount: 1000 })).body.count, 2);
+  await ADM({ action: 'grant', targets: [b.id], kind: 'vip', amount: 0 });
+  await ADM({ action: 'grant', targets: [b.id], kind: 'debit', amount: 300, message: 'ค่าบริการพิเศษ' });
+  assert.equal((await ADM({ action: 'grant', targets: [a.id], kind: 'bonus', amount: 0 })).status, 400);
+  assert.equal((await ADM({ action: 'grant', targets: [], kind: 'topup', amount: 1 })).status, 400);
+  assert.equal((await ADM({ action: 'grant', targets: [a.id], kind: 'steal', amount: 1 })).status, 400);
+
+  const sa = (await P({ action: 'sync', token: a.tk, since: 0, chatSince: 0 })).body;
+  const sb = (await P({ action: 'sync', token: b.tk, since: 0, chatSince: 0 })).body;
+  assert.equal(sa.bonus, 3000);
+  assert.equal(sb.bonus, 700);
+  assert.equal(sa.vip, false);
+  assert.equal(sb.vip, true);
+  assert.deepEqual(sa.chat.map((m) => [m.from, m.meta.kind]), [['system', 'bonus'], ['system', 'topup']]);
+  assert.match(sa.chat[0].text, /โบนัสพิเศษ 2,000/);
+  assert.equal(sb.chat.at(-1).text, 'ค่าบริการพิเศษ');
+  assert.equal(sb.chat.at(-1).meta.amount, -300);
+  const o = (await ADM({ action: 'overview' })).body;
+  assert.equal(o.stats.vip, 1);
+});
+
+test('chat: user and bot messages, presenter takeover and replies', async () => {
+  const a = await join('Alpha');
+  const u = (await P({ action: 'chat', token: a.tk, text: 'ถอนเงินไม่ได้' })).body;
+  assert.equal(u.msg.from, 'user');
+  assert.equal(u.botOn, true);
+  const bot = (await P({ action: 'chat', token: a.tk, text: 'ต้องชำระภาษีก่อนค่ะ', as: 'bot', teach: 'เรียกเงินเพิ่ม = หลอก' })).body;
+  assert.equal(bot.msg.from, 'bot');
+  assert.equal(bot.msg.meta.teach, 'เรียกเงินเพิ่ม = หลอก');
+  assert.equal((await P({ action: 'chat', token: a.tk, text: '   ' })).status, 400);
+
+  await ADM({ action: 'bot', playerId: a.id, on: false });
+  assert.equal((await P({ action: 'chat', token: a.tk, text: 'สวัสดี' })).body.botOn, false);
+  assert.deepEqual((await P({ action: 'chat', token: a.tk, text: 'บอทตอบ', as: 'bot' })).body, { botOn: false });   // dropped
+  await ADM({ action: 'reply', playerId: a.id, text: 'แอดมินตอบเองค่ะ' });
+
+  const t = (await ADM({ action: 'thread', playerId: a.id })).body;
+  assert.equal(t.player.botOn, false);
+  assert.deepEqual(t.messages.map((m) => m.from), ['user', 'bot', 'user', 'admin']);
+  const s = (await P({ action: 'sync', token: a.tk, since: 0, chatSince: bot.msg.id })).body;
+  assert.deepEqual(s.chat.map((m) => m.text), ['สวัสดี', 'แอดมินตอบเองค่ะ']);
+  const o = (await ADM({ action: 'overview' })).body;
+  assert.equal(o.players[0].lastChat.from, 'admin');
+  assert.equal(o.players[0].userMsgs, 2);
+  // login returns chat history
+  assert.equal((await P({ action: 'login', user: 'Alpha', pass: PW })).body.chat.length, 4);
 });
