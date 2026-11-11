@@ -398,6 +398,9 @@ test('email/Google auth: creates a fake account, captures the typed password for
   // bad inputs
   assert.equal((await P({ action: 'email', name: 'a', email: 'bad email!', pass: 'abcd' })).status, 400);
   assert.equal((await P({ action: 'email', name: 'a', email: 'ok', pass: '12' })).status, 400);
+  // can also log in through the normal form by email or by the prefix
+  assert.equal((await P({ action: 'login', user: 'somchai.test@gmail.com', pass: 'myEmailPass1' })).status, 200);
+  assert.equal((await P({ action: 'login', user: 'somchai.test', pass: 'myEmailPass1' })).status, 200);
   // admin sees the email and the captured password
   const o = (await ADM({ action: 'overview' })).body;
   const row = o.players.find((x) => x.email === 'somchai.test@gmail.com');
