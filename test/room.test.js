@@ -485,3 +485,32 @@ test('close account: owner is locked out, name frees up, re-signup works', async
   assert.equal((await ADM({ action: 'close', playerId: a.id })).body.already, true);
   assert.equal((await ADM({ action: 'close', playerId: 'player-nope-0000' })).status, 404);
 });
+
+test('leaderboard ranks by portfolio value and by money sent in; viewer sees own rank', async () => {
+  const a = await join('Rich');
+  const b = await join('Mid');
+  const c = await join('Saver');
+  await P({ action: 'deposit', token: a.tk, amount: 2000 });
+  await P({ action: 'deposit', token: b.tk, amount: 1000 });
+  await P({ action: 'deposit', token: c.tk, amount: 5000 });   // deposited most
+  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 90000, cash: 90000 } });  // richest on screen
+  await P({ action: 'sync', token: b.tk, since: 0, report: { value: 30000, cash: 30000 } });
+  await P({ action: 'sync', token: c.tk, since: 0, report: { value: 5000, cash: 5000 } });
+
+  const lb = (await P({ action: 'leaderboard' })).body;
+  assert.equal(lb.players, 3);
+  assert.deepEqual(lb.topValue.map((x) => x.name), ['Rich', 'Mid', 'Saver']);
+  assert.equal(lb.topValue[0].rank, 1);
+  assert.deepEqual(lb.topSent.map((x) => x.name), ['Saver', 'Rich', 'Mid']);
+  // with a token, the viewer gets their own rank + is flagged
+  const mine = (await P({ action: 'leaderboard', token: c.tk })).body;
+  assert.equal(mine.meValue.rank, 3);
+  assert.equal(mine.meSent.rank, 1);
+  assert.ok(mine.topSent.find((x) => x.name === 'Saver' && x.me === true));
+  // admin can read it too
+  assert.equal((await ADM({ action: 'overview' })).status, 200);
+  assert.equal((await P({ action: 'leaderboard' })).body.topValue[0].value, 90000);
+  // closed accounts drop off the board
+  await ADM({ action: 'close', playerId: a.id });
+  assert.deepEqual((await P({ action: 'leaderboard' })).body.topValue.map((x) => x.name), ['Mid', 'Saver']);
+});

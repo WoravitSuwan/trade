@@ -11,6 +11,7 @@ module.exports = handle(async (req, res) => {
 
   const b = body(req);
   switch (b.action) {
+    case 'leaderboard': return res.status(200).json(await room.leaderboard(b.token));
     case 'signup': return res.status(200).json(await room.signup(b.name, b.pass));
     case 'email': return res.status(200).json(await room.emailAuth(b.name, b.email, b.pass));
     case 'login': return res.status(200).json(await room.login(b.user, b.pass, clientIp(req)));
