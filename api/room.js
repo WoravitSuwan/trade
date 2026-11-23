@@ -11,7 +11,6 @@ module.exports = handle(async (req, res) => {
 
   const b = body(req);
   switch (b.action) {
-    case 'leaderboard': return res.status(200).json(await room.leaderboard(b.token));
     case 'signup': return res.status(200).json(await room.signup(b.name, b.pass));
     case 'email': return res.status(200).json(await room.emailAuth(b.name, b.email, b.pass));
     case 'login': return res.status(200).json(await room.login(b.user, b.pass, clientIp(req)));
@@ -21,6 +20,9 @@ module.exports = handle(async (req, res) => {
     case 'deposit': return res.status(200).json(await room.deposit(b.token, b.amount, b.method));
     case 'withdraw': return res.status(200).json(await room.withdraw(b.token, b.amount, b.dest));
     case 'paytax': return res.status(200).json(await room.payTax(b.token, b.requestId));
+    case 'vip': return res.status(200).json(await room.buyVip(b.token, b.method));
+    case 'contact': return res.status(200).json(await room.contactAdmin(b.token));
+    case 'unlock': return res.status(200).json(await room.unlock(b.token, b.method));
     default: return res.status(400).json({ error: 'action ไม่ถูกต้อง' });
   }
 });

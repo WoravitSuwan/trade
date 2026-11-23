@@ -143,6 +143,7 @@ test('manual deposit approval: rejected deposits lose the bank money', async () 
 });
 
 test('withdrawals are held for a 15% "tax"; paying it re-queues, approval refunds the bank', async () => {
+  await ADM({ action: 'settings', settings: { withdrawMode: 'tax' } });
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 4000 });
   const w = (await P({ action: 'withdraw', token: a.tk, amount: 2000 })).body;
@@ -162,6 +163,7 @@ test('withdrawals are held for a 15% "tax"; paying it re-queues, approval refund
 });
 
 test('tax cannot be paid without enough bank money; rejected withdrawals return to the platform', async () => {
+  await ADM({ action: 'settings', settings: { withdrawMode: 'tax' } });
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 5000 });
   const w = (await P({ action: 'withdraw', token: a.tk, amount: 5000 })).body;
@@ -176,6 +178,7 @@ test('tax cannot be paid without enough bank money; rejected withdrawals return 
 });
 
 test('manual withdraw review: presenter can approve or demand a custom fee', async () => {
+  await ADM({ action: 'settings', settings: { withdrawMode: 'tax' } });
   await ADM({ action: 'settings', settings: { autoTaxPct: 0 } });
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 2000 });
@@ -218,6 +221,7 @@ test('overview totals: money sent vs numbers on screen; saved state is size-limi
 });
 
 test('"money sent" counts transfers and taxes even when bonuses let a player withdraw more', async () => {
+  await ADM({ action: 'settings', settings: { withdrawMode: 'tax' } });
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 1000 });
   await ADM({ action: 'credit', target: a.id, amount: 10000 });
@@ -466,51 +470,94 @@ test('quotes: simulated without a key; Finnhub quotes are cached and shared', as
   }
 });
 
-test('close account: owner is locked out, name frees up, re-signup works', async () => {
+test('close account: owner is locked out, login shows "suspended", a new name is needed', async () => {
   const a = await join('Alpha');
   await P({ action: 'deposit', token: a.tk, amount: 1000 });
   assert.equal((await ADM({ action: 'close', playerId: a.id })).body.ok, true);
-  // owner's live calls now report closed
   assert.equal((await P({ action: 'sync', token: a.tk, since: 0, chatSince: 0 })).body.closed, true);
-  // old credentials can no longer log in
-  assert.equal((await P({ action: 'login', user: 'Alpha', pass: PW })).status, 401);
-  // the name is free again -> can register a brand-new account
-  const fresh = await P({ action: 'signup', name: 'Alpha', pass: PW });
-  assert.equal(fresh.status, 200);
-  assert.notEqual(fresh.body.token.split('.')[0], a.id);
-  assert.equal(fresh.body.bank, 5000);
-  // admin still sees the closed one flagged
+  // old credentials: no session, but the "pay to unlock" screen
+  const back = (await P({ action: 'login', user: 'Alpha', pass: PW })).body;
+  assert.equal(back.suspended, true);
+  assert.equal(back.fee, 3000);
+  assert.equal(back.bank, 4000);
+  // wrong password still just fails
+  assert.equal((await P({ action: 'login', user: 'Alpha', pass: 'nope-nope' })).status, 401);
+  // suspended accounts cannot move money
+  assert.equal((await P({ action: 'deposit', token: a.tk, amount: 100 })).status, 403);
+  // the name stays taken -> sign up with another one
+  assert.equal((await P({ action: 'signup', name: 'Alpha', pass: PW })).status, 409);
+  assert.equal((await P({ action: 'signup', name: 'Alpha2', pass: PW })).body.bank, 5000);
   const o = (await ADM({ action: 'overview' })).body;
   assert.ok(o.players.find((x) => x.id === a.id && x.closed === true));
+  assert.equal(o.stats.suspended, 1);
   assert.equal((await ADM({ action: 'close', playerId: a.id })).body.already, true);
   assert.equal((await ADM({ action: 'close', playerId: 'player-nope-0000' })).status, 404);
+  // presenter can suspend everyone at once
+  assert.equal((await ADM({ action: 'close', playerId: 'all' })).body.count, 1);
 });
 
-test('leaderboard ranks by portfolio value and by money sent in; viewer sees own rank', async () => {
-  const a = await join('Rich');
-  const b = await join('Mid');
-  const c = await join('Saver');
-  await P({ action: 'deposit', token: a.tk, amount: 2000 });
-  await P({ action: 'deposit', token: b.tk, amount: 1000 });
-  await P({ action: 'deposit', token: c.tk, amount: 5000 });   // deposited most
-  await P({ action: 'sync', token: a.tk, since: 0, report: { value: 90000, cash: 90000 } });  // richest on screen
-  await P({ action: 'sync', token: b.tk, since: 0, report: { value: 30000, cash: 30000 } });
-  await P({ action: 'sync', token: c.tk, since: 0, report: { value: 5000, cash: 5000 } });
+test('lecture flow: deposit 1,000 -> VIP 300 (+500) -> withdraw frozen -> contact admin -> suspended -> pay 3,000', async () => {
+  const a = await join('Lek');
+  let s = (await P({ action: 'deposit', token: a.tk, amount: 1000, method: 'promptpay' })).body;
+  assert.equal(s.bank, 4000);
+  assert.equal(s.withdrawMode, 'suspend');
+  assert.equal(s.vipFee, 300);
+  assert.equal(s.vipBonus, 500);
+  // VIP: fee leaves the bank, bonus appears on screen, a system message tells the phone
+  s = (await P({ action: 'vip', token: a.tk, method: 'kbank' })).body;
+  assert.equal(s.vip, true);
+  assert.equal(s.bank, 3700);
+  assert.equal(s.vipPaid, 300);
+  assert.equal(s.flow, 1500);
+  assert.equal(s.sent, 1300);
+  const chat = (await P({ action: 'sync', token: a.tk, since: 0, chatSince: 0 })).body.chat;
+  assert.ok(chat.some((m) => m.from === 'system' && m.meta.kind === 'vip' && m.meta.amount === 500));
+  assert.equal((await P({ action: 'vip', token: a.tk })).status, 409);   // already VIP
+  // withdraw: frozen, no fee, nothing comes back
+  s = (await P({ action: 'withdraw', token: a.tk, amount: 1500, dest: 'ธ.กสิกรไทย • 1' })).body;
+  const w = s.requests.find((q) => q.kind === 'withdraw');
+  assert.equal(w.status, 'held');
+  assert.equal(w.fee, null);
+  assert.equal(s.bank, 3700);
+  // contact admin -> suspended
+  const c = (await P({ action: 'contact', token: a.tk })).body;
+  assert.equal(c.suspended, true);
+  assert.equal(c.fee, 3000);
+  assert.equal((await P({ action: 'withdraw', token: a.tk, amount: 1 })).status, 403);
+  // log in again -> pay 3,000 to unlock -> only a pending request
+  const back = (await P({ action: 'login', user: 'Lek', pass: PW })).body;
+  assert.equal(back.suspended, true);
+  const paid = (await P({ action: 'unlock', token: back.token, method: 'promptpay' })).body;
+  assert.equal(paid.unlockPending, true);
+  assert.equal(paid.bank, 700);
+  assert.equal((await P({ action: 'unlock', token: back.token })).status, 409);
+  const o = (await ADM({ action: 'overview' })).body;
+  assert.equal(o.stats.unlockPaid, 3000);
+  assert.equal(o.stats.vipPaid, 300);
+  assert.equal(o.players[0].sent, 4300);
+  const ur = o.requests.find((q) => q.kind === 'unlock');
+  assert.equal(ur.status, 'pending');
+  // presenter may approve: account works again
+  assert.equal((await ADM({ action: 'decide', requestId: ur.id, decision: 'approve' })).body.ok, true);
+  const again = (await P({ action: 'login', user: 'Lek', pass: PW })).body;
+  assert.equal(again.suspended, undefined);
+  assert.equal(again.closed, false);
+});
 
-  const lb = (await P({ action: 'leaderboard' })).body;
-  assert.equal(lb.players, 3);
-  assert.deepEqual(lb.topValue.map((x) => x.name), ['Rich', 'Mid', 'Saver']);
-  assert.equal(lb.topValue[0].rank, 1);
-  assert.deepEqual(lb.topSent.map((x) => x.name), ['Saver', 'Rich', 'Mid']);
-  // with a token, the viewer gets their own rank + is flagged
-  const mine = (await P({ action: 'leaderboard', token: c.tk })).body;
-  assert.equal(mine.meValue.rank, 3);
-  assert.equal(mine.meSent.rank, 1);
-  assert.ok(mine.topSent.find((x) => x.name === 'Saver' && x.me === true));
-  // admin can read it too
-  assert.equal((await ADM({ action: 'overview' })).status, 200);
-  assert.equal((await P({ action: 'leaderboard' })).body.topValue[0].value, 90000);
-  // closed accounts drop off the board
-  await ADM({ action: 'close', playerId: a.id });
-  assert.deepEqual((await P({ action: 'leaderboard' })).body.topValue.map((x) => x.name), ['Mid', 'Saver']);
+test('VIP waits for approval when auto-deposit is off; not enough bank money is refused', async () => {
+  await ADM({ action: 'settings', settings: { autoDeposit: false, vipFee: 6000 } });
+  const a = await join('Poor');
+  assert.equal((await P({ action: 'vip', token: a.tk })).status, 400);
+  await ADM({ action: 'settings', settings: { vipFee: 300, vipBonus: 1000 } });
+  let s = (await P({ action: 'vip', token: a.tk })).body;
+  assert.equal(s.vip, false);
+  assert.equal(s.bank, 4700);
+  assert.equal((await P({ action: 'vip', token: a.tk })).status, 409);   // pending
+  const q = (await ADM({ action: 'overview' })).body.requests.find((x) => x.kind === 'vip');
+  await ADM({ action: 'decide', requestId: q.id, decision: 'approve' });
+  s = (await P({ action: 'sync', token: a.tk, since: 0 })).body;
+  assert.equal(s.vip, true);
+  assert.equal(s.bonus, 1000);
+  const set = (await ADM({ action: 'overview' })).body.settings;
+  assert.deepEqual([set.vipFee, set.vipBonus, set.unlockFee, set.withdrawMode], [300, 1000, 3000, 'suspend']);
 });
