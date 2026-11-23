@@ -1159,7 +1159,7 @@
         <div class="sp"></div>
         <div class="balpill"><div class="k">ยอดคงเหลือ</div><div class="v" id="barBal">0.00 ฿</div></div>
         <button class="theme-btn" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
-        <button class="lockbtn" id="lockBtn" title="โหมดผู้บรรยาย" aria-label="โหมดผู้บรรยาย"><svg class="i"><use href="#i-sliders"/></svg></button>
+        <button class="lockbtn" id="lockBtn" title="ออกจากโหมดผู้บรรยาย" aria-label="ออกจากโหมดผู้บรรยาย" hidden><svg class="i"><use href="#i-sliders"/></svg></button>
       </div>
 
       <div class="content" id="content"></div>
@@ -3325,12 +3325,7 @@ document.getElementById('suGo').onclick=doSignup;
 ['suName','suPhone','suPass','suPass2'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doSignup(); }));
 
 // presenter mode: ออนไลน์ตรวจรหัสที่เซิร์ฟเวอร์ (ADMIN_PASSWORD) — ไม่มีรหัสอยู่ในไฟล์นี้
-document.getElementById('lockBtn').onclick=()=>{
-  if(S.presenter){ exitPresenter(); return; }
-  document.getElementById('adErr').style.display='none';
-  openOv('ovAdmin');
-  if(NET.online) setTimeout(()=>document.getElementById('adUser').focus(),50);
-};
+document.getElementById('lockBtn').onclick=()=>{ if(S.presenter) exitPresenter(); };   // แสดงเฉพาะตอนเป็นผู้บรรยาย (ไว้ออกจากโหมด)
 document.getElementById('adGo').onclick=async()=>{
   const err=document.getElementById('adErr'); err.style.display='none';
   if(!NET.online){ enterPresenter(); return; }
@@ -3344,7 +3339,9 @@ document.getElementById('adGo').onclick=async()=>{
 ['adUser','adPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') document.getElementById('adGo').click(); }));
 function togglePresenter(){
   document.getElementById('pbar').classList.toggle('on',S.presenter);
-  document.getElementById('lockBtn').classList.toggle('on',S.presenter);
+  const lb=document.getElementById('lockBtn');
+  lb.classList.toggle('on',S.presenter);
+  lb.hidden=!S.presenter;   // ผู้ฟังไม่เห็นปุ่มนี้ — ผู้บรรยายเข้าทางหน้าเข้าสู่ระบบด้วยชื่อแอดมินเท่านั้น
   setConn(); updChatBadge();
 }
 function applyTheme(){
