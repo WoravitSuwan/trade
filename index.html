@@ -920,7 +920,7 @@
 
   /* ---- auth (login / signup) ---- */
   #login,#signup{padding:0 0 18px}
-  .login-card{width:min(430px,100vw);margin:0 auto auto;padding:0 18px 18px;border-radius:0 0 26px 26px;border:none;
+  .login-card{flex-shrink:0;width:min(430px,100vw);margin:0 auto auto;padding:0 18px 18px;border-radius:0 0 26px 26px;border:none;
     background:transparent;box-shadow:none}
   .login-card::before{display:none}
   .login-card .login-theme{top:14px;right:16px;z-index:3}
@@ -1042,6 +1042,88 @@
   .step-amt{width:110px;padding:7px 10px!important;font-family:var(--mono)}
   .set-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
   @media (max-width:520px){ .step{gap:9px} .step .cnt{font-size:11px;max-width:74px;white-space:normal} .step .cnt b{font-size:15px} }
+
+  /* =====================================================================
+     RESPONSIVE v2 — phone · tablet · PC
+     ===================================================================== */
+  .home-top{margin-bottom:12px}
+  .hero-points{display:none;flex-direction:column;gap:10px;list-style:none;margin:26px 0 0;padding:0;font-size:14px;opacity:.92}
+  .hero-points li{display:flex;gap:10px;align-items:center}
+  .home-side{display:flex;flex-direction:column;gap:12px}
+  .home-top .hero-card,.home-side .qa,.home-side .vip-banner{margin-bottom:0}
+  .home-top .hero-card{margin-bottom:12px}
+
+  /* tablet: use the width instead of a phone-sized column */
+  @media (min-width:560px) and (max-width:899px){
+    .stage{max-width:760px}
+    #app .content{padding-left:22px;padding-right:22px}
+    .hc-v{font-size:36px}
+    .vip-perks{display:grid;grid-template-columns:1fr 1fr}
+  }
+
+  /* admin header on phones/tablets: one compact row of title + a scrollable button strip */
+  @media (max-width:899px){
+    .adm-top{gap:8px 10px}
+    .adm-top .nm{flex:1 1 0;min-width:0;font-size:14.5px}
+    .adm-top .nm small{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .adm-top .sp{display:none}
+    .adm-btns{flex:1 1 100%;flex-wrap:nowrap;overflow-x:auto;scrollbar-width:none;padding-bottom:2px}
+    .adm-btns::-webkit-scrollbar{display:none}
+    .adm-btn{padding:7px 11px;font-size:12px}
+  }
+
+  /* PC */
+  @media (min-width:900px){
+    .fchip{display:none}
+    /* auth: brand panel left, form right — fits a laptop screen without scrolling */
+    #login,#signup{padding:28px 24px}
+    .login-card{flex-shrink:0;width:min(1040px,100%);display:grid;grid-template-columns:minmax(0,1.1fr) minmax(360px,1fr);column-gap:44px;
+      align-content:start;padding:26px;border-radius:30px}
+    .login-card>*:not(.auth-hero){grid-column:2}
+    .login-card .auth-hero{grid-column:1;grid-row:1 / span 40;margin:0;border-radius:22px;padding:52px 42px 40px;text-align:left;
+      display:flex;flex-direction:column;justify-content:center}
+    .auth-hero::after{display:none}
+    .auth-hero .logo{margin:0 0 18px;width:70px;height:70px;border-radius:22px}
+    .auth-hero h1{font-size:40px}
+    .auth-hero p{font-size:16px;margin:6px 0 26px}
+    .hero-stats{gap:10px}
+    .hero-stats div{padding:14px 8px;text-align:center}
+    .hero-stats b{font-size:20px}
+    .hero-stats span{font-size:11.5px}
+    .auth-seg{margin:6px 0 18px}
+    .login-card .login-theme{top:22px;right:22px}
+    .login-card .auth-seg{margin-right:52px}
+
+    /* home: balance card + quick actions side by side */
+    .home-top{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(300px,1fr);gap:16px;align-items:stretch;margin-bottom:18px}
+    .home-top .hero-card{margin:0;padding:22px 24px 18px;display:flex;flex-direction:column}
+    .home-top .hc-row{margin-top:auto}
+    .home-top .hc-d{align-self:flex-start}
+    .hero-points{display:flex}
+    .hc-v{font-size:42px}
+    .home-side .qa{grid-template-columns:repeat(2,1fr);flex:1}
+    .home-side .qa button{justify-content:center;padding:16px 6px;font-size:13.5px}
+    .home-side .vip-banner{flex:0 0 auto}
+  }
+  @media (min-width:900px) and (max-height:880px){
+    #login,#signup{padding:14px 24px}
+    .login-card{padding:20px}
+    .login-card .auth-hero{padding:34px 34px 28px}
+    .auth-hero h1{font-size:34px}
+    .auth-hero p{margin-bottom:18px}
+    .hero-points{margin-top:18px;gap:7px;font-size:13px}
+    .auth-seg{margin:0 0 12px}
+    .field{margin-bottom:8px}
+    .field input{padding-top:10px;padding-bottom:10px}
+    .login-card .btn{padding:11px}
+    .login-card .or{margin:8px 0}
+    #login .trust,#login .net-note,#signup .login-note,#signup .net-note{display:none}
+  }
+  @media (min-width:900px) and (max-height:700px){
+    .auth-promo{display:none}
+    .field label{margin-bottom:3px}
+    .hero-points{display:none}
+  }
 </style>
 </head>
 <body>
@@ -1101,6 +1183,7 @@
           <h1>AI Gold Trade</h1>
           <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
           <div class="hero-stats"><div><b>52,418+</b><span>สมาชิก</span></div><div><b>+32%</b><span>กำไรเฉลี่ย/เดือน</span></div><div><b>5 นาที</b><span>ถอนเงินไว</span></div></div>
+          <ul class="hero-points"><li>🤖 ระบบ AI เทรดทองคำให้อัตโนมัติ 24 ชม.</li><li>🏦 ฝาก-ถอนผ่านพร้อมเพย์และทุกธนาคาร</li><li>👑 สมาชิก VIP รับสัญญาณเทรดและโบนัสพิเศษ</li></ul>
         </div>
         <div class="auth-seg" role="tablist"><button data-auth="login" role="tab" class="on" aria-selected="true">เข้าสู่ระบบ</button><button data-auth="signup" role="tab">สมัครสมาชิก</button></div>
         <div class="field"><label for="lgUser">ชื่อผู้ใช้</label>
@@ -1132,6 +1215,7 @@
           <h1>AI Gold Trade</h1>
           <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
           <div class="hero-stats"><div><b>52,418+</b><span>สมาชิก</span></div><div><b>+32%</b><span>กำไรเฉลี่ย/เดือน</span></div><div><b>5 นาที</b><span>ถอนเงินไว</span></div></div>
+          <ul class="hero-points"><li>🤖 ระบบ AI เทรดทองคำให้อัตโนมัติ 24 ชม.</li><li>🏦 ฝาก-ถอนผ่านพร้อมเพย์และทุกธนาคาร</li><li>👑 สมาชิก VIP รับสัญญาณเทรดและโบนัสพิเศษ</li></ul>
         </div>
         <div class="auth-seg" role="tablist"><button data-auth="login" role="tab">เข้าสู่ระบบ</button><button data-auth="signup" role="tab" class="on" aria-selected="true">สมัครสมาชิก</button></div>
         <div class="auth-promo">🎁 <span>สมัครวันนี้ <b>รับโบนัส 500 ฿</b> เข้าพอร์ตทันที · ใช้เวลาไม่ถึง 1 นาที</span></div>
@@ -1704,6 +1788,7 @@ const chartTools=()=>`<div class="chart-tools"><div class="tfs">${Object.keys(TF
 function viewHome(){
   const pv=pfValue(), pnl=pv-S.deposited, pc=S.deposited>0?(pnl/S.deposited*100):0, a=A();
   return `
+  <div class="home-top">
   <div class="hero-card">
     <div class="hc-top"><div class="hc-hi">สวัสดี <b>คุณ${esc(S.userName)}</b> 👋${NET.vip?'<span class="vip-chip">👑 VIP</span>':''}</div>
       <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
@@ -1716,6 +1801,7 @@ function viewHome(){
       <div><span>ทองคำ/สินทรัพย์</span><b id="stHold">${F(holdValue())}</b></div>
     </div>
   </div>
+  <div class="home-side">
   <div class="qa">
     <button data-go="deposit"><i class="qa-dep">${icon('dep')}</i>ฝากเงิน</button>
     <button data-go="trade:GOLD"><i class="qa-gold">🪙</i>ซื้อทอง</button>
@@ -1723,6 +1809,7 @@ function viewHome(){
     <button data-go="withdraw"><i class="qa-wd">${icon('wd')}</i>ถอนเงิน</button>
   </div>
   ${NET.vip?'':`<button class="vip-banner" data-go="vip"><span class="vb-ic">👑</span><span><b>สมัคร VIP วันนี้ รับโบนัส ${F0(vipBonus())} ฿ ทันที</b><small>ค่าสมัครเพียง ${F0(vipFee())} ฿ · สัญญาณเทรด AI + ถอนเงินด่วน</small></span><span class="vb-go">›</span></button>`}
+  </div></div>
   <div class="dash">
     <div class="dash-main">
       <div class="bignum chart-card">
