@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html lang="th">
 <head>
-<script>try{var _t=localStorage.getItem('agt-theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
+<script>try{var _t=localStorage.getItem('agt-theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);}catch(e){}
+try{var _c=localStorage.getItem('agt-calm');if(_c==='1'||(_c===null&&matchMedia('(prefers-reduced-motion:reduce)').matches))document.documentElement.classList.add('calm');}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
 <meta name="theme-color" content="#0a0907">
@@ -1124,6 +1125,221 @@
     .field label{margin-bottom:3px}
     .hero-points{display:none}
   }
+
+  /* =====================================================================
+     COMMAND FLOOR — telemetry grid · edge light · live ticker · motion
+     (เอฟเฟกต์ทุกชิ้นใช้ transform/opacity เป็นหลัก และไม่รับคลิก)
+     ===================================================================== */
+  #fxCanvas{position:absolute;inset:0;width:100%;height:100%}
+  #fxBurst{position:fixed;inset:0;width:100%;height:100%;z-index:85;pointer-events:none;display:none}
+  #fxBurst.on{display:block}
+
+  /* precision telemetry grid: minor 28px, major 112px, fading toward the edges */
+  .bg-fx .grid{background-image:linear-gradient(rgba(255,236,200,.035) 1px,transparent 1px),linear-gradient(90deg,rgba(255,236,200,.035) 1px,transparent 1px);
+    background-size:28px 28px;-webkit-mask-image:radial-gradient(ellipse 90% 75% at 50% 35%,#000 30%,transparent 85%);
+    mask-image:radial-gradient(ellipse 90% 75% at 50% 35%,#000 30%,transparent 85%)}
+  .bg-fx .grid.major{background-image:linear-gradient(rgba(242,193,78,.075) 1px,transparent 1px),linear-gradient(90deg,rgba(242,193,78,.075) 1px,transparent 1px);
+    background-size:112px 112px}
+  :root[data-theme="light"] .bg-fx .grid{background-image:linear-gradient(rgba(60,40,10,.05) 1px,transparent 1px),linear-gradient(90deg,rgba(60,40,10,.05) 1px,transparent 1px)}
+  :root[data-theme="light"] .bg-fx .grid.major{background-image:linear-gradient(rgba(176,110,10,.1) 1px,transparent 1px),linear-gradient(90deg,rgba(176,110,10,.1) 1px,transparent 1px)}
+  .bg-fx .scan{position:absolute;left:0;right:0;top:0;height:140px;pointer-events:none;will-change:transform;
+    background:linear-gradient(180deg,transparent,rgba(242,193,78,.07) 70%,rgba(255,226,150,.18) 99%,transparent);
+    animation:scanY 9s cubic-bezier(.45,0,.55,1) infinite}
+  @keyframes scanY{from{transform:translateY(-160px)}to{transform:translateY(110vh)}}
+  :root[data-theme="light"] .bg-fx .scan{background:linear-gradient(180deg,transparent,rgba(201,134,27,.06) 70%,rgba(201,134,27,.14) 99%,transparent)}
+  /* soft atmospheric light (no blend modes, transform-only drift) */
+  .orb{filter:blur(80px);will-change:transform}
+  .orb.o1{background:radial-gradient(circle,rgba(242,193,78,.3),transparent 65%);animation:aur1 24s ease-in-out infinite alternate}
+  .orb.o2{background:radial-gradient(circle,rgba(51,209,122,.18),transparent 65%);animation:aur2 28s ease-in-out infinite alternate}
+  .orb.o3{background:radial-gradient(circle,rgba(216,150,42,.2),transparent 65%);animation:aur3 32s ease-in-out infinite alternate}
+  @keyframes aur1{0%{transform:translate(0,0) scale(1)}100%{transform:translate(90px,60px) scale(1.15)}}
+  @keyframes aur2{0%{transform:translate(0,0) scale(1)}100%{transform:translate(-110px,-60px) scale(1.12)}}
+  @keyframes aur3{0%{transform:translate(0,0) scale(.95)}100%{transform:translate(120px,-50px) scale(1.1)}}
+  :root[data-theme="light"] .orb{opacity:.5}
+
+  /* status edge light: green = live room, amber = offline, blue = presenter, red flash = account suspended */
+  .edge-glow{position:fixed;inset:0;z-index:25;pointer-events:none;transition:box-shadow .8s ease;
+    box-shadow:inset 0 0 0 1px rgba(242,193,78,.06),inset 0 0 70px -20px rgba(242,193,78,.18)}
+  body.online .edge-glow{box-shadow:inset 0 0 0 1px rgba(51,209,122,.08),inset 0 0 80px -24px rgba(51,209,122,.28)}
+  body.presenting .edge-glow{box-shadow:inset 0 0 0 1px rgba(96,165,250,.14),inset 0 0 90px -24px rgba(96,165,250,.32)}
+  body.alarm .edge-glow{animation:alarm 1.3s ease-in-out 2}
+  @keyframes alarm{50%{box-shadow:inset 0 0 0 2px rgba(255,91,97,.45),inset 0 0 110px -10px rgba(255,91,97,.55)}}
+
+  /* app shells: let the floor show through, panels stay crisp (no stacked backdrop blur) */
+  #app{background:linear-gradient(180deg,rgba(10,9,7,.55),rgba(10,9,7,.76))}
+  #admin{background:linear-gradient(180deg,rgba(10,9,7,.64),rgba(10,9,7,.84))}
+  :root[data-theme="light"] #app{background:linear-gradient(180deg,rgba(247,243,234,.6),rgba(241,235,223,.82))}
+  :root[data-theme="light"] #admin{background:rgba(246,242,234,.8)}
+  .card,.bignum,.form-card{box-shadow:inset 0 1px 0 rgba(255,240,210,.06),0 18px 40px -26px rgba(0,0,0,.8)}
+
+  /* LEDs */
+  .led{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--faint);flex:0 0 auto;vertical-align:middle}
+  .led.on{background:var(--green);box-shadow:0 0 0 0 rgba(51,209,122,.6);animation:ledPing 1.8s infinite}
+  .led.warn{background:var(--gold);box-shadow:0 0 0 0 rgba(242,193,78,.6);animation:ledPingG 1.4s infinite}
+  @keyframes ledPing{0%{box-shadow:0 0 0 0 rgba(51,209,122,.55)}100%{box-shadow:0 0 0 8px rgba(51,209,122,0)}}
+  @keyframes ledPingG{0%{box-shadow:0 0 0 0 rgba(242,193,78,.6)}100%{box-shadow:0 0 0 8px rgba(242,193,78,0)}}
+
+  /* ---- live ticker ---- */
+  .ticker{flex:0 0 auto;position:relative;z-index:4;height:32px;overflow:hidden;border-bottom:1px solid var(--line);
+    background:linear-gradient(180deg,rgba(0,0,0,.35),rgba(0,0,0,.15));font-family:var(--mono);font-size:12px;
+    -webkit-mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent);mask-image:linear-gradient(90deg,transparent,#000 6%,#000 94%,transparent)}
+  :root[data-theme="light"] .ticker{background:rgba(255,255,255,.6)}
+  .tk-track{display:flex;width:max-content;height:100%;align-items:center;will-change:transform;animation:tkRun var(--tk-dur,40s) linear infinite}
+  .ticker:hover .tk-track{animation-play-state:paused}
+  .tk-run{display:flex;align-items:center}
+  .tk-wait{padding:0 18px;color:var(--faint)}
+  @keyframes tkRun{to{transform:translateX(-50%)}}
+  .tk{display:inline-flex;align-items:center;gap:7px;padding:3px 9px;margin:0 3px;border-radius:7px;white-space:nowrap}
+  .tk b{font-weight:600;color:var(--ink)} .tk-px{font-style:normal;color:var(--dim)}
+  .tk-ch{font-style:normal;font-size:11px} .tk-ch.up{color:var(--green)} .tk-ch.down{color:var(--red)}
+  .tk-sep{color:var(--gold);opacity:.35;font-size:8px;padding:0 4px}
+  /* quote pulse: soft green (up) / amber (down), restarted by swapping class names */
+  .fu1,.fu2{animation:pulseUp .9s ease-out}
+  .fd1,.fd2{animation:pulseDn .9s ease-out}
+  .fu2{animation-name:pulseUp2}.fd2{animation-name:pulseDn2}
+  @keyframes pulseUp{0%{background-color:rgba(51,209,122,.24)}100%{background-color:transparent}}
+  @keyframes pulseUp2{0%{background-color:rgba(51,209,122,.24)}100%{background-color:transparent}}
+  @keyframes pulseDn{0%{background-color:rgba(242,170,60,.26)}100%{background-color:transparent}}
+  @keyframes pulseDn2{0%{background-color:rgba(242,170,60,.26)}100%{background-color:transparent}}
+  @media (min-width:900px){
+    #app.on{grid-template-rows:auto auto minmax(0,1fr) auto;grid-template-areas:"bar bar" "tick tick" "nav main" "pbar pbar"}
+    .ticker{grid-area:tick}
+  }
+
+  /* ---- calm-mode toggle placement ---- */
+  .login-card .login-calm{position:absolute;top:14px;right:60px;z-index:3}
+  [data-calm-toggle][aria-pressed="true"]{color:var(--teach);border-color:rgba(96,165,250,.45)}
+  @media (min-width:900px){ .login-card .login-calm{top:22px;right:68px} .login-card .auth-seg{margin-right:100px} }
+
+  /* ---- auth gate ---- */
+  .hero-live{display:inline-flex;align-items:center;gap:8px;margin:0 auto 14px;padding:5px 11px;border-radius:999px;font-size:11.5px;font-weight:600;
+    font-family:var(--mono);letter-spacing:.2px;background:rgba(0,0,0,.28);border:1px solid rgba(255,236,190,.18);color:#e9f9ef}
+  :root[data-theme="light"] .hero-live{background:rgba(255,255,255,.5);color:#1d4d2f;border-color:rgba(255,255,255,.7)}
+  @media (min-width:900px){ .hero-live{margin:0 0 18px;align-self:flex-start} }
+  .screen.on .login-card{animation:gateIn .75s var(--ease) both}
+  @keyframes gateIn{from{opacity:0;clip-path:inset(0 48% 0 48% round 26px)}to{opacity:1;clip-path:inset(-80px -80px -80px -80px)}}
+  .auth-hero{isolation:isolate}
+  .auth-hero::before{content:"";position:absolute;left:0;right:0;top:0;height:46%;pointer-events:none;z-index:-1;
+    background:linear-gradient(180deg,transparent,rgba(255,236,190,.16),transparent);animation:gateScan 1.3s .35s var(--ease) both}
+  @keyframes gateScan{from{transform:translateY(-100%);opacity:1}to{transform:translateY(230%);opacity:0}}
+  .auth-hero h1{background:linear-gradient(100deg,#fff6dc 0%,#ffd76a 25%,#fffbe8 45%,#f2c14e 65%,#fff6dc 100%);background-size:220% 100%;
+    -webkit-background-clip:text;background-clip:text;color:transparent;animation:goldText 7s linear infinite}
+  :root[data-theme="light"] .auth-hero h1{background-image:linear-gradient(100deg,#2a1a00 0%,#7a4a05 30%,#2a1a00 55%,#5c3604 80%,#2a1a00 100%)}
+  @keyframes goldText{to{background-position:-220% 0}}
+  .logo{overflow:hidden}
+  .logo::after{content:"";position:absolute;top:-20%;left:-80%;width:50%;height:140%;transform:skewX(-20deg);
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.7),transparent);animation:logoShine 4s ease-in-out infinite}
+  @keyframes logoShine{0%,62%{transform:translateX(0) skewX(-20deg)}100%{transform:translateX(460%) skewX(-20deg)}}
+  .hero-stats div{animation:statIn .7s var(--ease) both}
+  .hero-stats div:nth-child(2){animation-delay:.1s}.hero-stats div:nth-child(3){animation-delay:.2s}
+  @keyframes statIn{from{opacity:0;transform:translateY(14px) scale(.96)}to{opacity:1;transform:none}}
+  .screen.on .login-card>.field,.screen.on .login-card>.btn,.screen.on .login-card>.auth-promo,.screen.on .login-card>.btn-google{animation:rise .55s .2s var(--ease) both}
+  .hero-points li{animation:rise .6s var(--ease) both}
+  .hero-points li:nth-child(2){animation-delay:.12s}.hero-points li:nth-child(3){animation-delay:.24s}
+  /* clear button states: press, busy */
+  .btn:active:not(:disabled){transform:scale(.985)}
+  .btn-gold:disabled{opacity:.75;cursor:progress;background-image:repeating-linear-gradient(-45deg,rgba(255,255,255,.22) 0 10px,transparent 10px 20px),linear-gradient(135deg,#ffe08a,var(--gold) 35%,var(--gold-2));
+    background-size:28px 28px,100% 100%;animation:busy .6s linear infinite}
+  @keyframes busy{to{background-position:28px 0,0 0}}
+  @media (min-width:900px){
+    .login-card::before{display:block;content:"";position:absolute;inset:-1.5px;border-radius:inherit;padding:1.5px;pointer-events:none;
+      background:conic-gradient(from var(--ang),transparent 0 50%,rgba(255,240,190,.9) 66%,#f2c14e 75%,transparent 88%);
+      -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+      animation:angSpin 8s linear infinite}
+  }
+
+  /* rotating edge light on key panels */
+  @property --ang{syntax:'<angle>';initial-value:0deg;inherits:false}
+  .glow-ring{position:relative;isolation:isolate}
+  .glow-ring::before{content:"";position:absolute;inset:-2px;border-radius:inherit;padding:2px;pointer-events:none;z-index:2;
+    background:conic-gradient(from var(--ang),transparent 0 55%,rgba(255,240,190,.95) 70%,#f2c14e 78%,transparent 90%);
+    -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);-webkit-mask-composite:xor;mask-composite:exclude;
+    animation:angSpin 6s linear infinite}
+  @keyframes angSpin{to{--ang:360deg}}
+
+  /* ---- home ---- */
+  .hero-card{overflow:hidden}
+  .hc-shine{position:absolute;top:-30%;left:-60%;width:40%;height:160%;pointer-events:none;z-index:1;will-change:transform;
+    background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:skewX(-18deg);animation:hcShine 6s ease-in-out infinite}
+  @keyframes hcShine{0%,55%{transform:translateX(0) skewX(-18deg)}100%{transform:translateX(500%) skewX(-18deg)}}
+  .hc-coin{position:absolute;font-style:normal;font-weight:800;color:rgba(120,72,6,.55);display:grid;place-items:center;border-radius:50%;pointer-events:none;
+    background:radial-gradient(circle at 35% 30%,#fff4c8,#f2c14e 60%,#c9861b);box-shadow:0 6px 14px -6px rgba(120,72,6,.6)}
+  .hc-coin.c1{width:34px;height:34px;right:22%;bottom:86px;font-size:17px;animation:coinBob 5s ease-in-out infinite}
+  .hc-coin.c2{width:24px;height:24px;right:11%;bottom:118px;font-size:12px;animation:coinBob 6.5s ease-in-out infinite reverse}
+  @keyframes coinBob{0%,100%{transform:translateY(0) rotateY(0)}50%{transform:translateY(-8px) rotateY(180deg)}}
+  @media (max-width:520px){ .hc-coin.c1{right:20px;bottom:84px;width:30px;height:30px;font-size:15px}.hc-coin.c2{display:none} }
+  .hc-top,.hc-k,.hc-v,.hc-d,.hc-row{position:relative;z-index:3}
+  .qa i{animation:qaFloat 3.6s ease-in-out infinite}
+  .qa button:nth-child(2) i{animation-delay:.4s}.qa button:nth-child(3) i{animation-delay:.8s}.qa button:nth-child(4) i{animation-delay:1.2s}
+  @keyframes qaFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+  .qa button:hover i{animation:qaPop .5s var(--ease)}
+  @keyframes qaPop{40%{transform:scale(1.18) rotate(-6deg)}100%{transform:none}}
+  .qa button:hover{box-shadow:0 14px 28px -18px rgba(242,193,78,.7)}
+  .vip-banner{overflow:hidden}
+  .vip-banner .vb-ic{animation:crownBob 2.6s ease-in-out infinite}
+  .vip-banner::after{content:"";position:absolute;top:0;left:-50%;width:35%;height:100%;pointer-events:none;
+    background:linear-gradient(90deg,transparent,rgba(255,240,190,.26),transparent);transform:skewX(-20deg);animation:hcShine 4.5s ease-in-out infinite}
+  @keyframes crownBob{0%,100%{transform:translateY(0) rotate(-6deg)}50%{transform:translateY(-4px) rotate(6deg)}}
+  #connState{font-family:var(--mono);letter-spacing:.2px}
+
+  /* ---- VIP popup ---- */
+  .vip-hero{position:relative;height:74px;display:grid;place-items:center;margin-bottom:2px}
+  .vip-rays{position:absolute;width:220px;height:220px;left:50%;top:50%;margin:-110px 0 0 -110px;border-radius:50%;pointer-events:none;
+    background:repeating-conic-gradient(from 0deg,rgba(255,214,120,.32) 0 8deg,transparent 8deg 22deg);
+    -webkit-mask-image:radial-gradient(circle,#000 0 18%,transparent 62%);mask-image:radial-gradient(circle,#000 0 18%,transparent 62%);
+    animation:raySpin 16s linear infinite}
+  @keyframes raySpin{to{transform:rotate(360deg)}}
+  .vip-crown{position:relative;margin:0;animation:crownBob 2.4s ease-in-out infinite}
+
+  /* ---- deal-room telemetry (admin) ---- */
+  .step .cnt{display:flex;align-items:center;gap:7px;justify-content:flex-end}
+  .step.done .step-no{background:linear-gradient(135deg,#8ff0b8,var(--green));color:#04210f}
+  .step.active{position:relative}
+  .step.active::before{content:"";position:absolute;left:-14px;top:8px;bottom:8px;width:3px;border-radius:3px;background:var(--gold);
+    box-shadow:0 0 12px rgba(242,193,78,.7);animation:ledFade 1.6s ease-in-out infinite}
+  @keyframes ledFade{50%{opacity:.35}}
+  .ap-stat{position:relative;overflow:hidden}
+  .ap-stat::before{content:"";position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--line-2)}
+  .ap-stat.red::before{background:var(--red);box-shadow:0 0 14px rgba(255,91,97,.6)}
+  .ap-stat.gold::before{background:var(--gold);box-shadow:0 0 14px rgba(242,193,78,.6)}
+  .ap-stat.green::before{background:var(--green);box-shadow:0 0 14px rgba(51,209,122,.6)}
+  .ap-stat .k{font-family:var(--mono);letter-spacing:.2px}
+
+  /* ---- confirmation HUD (short, non-blocking) ---- */
+  .hud-ack{position:fixed;left:50%;top:38%;z-index:86;pointer-events:none;display:none;place-items:center;transform:translate(-50%,-50%)}
+  .hud-ack.on{display:grid}
+  .hud-ack b{position:relative;padding:10px 18px;border-radius:12px;font-size:15px;font-family:var(--display);white-space:nowrap;color:#04210f;
+    background:linear-gradient(135deg,#a7f5c9,var(--green));box-shadow:0 18px 40px -14px rgba(51,209,122,.8);animation:hudIn 1.25s var(--ease) both}
+  .hud-ring{position:absolute;left:50%;top:50%;width:120px;height:120px;margin:-60px 0 0 -60px;border-radius:50%;border:2px solid rgba(51,209,122,.8);
+    animation:hudRing .9s ease-out both}
+  .hud-ring.r2{border-color:rgba(242,193,78,.8);animation-delay:.15s}
+  @keyframes hudIn{0%{opacity:0;transform:scale(.7)}15%{opacity:1;transform:scale(1.06)}25%{transform:scale(1)}80%{opacity:1}100%{opacity:0;transform:translateY(-8px)}}
+  @keyframes hudRing{from{opacity:1;transform:scale(.3)}to{opacity:0;transform:scale(2.6)}}
+
+  /* ---- QR access pass ---- */
+  .pass-head{display:inline-flex;align-items:center;gap:8px;margin-bottom:10px;padding:5px 12px;border-radius:999px;font:600 11.5px var(--mono);letter-spacing:.6px;
+    color:var(--green);background:rgba(51,209,122,.1);border:1px solid rgba(51,209,122,.35)}
+  .qr-pass{position:relative;width:fit-content;margin:6px auto 14px;padding:16px;border-radius:26px;overflow:hidden;isolation:isolate;
+    background:linear-gradient(145deg,rgba(242,193,78,.18),rgba(242,193,78,.04));border:1px solid rgba(242,193,78,.4)}
+  .qr-pass::before{content:"";position:absolute;inset:-40%;z-index:-1;pointer-events:none;
+    background:linear-gradient(115deg,transparent 40%,rgba(255,240,190,.35) 50%,transparent 60%);animation:passSheen 4.5s ease-in-out infinite}
+  @keyframes passSheen{0%,40%{transform:translateX(-40%)}100%{transform:translateX(40%)}}
+  .qr-pass .qr-box{position:relative;z-index:1;margin:0}
+  .qr-pass .cn{position:absolute;width:22px;height:22px;border:3px solid var(--gold);z-index:2;pointer-events:none}
+  .cn.tl{top:6px;left:6px;border-right:0;border-bottom:0;border-radius:8px 0 0 0}
+  .cn.tr{top:6px;right:6px;border-left:0;border-bottom:0;border-radius:0 8px 0 0}
+  .cn.bl{bottom:6px;left:6px;border-right:0;border-top:0;border-radius:0 0 0 8px}
+  .cn.br{bottom:6px;right:6px;border-left:0;border-top:0;border-radius:0 0 8px 0}
+  .qr-acts{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;margin-bottom:12px}
+  .qr-acts .btn-sm{padding:9px 14px;font-size:13px}
+
+  /* ---- calm mode: everything still, background canvas off ---- */
+  html.calm *,html.calm *::before,html.calm *::after{animation:none!important;transition:none!important}
+  html.calm #fxCanvas,html.calm .bg-fx .scan,html.calm #fxBurst,html.calm .hud-ack{display:none!important}
+  html.calm .login-card::before,html.calm .glow-ring::before{display:none!important}
+  @media (prefers-reduced-motion:reduce){
+    .bg-fx .scan,.orb,.glow-ring::before,.login-card::before,.auth-hero h1,.logo::after,.hc-shine,.hc-coin,.qa i,.vip-banner::after,.vip-rays,.tk-track{animation:none!important}
+  }
 </style>
 </head>
 <body>
@@ -1162,10 +1378,12 @@
     <symbol id="i-bulb" viewBox="0 0 24 24"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></symbol>
     <symbol id="i-sos" viewBox="0 0 24 24"><path d="M12 3 2 20h20z"/><path d="M12 10v4M12 17h.01"/></symbol>
     <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2M12 20v2M4.2 4.2l1.4 1.4M18.4 18.4l1.4 1.4M2 12h2M20 12h2M4.2 19.8l1.4-1.4M18.4 5.6l1.4-1.4"/></symbol>
+    <symbol id="i-fx" viewBox="0 0 24 24"><path d="M12 3l1.8 4.7 4.7 1.8-4.7 1.8L12 16l-1.8-4.7L5.5 9.5l4.7-1.8z"/><path d="M19 14.5l.8 2.2 2.2.8-2.2.8L19 20.5l-.8-2.2-2.2-.8 2.2-.8z"/></symbol>
+    <symbol id="i-still" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M10 9v6M14 9v6"/></symbol>
     <symbol id="i-moon" viewBox="0 0 24 24"><path d="M21 12.8A8.5 8.5 0 1 1 11.2 3 6.6 6.6 0 0 0 21 12.8z"/></symbol>
   </svg>
 
-  <div class="bg-fx" aria-hidden="true"><div class="grid"></div><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div></div>
+  <div class="bg-fx" aria-hidden="true"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="grid"></div><div class="grid major"></div><div class="scan"></div><canvas id="fxCanvas"></canvas></div>
 
   <div class="edu-ribbon">🎓 <b>สื่อสาธิตเพื่อการศึกษา</b> ไม่ใช่เว็บลงทุนจริง • ยอดเงินทั้งหมดเป็นของปลอม (ราคาตลาดอ้างอิงของจริง) สำหรับสอนให้รู้ทันมิจฉาชีพ</div>
 
@@ -1178,7 +1396,9 @@
       <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#22d68a">S</span><div><b>SOL</b><small>6,214.90</small></div><em class="up">+1.96%</em></div>
       <div class="login-card">
         <button class="theme-btn login-theme" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
+        <button class="theme-btn login-calm" data-calm-toggle aria-label="โหมดนิ่ง / ลดเอฟเฟกต์" title="โหมดนิ่ง / ลดเอฟเฟกต์"><svg class="i"><use href="#i-fx"/></svg></button>
         <div class="auth-hero">
+          <div class="hero-live"><span class="led on"></span>ตลาดเปิด · ราคาอัปเดตสด</div>
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
           <h1>AI Gold Trade</h1>
           <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
@@ -1210,7 +1430,9 @@
     <section class="screen" id="signup">
       <div class="login-card">
         <button class="theme-btn login-theme" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
+        <button class="theme-btn login-calm" data-calm-toggle aria-label="โหมดนิ่ง / ลดเอฟเฟกต์" title="โหมดนิ่ง / ลดเอฟเฟกต์"><svg class="i"><use href="#i-fx"/></svg></button>
         <div class="auth-hero">
+          <div class="hero-live"><span class="led on"></span>ตลาดเปิด · ราคาอัปเดตสด</div>
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
           <h1>AI Gold Trade</h1>
           <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
@@ -1242,10 +1464,12 @@
         <div><div class="nm">AI Gold Trade<small id="connState"><span class="live-dot"></span>เชื่อมต่อแล้ว</small></div></div>
         <div class="sp"></div>
         <div class="balpill"><div class="k">ยอดคงเหลือ</div><div class="v" id="barBal">0.00 ฿</div></div>
+        <button class="theme-btn" data-calm-toggle aria-label="โหมดนิ่ง / ลดเอฟเฟกต์" title="โหมดนิ่ง / ลดเอฟเฟกต์"><svg class="i"><use href="#i-fx"/></svg></button>
         <button class="theme-btn" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
         <button class="lockbtn" id="lockBtn" title="ออกจากโหมดผู้บรรยาย" aria-label="ออกจากโหมดผู้บรรยาย" hidden><svg class="i"><use href="#i-sliders"/></svg></button>
       </div>
 
+      <div class="ticker" id="ticker" aria-label="แถบราคาตลาดสด"><div class="tk-track" id="tkTrack"><span class="tk-wait">⟳ กำลังเชื่อมต่อตลาด…</span></div></div>
       <div class="content" id="content"></div>
 
       <!-- presenter control bar -->
@@ -1288,6 +1512,7 @@
         <div class="adm-btns">
           <button class="adm-btn" id="admQr">📱 QR ให้ผู้ฟังสแกน</button>
           <button class="adm-btn" id="admApp">👁 ดูหน้าแอปผู้ใช้</button>
+          <button class="adm-btn" data-calm-toggle aria-label="โหมดนิ่ง / ลดเอฟเฟกต์"><svg class="i" style="width:15px;height:15px"><use href="#i-fx"/></svg><span class="calm-lbl">เอฟเฟกต์: เปิด</span></button>
           <button class="adm-btn" data-theme-toggle aria-label="สลับธีม"><svg class="i" style="width:15px;height:15px"><use href="#i-moon"/></svg>ธีม</button>
           <button class="adm-btn danger" id="admOut"><svg class="i"><use href="#i-back"/></svg>ออกจากระบบ</button>
         </div>
@@ -1332,7 +1557,7 @@
 
   <div class="ov" id="ovVip"><div class="modal vip">
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
-    <div class="vip-crown">👑</div>
+    <div class="vip-hero"><div class="vip-rays" aria-hidden="true"></div><div class="vip-crown">👑</div></div>
     <div class="vip-kicker">สิทธิ์พิเศษเฉพาะวันนี้</div>
     <h3 class="vip-h">สมัคร VIP รับเลย <span id="vipBonusTxt">500</span> ฿</h3>
     <div class="countdown"><svg class="i"><use href="#i-clock"/></svg>เหลือเวลา <span class="t" id="vipT">09:59</span> · เหลือ <b id="vipSeats">7</b> สิทธิ์</div>
@@ -1416,10 +1641,13 @@
 
   <div class="ov" id="ovQr"><div class="modal qr-modal">
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="pass-head"><span class="led on"></span>ACCESS PASS · ห้องสาธิตสด</div>
     <h3>สแกนเพื่อร่วมทดลองการสาธิต</h3>
     <p>เปิดกล้องมือถือแล้วสแกน QR นี้ — ใช้ชื่อเล่นได้เลย ไม่ต้องใช้ข้อมูลจริง</p>
-    <div class="qr-box"><img id="qrImg" alt="QR code สำหรับเข้าร่วมการสาธิต"></div>
+    <div class="qr-pass"><i class="cn tl"></i><i class="cn tr"></i><i class="cn bl"></i><i class="cn br"></i>
+      <div class="qr-box"><img id="qrImg" alt="QR code สำหรับเข้าร่วมการสาธิต"></div></div>
     <div class="qr-url" id="qrUrl"></div>
+    <div class="qr-acts"><button class="btn-sm" data-step="copy">🔗 คัดลอกลิงก์</button><button class="btn-sm line" data-step="line">💬 แชร์ไป LINE</button></div>
     <div class="qr-count"><span class="pdot on"></span>ผู้ฟังเข้าร่วมแล้ว <b id="qrCount">0</b> คน</div>
   </div></div>
 
@@ -1493,6 +1721,9 @@
   </div></div>
 
   <div id="toast"></div>
+  <canvas id="fxBurst" aria-hidden="true"></canvas>
+  <div class="hud-ack" id="hudAck" aria-live="polite"><span class="hud-ring"></span><span class="hud-ring r2"></span><b id="hudText"></b></div>
+  <div class="edge-glow" aria-hidden="true"></div>
 
 <script>
 const F = n => n.toLocaleString('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
@@ -1789,7 +2020,8 @@ function viewHome(){
   const pv=pfValue(), pnl=pv-S.deposited, pc=S.deposited>0?(pnl/S.deposited*100):0, a=A();
   return `
   <div class="home-top">
-  <div class="hero-card">
+  <div class="hero-card glow-ring">
+    <i class="hc-shine" aria-hidden="true"></i><i class="hc-coin c1" aria-hidden="true">฿</i><i class="hc-coin c2" aria-hidden="true">฿</i>
     <div class="hc-top"><div class="hc-hi">สวัสดี <b>คุณ${esc(S.userName)}</b> 👋${NET.vip?'<span class="vip-chip">👑 VIP</span>':''}</div>
       <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
     <div class="hc-k">มูลค่าพอร์ตรวม · อัปเดตเรียลไทม์</div>
@@ -1808,7 +2040,7 @@ function viewHome(){
     <button data-go="vip"><i class="qa-vip">👑</i>VIP</button>
     <button data-go="withdraw"><i class="qa-wd">${icon('wd')}</i>ถอนเงิน</button>
   </div>
-  ${NET.vip?'':`<button class="vip-banner" data-go="vip"><span class="vb-ic">👑</span><span><b>สมัคร VIP วันนี้ รับโบนัส ${F0(vipBonus())} ฿ ทันที</b><small>ค่าสมัครเพียง ${F0(vipFee())} ฿ · สัญญาณเทรด AI + ถอนเงินด่วน</small></span><span class="vb-go">›</span></button>`}
+  ${NET.vip?'':`<button class="vip-banner glow-ring" data-go="vip"><span class="vb-ic">👑</span><span><b>สมัคร VIP วันนี้ รับโบนัส ${F0(vipBonus())} ฿ ทันที</b><small>ค่าสมัครเพียง ${F0(vipFee())} ฿ · สัญญาณเทรด AI + ถอนเงินด่วน</small></span><span class="vb-go">›</span></button>`}
   </div></div>
   <div class="dash">
     <div class="dash-main">
@@ -2266,20 +2498,23 @@ function bindChart(){
 function refreshLive(){
   const pv=pfValue(), pnl=pv-S.deposited, a=A();
   const set=(id,txt,col)=>{const e=document.getElementById(id); if(e){e.textContent=txt; if(col)e.style.color=col;}};
-  set('barBal', F(pv)+' ฿');
-  set('pfValue', F(pv)+' ฿');
+  tweenText(document.getElementById('barBal'), pv, v=>F(v)+' ฿');
+  tweenText(document.getElementById('pfValue'), pv, v=>F(v)+' ฿');
   const pfp=document.getElementById('pfPnl');
   if(pfp){ pfp.textContent=(pnl>=0?'▲ ':'▼ ')+F(Math.abs(pnl))+' ฿ ('+(S.deposited>0?(pnl/S.deposited*100).toFixed(2):'0.00')+'%)';
     pfp.className='hc-d '+(pnl>=0?'up':'down'); }
   set('cashVal', F(S.cash)); set('stDep', F(S.deposited)); set('stHold', F(holdValue())); set('wdCash', F(S.cash)+' ฿'); set('stBank', F(curBank()));
   if(S.assets) S.assets.forEach(x=>{
-    set('px-'+x.sym, fmtPx(x.price), x.dir>=0?'var(--green)':'var(--red)');
+    const pxe=document.getElementById('px-'+x.sym), pxs=fmtPx(x.price);
+    if(pxe && pxe.textContent!==pxs){ const row=pxe.closest('.hrow,.asset-row')||pxe; flashEl(row, x.dir>=0); }
+    set('px-'+x.sym, pxs, x.dir>=0?'var(--green)':'var(--red)');
     const ch=chg24(x), pe=document.getElementById('pc-'+x.sym);
     if(pe){ pe.textContent=(ch>=0?'+':'')+ch.toFixed(2)+'%'; pe.className='chg-pill '+(ch>=0?'up':'down'); }
     const sk=document.getElementById('spk-'+x.sym);
     if(sk){ const [ln,ar]=sparkPaths(x); sk.setAttribute('class','spark '+(ch>=0?'up':'down'));
       document.getElementById('spl-'+x.sym).setAttribute('d',ln); document.getElementById('spa-'+x.sym).setAttribute('d',ar); }
   });
+  updateTicker();
   if(a){
     set('livePrice', (a.dir>=0?'▲ ':'▼ ')+fmtPx(a.price), a.dir>=0?'var(--green)':'var(--red)');
     // market header (trade tab)
@@ -2527,6 +2762,7 @@ function beginSession(j, isNew){
   applyServer(j); if(j.chat) addChat(j.chat,true); saveLocal(); startSync();
   show('app'); if(S.assets) startLive();
   logAct(isNew?'สมัคร/เข้าสู่ระบบ'+(S.userEmail?' ('+S.userEmail+')':''):'เข้าสู่ระบบ');
+  if(isNew) setTimeout(()=>celebrate({count:70,label:'เข้าสู่ห้องเทรดแล้ว'}),250);
   if(isNew) notice('🏦 คุณได้รับเงินในบัญชีธนาคาร '+F(j.bankStart)+' ฿',
     'นี่คือเงินจำลองในบัญชีธนาคารของคุณ ไปที่เมนู "ฝากเงิน" เพื่อโอนเข้าแอปแล้วเริ่มเทรด — เงินก้อนนี้ใช้หมดแล้วหมดเลย ให้คิดว่าเป็นเงินเก็บของคุณจริง ๆ');
 }
@@ -2714,7 +2950,7 @@ function applyServer(j){
 function onRequestChange(r, prev){
   const amt=F(r.amount)+' ฿';
   if(r.kind==='deposit'){
-    if(r.status==='approved') toast('✅ ยอดโอน '+amt+' เข้าพอร์ตแล้ว พร้อมเทรด');
+    if(r.status==='approved'){ toast('✅ ยอดโอน '+amt+' เข้าพอร์ตแล้ว พร้อมเทรด'); if(prev!==undefined||Date.now()-r.at<15000) celebrate({count:60,label:'ยอดเงินเข้าพอร์ตแล้ว '+amt}); }
     else if(r.status==='pending') toast('⏳ ส่งคำขอโอน '+amt+' แล้ว รอระบบตรวจสอบยอด');
     else if(r.status==='rejected') notice('ระบบไม่พบยอดโอน',
       'รายการโอนเงิน '+amt+' ถูกปฏิเสธเนื่องจาก "ไม่พบยอดโอนในระบบ" กรุณาโอนใหม่หรือติดต่อแอดมิน',
@@ -2962,6 +3198,7 @@ function accountClosed(){
   NET.joined=false; stopSync(); stopLive();
   try{ localStorage.removeItem(LS_KEY); }catch{}
   document.getElementById('closedTeach').hidden=!(S.presenter||NET.revealed);
+  document.body.classList.add('alarm'); setTimeout(()=>document.body.classList.remove('alarm'),2600);
   document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
   openOv('ovClosed');
 }
@@ -3100,8 +3337,9 @@ function apScript(d){
   const dep=d.players.filter(p=>p.deposited>0).length, hold=d.players.filter(p=>p.value-p.cash>1).length;
   const vip=d.players.filter(p=>p.vip).length, wd=d.requests.filter(r=>r.kind==='withdraw').map(r=>r.playerId);
   const unl=d.players.filter(p=>p.unlockPaid>0).length;
-  const step=(no,t,sub,count,btns)=>`<div class="step"><div class="step-no">${no}</div><div class="bd"><b>${t}</b><div class="meta">${sub}</div>
-      <div class="sbtns">${btns}</div></div><div class="cnt">${count}</div></div>`;
+  const done=[n>0,dep>0,hold>0,vip>0,wd.length>0,unl>0], active=done.indexOf(false);
+  const step=(no,t,sub,count,btns)=>`<div class="step${done[no-1]?' done':''}${active===no-1?' active':''}"><div class="step-no">${no}</div><div class="bd"><b>${t}</b><div class="meta">${sub}</div>
+      <div class="sbtns">${btns}</div></div><div class="cnt"><span class="led${done[no-1]?' on':active===no-1?' warn':''}"></span>${count}</div></div>`;
   return `<div class="card script"><div class="script-h">🎤 ขั้นตอนบรรยาย <small>กดตามลำดับ · ตัวเลขด้านขวาคือจำนวนผู้ฟังที่ทำแล้ว</small></div>
     ${step(1,'ส่งลิงก์เข้า LINE ให้ทุกคนสมัคร','ผู้ฟังกดลิงก์ → สมัครสมาชิก (ใช้ชื่อเล่น ไม่ต้องใช้ข้อมูลจริง)',`<b>${n}</b> คน`,
       `<button class="btn-sm line" data-step="line">💬 แชร์ไป LINE</button><button class="btn-sm" data-step="copy">🔗 คัดลอกลิงก์</button><button class="btn-sm" data-step="qr">📱 QR</button>`)}
@@ -3367,7 +3605,7 @@ function addChat(list, silent){
       if(m.from==='user') return;
       if(!open) NET.unread++;
       if(m.from==='system'){ const k=m.meta&&m.meta.kind;
-        if(k==='vip'||k==='bonus') notice(k==='vip'?'👑 สิทธิ์สมาชิก VIP':'🎁 โบนัสพิเศษ', m.text); else toast(m.text); }
+        if(k==='vip'||k==='bonus'){ notice(k==='vip'?'👑 สิทธิ์สมาชิก VIP':'🎁 โบนัสพิเศษ', m.text); celebrate({count:k==='vip'?90:60,label:k==='vip'?'VIP ACTIVATED':'รับโบนัสแล้ว'}); } else toast(m.text); }
       else if(m.from==='admin' && !open) toast('💬 ข้อความจากเจ้าหน้าที่: '+m.text.slice(0,60));
     });
   }
@@ -3429,6 +3667,7 @@ function togglePresenter(){
   const lb=document.getElementById('lockBtn');
   lb.classList.toggle('on',S.presenter);
   lb.hidden=!S.presenter;   // ผู้ฟังไม่เห็นปุ่มนี้ — ผู้บรรยายเข้าทางหน้าเข้าสู่ระบบด้วยชื่อแอดมินเท่านั้น
+  document.body.classList.toggle('presenting',!!S.presenter);
   setConn(); updChatBadge();
 }
 function applyTheme(){
@@ -3469,11 +3708,179 @@ document.addEventListener('visibilitychange',()=>{
 });
 window.addEventListener('resize',()=>{ if(S.screen==='app' && (S.tab==='home'||S.tab==='trade')) drawChart(); });
 
+/* ---------- โหมดนิ่ง (Calm): ปิดเอฟเฟกต์เคลื่อนไหวทั้งหมด จำค่าไว้ในเครื่อง ---------- */
+const isCalm=()=>document.documentElement.classList.contains('calm');
+function applyCalm(){
+  const c=isCalm();
+  document.querySelectorAll('[data-calm-toggle]').forEach(b=>{
+    b.setAttribute('aria-pressed',String(c)); b.title=c?'โหมดนิ่ง: เปิดอยู่ (กดเพื่อเปิดเอฟเฟกต์)':'โหมดนิ่ง / ลดเอฟเฟกต์';
+    const u=b.querySelector('use'); if(u) u.setAttribute('href',c?'#i-still':'#i-fx');
+    const l=b.querySelector('.calm-lbl'); if(l) l.textContent=c?'โหมดนิ่ง':'เอฟเฟกต์: เปิด';
+  });
+  try{ c?FX.stop(true):FX.start(); }catch{}
+}
+function toggleCalm(){
+  document.documentElement.classList.toggle('calm');
+  try{ localStorage.setItem('agt-calm',isCalm()?'1':'0'); }catch{}
+  applyCalm(); toast(isCalm()?'โหมดนิ่ง: ปิดเอฟเฟกต์เคลื่อนไหวแล้ว':'เปิดเอฟเฟกต์แล้ว');
+}
+document.addEventListener('click',e=>{ if(e.target.closest('[data-calm-toggle]')) toggleCalm(); });
+
+/* ---------- พื้นหลัง "ห้องบัญชาการเทรด": แพ็กเก็ตข้อมูลวิ่งตามเส้นกริด · จุดดีลกะพริบ · กราฟราคาเรืองแสง ----------
+   canvas เดียว ~30fps, ลดงานเองถ้าเครื่องช้า, หยุดเมื่อสลับแท็บ/โหมดนิ่ง, ไม่รับคลิก (pointer-events:none) */
+const FX=(()=>{
+  const noop={start(){},stop(){}};
+  let cv,ctx; try{ cv=document.getElementById('fxCanvas'); ctx=cv&&cv.getContext('2d'); }catch{ return noop; }
+  if(!ctx) return noop;
+  const G=28*4;                                         // ระยะเส้นกริดหลัก (ตรงกับ CSS .grid.major)
+  let W=0,H=0,pk=[],blips=[],gold=[],teal=[],step=16,scroll=0,raf=0,last=0,cost=0,budget=1,blipT=0;
+  const rnd=(a,b)=>a+Math.random()*(b-a), pick=a=>a[Math.floor(Math.random()*a.length)];
+  const light=()=>document.documentElement.getAttribute('data-theme')==='light';
+  const LABELS=['BUY GOLD','SELL BTC','+2.41%','FILL 0.25','BID ↑','ASK ↓','+1.08%','VOL ↑','LONG XAU','−0.36%'];
+  const packet=()=>{ const hz=Math.random()<.6, lanes=hz?Math.ceil(H/G):Math.ceil(W/G), lane=Math.floor(rnd(1,lanes))*G;
+    const dir=Math.random()<.5?1:-1, len=hz?W:H;
+    return {hz,lane,pos:dir>0?-60:len+60,dir,v:rnd(1.4,3.2),len:rnd(40,90),tone:Math.random()<.72?0:1}; };
+  const nextPt=(v,lo,hi)=>Math.max(H*lo,Math.min(H*hi,v+(Math.random()-.47)*18));
+  function size(){
+    const dpr=Math.min(window.devicePixelRatio||1,innerWidth<700?1.25:1.5); W=innerWidth; H=innerHeight;
+    cv.width=Math.round(W*dpr); cv.height=Math.round(H*dpr); ctx.setTransform(dpr,0,0,dpr,0,0);
+    pk=Array.from({length:W<700?9:18},()=>{ const p=packet(); p.pos=rnd(0,p.hz?W:H); return p; });
+    gold=[H*.8]; teal=[H*.86];
+    while(gold.length*step<W+step*3){ gold.push(nextPt(gold[gold.length-1],.62,.92)); teal.push(nextPt(teal[teal.length-1],.7,.95)); }
+    blips=[];
+  }
+  function series(arr,stroke,glow,fill){
+    const off=scroll%step;
+    ctx.beginPath(); arr.forEach((y,i)=>{ const x=i*step-off; i?ctx.lineTo(x,y):ctx.moveTo(x,y); });
+    if(fill){ ctx.save(); ctx.lineTo((arr.length-1)*step-off,H); ctx.lineTo(-off,H); ctx.closePath();
+      const g=ctx.createLinearGradient(0,H*.55,0,H); g.addColorStop(0,fill); g.addColorStop(1,'rgba(0,0,0,0)'); ctx.fillStyle=g; ctx.fill(); ctx.restore();
+      ctx.beginPath(); arr.forEach((y,i)=>{ const x=i*step-off; i?ctx.lineTo(x,y):ctx.moveTo(x,y); }); }
+    ctx.lineJoin='round';
+    if(glow){ ctx.strokeStyle=glow; ctx.lineWidth=6; ctx.stroke(); }
+    ctx.strokeStyle=stroke; ctx.lineWidth=1.4; ctx.stroke();
+  }
+  function frame(now){
+    raf=requestAnimationFrame(frame);
+    if(now-last<33) return;                              // ~30fps พอสำหรับพื้นหลัง
+    const dt=Math.min(3,(now-last)/16.7||1); last=now; const t0=performance.now();
+    try{
+      const L=light(); ctx.clearRect(0,0,W,H);
+      scroll+=.5*dt; while(scroll>=step){ scroll-=step; gold.shift(); teal.shift();
+        gold.push(nextPt(gold[gold.length-1],.62,.92)); teal.push(nextPt(teal[teal.length-1],.7,.95)); }
+      series(teal,L?'rgba(13,120,80,.3)':'rgba(51,209,122,.28)',null,null);
+      series(gold,L?'rgba(160,100,8,.55)':'rgba(255,215,120,.6)',L?'rgba(201,134,27,.14)':'rgba(242,193,78,.13)',L?'rgba(201,134,27,.12)':'rgba(242,193,78,.11)');
+      // แพ็กเก็ตข้อมูลวิ่งบนเส้นกริด
+      const n=Math.max(4,Math.round(pk.length*budget));
+      for(let i=0;i<n;i++){ const p=pk[i]; p.pos+=p.v*p.dir*dt;
+        if(p.pos<-120||p.pos>(p.hz?W:H)+120){ pk[i]=packet(); continue; }
+        const hx=p.hz?p.pos:p.lane, hy=p.hz?p.lane:p.pos, tx=p.hz?p.pos-p.len*p.dir:p.lane, ty=p.hz?p.lane:p.pos-p.len*p.dir;
+        const col=p.tone?(L?'13,120,80':'51,209,122'):(L?'170,105,10':'255,214,120');
+        const gr=ctx.createLinearGradient(tx,ty,hx,hy); gr.addColorStop(0,`rgba(${col},0)`); gr.addColorStop(1,`rgba(${col},${L?.6:.75})`);
+        ctx.strokeStyle=gr; ctx.lineWidth=1.6; ctx.beginPath(); ctx.moveTo(tx,ty); ctx.lineTo(hx,hy); ctx.stroke();
+        ctx.fillStyle=`rgba(${col},.95)`; ctx.beginPath(); ctx.arc(hx,hy,1.9,0,6.3); ctx.fill(); }
+      // จุดดีลกะพริบที่จุดตัดกริด
+      blipT-=dt; if(blipT<=0 && blips.length<5){ blipT=rnd(18,40);
+        blips.push({x:Math.round(rnd(1,W/G-1))*G,y:Math.round(rnd(1,H/G-1))*G,a:0,lb:pick(LABELS),up:Math.random()<.6}); }
+      ctx.font='600 10px "IBM Plex Mono",monospace'; ctx.textBaseline='middle';
+      blips=blips.filter(b=>{ b.a+=.012*dt; if(b.a>=1) return false;
+        const col=b.up?(L?'13,120,80':'51,209,122'):(L?'170,105,10':'255,190,90'), fade=1-b.a;
+        ctx.strokeStyle=`rgba(${col},${fade*.7})`; ctx.lineWidth=1.2; ctx.beginPath(); ctx.arc(b.x,b.y,4+b.a*30,0,6.3); ctx.stroke();
+        ctx.fillStyle=`rgba(${col},${fade})`; ctx.fillRect(b.x-2,b.y-2,4,4);
+        ctx.strokeStyle=`rgba(${col},${fade*.5})`; ctx.beginPath(); ctx.moveTo(b.x-10,b.y); ctx.lineTo(b.x-5,b.y); ctx.moveTo(b.x+5,b.y); ctx.lineTo(b.x+10,b.y);
+        ctx.moveTo(b.x,b.y-10); ctx.lineTo(b.x,b.y-5); ctx.moveTo(b.x,b.y+5); ctx.lineTo(b.x,b.y+10); ctx.stroke();
+        ctx.fillStyle=`rgba(${col},${Math.min(1,fade*1.4)*.8})`; ctx.fillText(b.lb,b.x+14,b.y-12); return true; });
+    }catch(err){ api.stop(true); return; }
+    cost=cost*.9+(performance.now()-t0)*.1;               // เครื่องช้า → ลดจำนวนแพ็กเก็ตเอง
+    if(cost>9) budget=Math.max(.35,budget-.05); else if(cost<4) budget=Math.min(1,budget+.02);
+  }
+  const api={
+    start(){ if(raf||isCalm()||document.hidden) return; cv.style.display=''; last=0; raf=requestAnimationFrame(frame); },
+    stop(clear){ cancelAnimationFrame(raf); raf=0; if(clear){ try{ ctx.clearRect(0,0,W,H); }catch{} cv.style.display='none'; } },
+  };
+  let rt; try{ size(); }catch{ return noop; }
+  addEventListener('resize',()=>{ clearTimeout(rt); rt=setTimeout(()=>{ try{ size(); }catch{} },150); });
+  document.addEventListener('visibilitychange',()=>document.hidden?api.stop(false):api.start());
+  return api;
+})();
+applyCalm();
+
+/* ---------- ยืนยันจังหวะสำคัญ: วงแสงสั้น ๆ + ประกายจากกลางจอ (~1 วินาที, ไม่บังการกด) ---------- */
+let burstRaf=0, hudTimer=0;
+function celebrate({count=60,label='ทำรายการสำเร็จ'}={}){
+  if(isCalm()){ toast('✓ '+label); return; }
+  try{
+    const hud=document.getElementById('hudAck'); document.getElementById('hudText').textContent='✓ '+label;
+    hud.classList.remove('on'); void hud.offsetWidth; hud.classList.add('on'); clearTimeout(hudTimer); hudTimer=setTimeout(()=>hud.classList.remove('on'),1300);
+    const cv=document.getElementById('fxBurst'), ctx=cv.getContext('2d'); if(!ctx) return;
+    const dpr=Math.min(window.devicePixelRatio||1,1.5), W=innerWidth, H=innerHeight, cx=W/2, cy=H*.38;
+    cv.width=W*dpr; cv.height=H*dpr; ctx.setTransform(dpr,0,0,dpr,0,0); cv.classList.add('on');
+    const P=Array.from({length:count},(_,i)=>{ const a=(i/count)*Math.PI*2+Math.random()*.3, sp=4+Math.random()*7;
+      return {x:cx,y:cy,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp,l:1,c:i%4===0?'51,209,122':'255,214,120',w:Math.random()<.5}; });
+    cancelAnimationFrame(burstRaf); let lastT=performance.now();
+    const tick=now=>{ const dt=Math.min(2.5,(now-lastT)/16.7); lastT=now; ctx.clearRect(0,0,W,H); let alive=0;
+      for(const p of P){ if(p.l<=0) continue; alive++; p.vx*=.93; p.vy*=.93; p.vy+=.05*dt; p.x+=p.vx*dt; p.y+=p.vy*dt; p.l-=.022*dt;
+        ctx.strokeStyle=`rgba(${p.c},${Math.max(0,p.l)})`; ctx.lineWidth=p.w?2:1.2;
+        ctx.beginPath(); ctx.moveTo(p.x,p.y); ctx.lineTo(p.x-p.vx*3,p.y-p.vy*3); ctx.stroke(); }
+      if(alive) burstRaf=requestAnimationFrame(tick); else { ctx.clearRect(0,0,W,H); cv.classList.remove('on'); } };
+    burstRaf=requestAnimationFrame(tick);
+  }catch{}
+}
+
+/* ---------- ตัวเลขเปลี่ยนค่าแบบนุ่ม + แสงกะพริบเฉพาะจุดที่เปลี่ยน ---------- */
+function tweenText(el, to, fmt){
+  if(!el) return; const from=el._tv;
+  if(from===undefined || isCalm() || Math.abs(to-from)<1e-9 || document.hidden){ el._tv=to; el.textContent=fmt(to); return; }
+  el._tv=to; const t0=performance.now(), dur=520; cancelAnimationFrame(el._tr);
+  const run=now=>{ const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3); el.textContent=fmt(from+(to-from)*e); if(k<1) el._tr=requestAnimationFrame(run); };
+  el._tr=requestAnimationFrame(run);
+}
+function flashEl(el, up){   // สลับชื่อคลาสสองชุดเพื่อเริ่มแอนิเมชันใหม่โดยไม่ต้องบังคับ reflow
+  if(!el || isCalm()) return; const k=up?'fu':'fd', next=el.dataset.fl===k+'1'?k+'2':k+'1';
+  if(el.dataset.fl) el.classList.remove(el.dataset.fl); el.classList.add(next); el.dataset.fl=next;
+}
+
+/* ---------- แถบราคาวิ่ง (Live Ticker) ---------- */
+const TK={sig:'',els:{}};
+function updateTicker(){
+  const track=document.getElementById('tkTrack'); if(!track || !S.assets) return;
+  try{
+    const sig=S.assets.map(a=>a.sym).join(',');
+    if(sig!==TK.sig){
+      TK.sig=sig; TK.els={};
+      const item=a=>`<span class="tk" data-tk="${esc(a.sym)}"><b>${esc(a.sym)}</b><i class="tk-px"></i><em class="tk-ch"></em></span>`;
+      const row=S.assets.map(item).join('<span class="tk-sep">◆</span>');
+      track.innerHTML=`<div class="tk-run">${row}<span class="tk-sep">◆</span></div><div class="tk-run" aria-hidden="true">${row}<span class="tk-sep">◆</span></div>`;
+      track.querySelectorAll('[data-tk]').forEach(el=>{ (TK.els[el.dataset.tk]=TK.els[el.dataset.tk]||[]).push(el); });
+      track.style.setProperty('--tk-dur',Math.max(28,S.assets.length*4.2)+'s');
+    }
+    for(const a of S.assets){
+      const ch=chg24(a), px=fmtPx(a.price), list=TK.els[a.sym]||[];
+      for(const el of list){
+        const pe=el.children[1], ce=el.children[2];
+        if(pe.textContent!==px){ const had=pe.textContent; pe.textContent=px; if(had) flashEl(el, a.dir>=0); }
+        ce.textContent=(ch>=0?'▲ ':'▼ ')+Math.abs(ch).toFixed(2)+'%'; ce.className='tk-ch '+(ch>=0?'up':'down');
+      }
+    }
+  }catch{}
+}
+
+/* ---------- ตัวเลขบนหน้าเข้าสู่ระบบนับขึ้น ---------- */
+function countUpStats(){
+  document.querySelectorAll('.hero-stats b').forEach(el=>{
+    const txt=el.dataset.final||el.textContent; el.dataset.final=txt;
+    const m=txt.match(/[\d,]+/); if(!m||reduce||isCalm()) return;
+    const target=+m[0].replace(/,/g,''), t0=performance.now(), dur=1400;
+    const run=now=>{ const k=Math.min(1,(now-t0)/dur), e=1-Math.pow(1-k,3);
+      el.textContent=txt.replace(m[0],Math.round(target*e).toLocaleString('en-US')); if(k<1) requestAnimationFrame(run); };
+    requestAnimationFrame(run);
+  });
+}
+
 /* ---------- hot-reload position ---------- */
 function snapshot(){ saveLocal(); }
 async function start(){
   // มาจากลิงก์ใน LINE ครั้งแรก → เปิดหน้าสมัครสมาชิกเลย
-  show(/[?&]join\b/.test(location.search)||!lsGet('agt-seen')?'signup':'login'); togglePresenter();
+  show(/[?&]join\b/.test(location.search)||!lsGet('agt-seen')?'signup':'login'); togglePresenter(); countUpStats();
   if(!(await detectOnline())) return;
   const tok=ssGet(SS_TOKEN);
   if(tok) return loginAsPresenter(tok);   // แท็บเดิมของผู้บรรยาย (หมดอายุจะถูกพากลับหน้า login เอง)
