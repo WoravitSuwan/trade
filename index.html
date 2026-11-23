@@ -4,11 +4,14 @@
 <script>try{var _t=localStorage.getItem('agt-theme');if(_t==='light'||_t==='dark')document.documentElement.setAttribute('data-theme',_t);}catch(e){}</script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#060a13">
+<meta name="theme-color" content="#0a0907">
+<meta name="description" content="AI Gold Trade — สื่อสาธิตกลโกงลงทุนออนไลน์เพื่อการศึกษา (เงินทั้งหมดเป็นเงินจำลอง)">
+<meta property="og:title" content="AI Gold Trade · สื่อสาธิตเพื่อการศึกษา">
+<meta property="og:description" content="ร่วมทดลองการสาธิตกลโกงลงทุนออนไลน์ ใช้ชื่อเล่น ไม่ต้องใช้ข้อมูลจริง เงินทั้งหมดเป็นเงินจำลอง">
 <title>AI Gold Trade — สื่อสาธิตกลโกงลงทุน</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Thai:wght@400;500;600;700&family=Prompt:wght@500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
 <style>
   :root{
     --bg:#060a13; --panel:#0f1626; --panel-2:#162036; --panel-3:#1d2944;
@@ -884,6 +887,161 @@
     .net-note{display:none}
   }
   @media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+
+  /* =====================================================================
+     DESIGN v2 — warm black + champagne gold (light: ivory) · mobile-first
+     ===================================================================== */
+  :root{
+    --bg:#0a0907; --panel:#14120f; --panel-2:#1b1814; --panel-3:#25211b;
+    --line:rgba(255,236,200,.08); --line-2:rgba(255,236,200,.15);
+    --ink:#f6f1e7; --dim:#bcb19f; --faint:#81786a;
+    --gold:#f2c14e; --gold-2:#d8962a; --gold-3:#a5690e;
+    --green:#33d17a; --red:#ff5b61;
+    --display:'Prompt','IBM Plex Sans Thai',system-ui,sans-serif;
+    --app-bar:rgba(14,12,10,.86); --nav-bar:rgba(14,12,10,.94); --inp-bg:rgba(0,0,0,.35);
+    --modal-bg:linear-gradient(180deg,#1f1b15,#14120f);
+    --shadow:0 1px 0 rgba(255,240,210,.04) inset,0 18px 40px -22px rgba(0,0,0,.85);
+  }
+  :root[data-theme="light"]{
+    --bg:#f5f1e8; --panel:#ffffff; --panel-2:#faf7f1; --panel-3:#f0e9dc;
+    --line:rgba(60,40,10,.09); --line-2:rgba(60,40,10,.16);
+    --ink:#1d1810; --dim:#5d5446; --faint:#958a78;
+    --gold:#e2a72b; --gold-2:#c9861b; --gold-3:#8a5a06;
+    --app-bar:rgba(255,255,255,.9); --nav-bar:rgba(255,255,255,.96); --inp-bg:#faf7f1;
+    --modal-bg:#ffffff;
+  }
+  body{background:radial-gradient(800px 420px at 50% -8%,rgba(242,193,78,.13),transparent 70%),var(--bg)}
+  :root[data-theme="light"] body{background:radial-gradient(800px 420px at 50% -8%,rgba(226,167,43,.16),transparent 70%),var(--bg)}
+  :root[data-theme="light"] #app{background:linear-gradient(180deg,#f7f3ea,#f1ebdf)}
+  :root[data-theme="light"] #admin{background:#f6f2ea}
+  :root[data-theme="light"] .bignum{background:#fff}
+  h1,h2,h3,.appbar .nm,.adm-top .nm,.auth-hero h1,.hc-v,.modal h3{font-family:var(--display)}
+  .field input:focus{background:var(--inp-bg)}
+
+  /* ---- auth (login / signup) ---- */
+  #login,#signup{padding:0 0 18px}
+  .login-card{width:min(430px,100vw);margin:0 auto auto;padding:0 18px 18px;border-radius:0 0 26px 26px;border:none;
+    background:transparent;box-shadow:none}
+  .login-card::before{display:none}
+  .login-card .login-theme{top:14px;right:16px;z-index:3}
+  .auth-hero{position:relative;margin:0 -18px 0;padding:30px 22px 64px;text-align:center;overflow:hidden;
+    background:radial-gradient(420px 220px at 50% 0%,rgba(255,226,150,.35),transparent 70%),
+      linear-gradient(160deg,#3a2a0c 0%,#1a1308 55%,#0a0907 100%);color:#fff7e6}
+  .auth-hero::after{content:"";position:absolute;left:-20%;right:-20%;bottom:-1px;height:46px;background:var(--bg);border-radius:50% 50% 0 0/100% 100% 0 0}
+  :root[data-theme="light"] .auth-hero{background:radial-gradient(420px 220px at 50% 0%,rgba(255,240,190,.9),transparent 70%),linear-gradient(160deg,#f6d27a,#e7ad3b 60%,#c98a1e)}
+  :root[data-theme="light"] .auth-hero,:root[data-theme="light"] .auth-hero p{color:#2a1a00}
+  .auth-hero .logo{margin:0 auto 10px;width:62px;height:62px;border-radius:20px}
+  .auth-hero h1{margin:0;font-size:27px;font-weight:700;letter-spacing:-.3px}
+  .auth-hero p{margin:4px 0 16px;font-size:13.5px;color:#f3dfb4}
+  .hero-stats{position:relative;z-index:1;display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+  .hero-stats div{padding:9px 4px;border-radius:14px;background:rgba(255,255,255,.08);border:1px solid rgba(255,236,190,.18);backdrop-filter:blur(6px)}
+  :root[data-theme="light"] .hero-stats div{background:rgba(255,255,255,.45);border-color:rgba(255,255,255,.7)}
+  .hero-stats b{display:block;font-family:var(--display);font-size:16px}
+  .hero-stats span{font-size:10.5px;opacity:.85}
+  .auth-seg{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:4px;padding:4px;margin:-34px 4px 16px;border-radius:16px;
+    background:var(--panel);border:1px solid var(--line-2);box-shadow:0 14px 30px -18px rgba(0,0,0,.6)}
+  .auth-seg button{border:none;background:none;padding:11px 6px;border-radius:12px;font-weight:700;font-size:14.5px;color:var(--dim);font-family:var(--display)}
+  .auth-seg button.on{background:linear-gradient(135deg,#ffe08a,var(--gold) 40%,var(--gold-2));color:#2a1a00;box-shadow:0 8px 18px -10px rgba(242,193,78,.9)}
+  .auth-promo{display:flex;gap:10px;align-items:center;margin:0 0 14px;padding:11px 13px;border-radius:14px;font-size:12.5px;line-height:1.5;
+    background:linear-gradient(90deg,rgba(242,193,78,.16),rgba(242,193,78,.04));border:1px solid rgba(242,193,78,.35)}
+  .auth-promo b{color:var(--gold)}
+  .link-btn{display:block;width:100%;margin-top:10px;background:none;border:none;color:var(--dim);font-size:13px;padding:8px}
+  .link-btn b{color:var(--gold)}
+  #login .trust{margin-top:14px}
+  @media (min-width:700px){
+    #login,#signup{padding:26px 0}
+    .login-card{margin:auto;border-radius:26px;overflow:hidden;background:var(--panel);border:1px solid var(--line-2);box-shadow:var(--shadow)}
+  }
+
+  /* ---- home ---- */
+  .hero-card{position:relative;overflow:hidden;border-radius:24px;padding:16px 18px 14px;margin-bottom:12px;color:#2a1a00;
+    background:radial-gradient(360px 200px at 100% 0%,rgba(255,255,255,.45),transparent 60%),
+      linear-gradient(135deg,#ffe49a 0%,#f2c14e 38%,#d8962a 100%);
+    box-shadow:0 22px 40px -24px rgba(216,150,42,.9),inset 0 1px 0 rgba(255,255,255,.6)}
+  .hero-card::after{content:"";position:absolute;right:-40px;top:-40px;width:180px;height:180px;border-radius:50%;
+    border:28px solid rgba(255,255,255,.13);pointer-events:none}
+  .hc-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:10px}
+  .hc-hi{font-size:14px}
+  .hero-card .vip-chip{margin-left:6px}
+  .hero-card .logout-btn{background:rgba(42,26,0,.1);border-color:rgba(42,26,0,.18);color:#2a1a00;position:relative;z-index:1}
+  .hc-k{font-size:12px;opacity:.75}
+  .hc-v{font-size:32px;font-weight:700;letter-spacing:-.5px;line-height:1.15;margin:2px 0 4px;font-variant-numeric:tabular-nums}
+  .hc-d{display:inline-block;font-size:12.5px;font-weight:700;padding:3px 10px;border-radius:999px;background:rgba(255,255,255,.4)}
+  .hero-card .hc-d.up{color:#0d6b37}.hero-card .hc-d.down{color:#a3121c}
+  .hc-row{display:grid;grid-template-columns:repeat(3,1fr);gap:6px;margin-top:12px;padding-top:11px;border-top:1px dashed rgba(42,26,0,.22)}
+  .hc-row span{display:block;font-size:10.5px;opacity:.7}
+  .hc-row b{font-family:var(--mono);font-size:13px}
+  .qa{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}
+  .qa button{display:flex;flex-direction:column;align-items:center;gap:7px;padding:12px 4px 10px;border-radius:18px;font-size:12.5px;font-weight:600;
+    background:var(--panel);border:1px solid var(--line);transition:transform .15s var(--ease),border-color .15s}
+  .qa button:active{transform:scale(.96)}
+  .qa button:hover{border-color:var(--line-2)}
+  .qa i{width:44px;height:44px;border-radius:14px;display:grid;place-items:center;font-style:normal;font-size:21px}
+  .qa i svg{width:22px;height:22px}
+  .qa-dep{background:rgba(51,209,122,.14);color:var(--green)}
+  .qa-gold{background:rgba(242,193,78,.16)}
+  .qa-vip{background:linear-gradient(135deg,rgba(255,224,138,.35),rgba(216,150,42,.25))}
+  .qa-wd{background:rgba(96,165,250,.14);color:var(--teach)}
+  .vip-banner{display:flex;align-items:center;gap:12px;width:100%;text-align:left;margin-bottom:12px;padding:12px 14px;border-radius:18px;
+    color:inherit;border:1px solid rgba(242,193,78,.45);background:linear-gradient(100deg,rgba(242,193,78,.22),rgba(242,193,78,.05) 70%);
+    animation:vipGlow 2.4s ease-in-out infinite}
+  @keyframes vipGlow{50%{box-shadow:0 0 0 4px rgba(242,193,78,.12)}}
+  .vip-banner .vb-ic{font-size:26px}
+  .vip-banner b{display:block;font-size:13.5px}
+  .vip-banner small{display:block;font-size:11.5px;color:var(--dim);margin-top:2px}
+  .vip-banner .vb-go{margin-left:auto;font-size:26px;color:var(--gold)}
+  .chart-card{padding-top:14px}
+  :root[data-theme="light"] .pay-amt{background:var(--panel-2)}
+  .appbar .nm{white-space:nowrap}
+  .balpill .v{white-space:nowrap}
+  @media (max-width:420px){
+    .appbar{gap:8px;padding:9px 12px}
+    .appbar .nm{font-size:14px}
+    .balpill{padding:4px 9px}
+    .balpill .v{font-size:13.5px}
+    .appbar .theme-btn,.appbar .lockbtn{width:36px;height:36px}
+  }
+  @media (prefers-reduced-motion:reduce){.vip-banner{animation:none}}
+
+  /* ---- VIP popup ---- */
+  .modal.vip{text-align:center;background:radial-gradient(380px 200px at 50% 0%,rgba(242,193,78,.25),transparent 70%),var(--modal-bg)}
+  .vip-crown{font-size:46px;line-height:1;margin:2px 0 4px;filter:drop-shadow(0 8px 18px rgba(242,193,78,.6))}
+  .vip-kicker{display:inline-block;font-size:11.5px;font-weight:700;color:var(--red);background:var(--red-bg);border:1px solid rgba(255,91,97,.35);
+    padding:3px 10px;border-radius:999px;margin-bottom:8px}
+  .modal h3.vip-h{font-size:23px;margin-bottom:10px}
+  .vip-h span{color:var(--gold)}
+  .vip-perks{list-style:none;margin:12px 0;padding:0;display:flex;flex-direction:column;gap:7px;text-align:left}
+  .vip-perks li{display:flex;gap:11px;align-items:center;padding:9px 12px;border-radius:13px;background:var(--panel-2);border:1px solid var(--line)}
+  .vip-perks li>span{font-size:20px;width:26px;text-align:center}
+  .vip-perks b{display:block;font-size:13px}
+  .vip-perks small{display:block;font-size:11.5px;color:var(--faint)}
+  .vip-fee{display:flex;justify-content:space-between;align-items:center;margin:0 0 12px;padding:10px 13px;border-radius:13px;font-size:13px;
+    border:1px dashed rgba(242,193,78,.5);background:rgba(242,193,78,.07)}
+  .vip-fee b{font-family:var(--display);font-size:18px;color:var(--gold)}
+  .vip-fee s{font-size:12px;color:var(--faint);font-weight:400;margin-right:4px}
+  .xfer-modal .pay-methods{grid-template-columns:repeat(3,1fr);gap:7px;margin-bottom:8px}
+  .xfer-modal .pm{padding:9px 4px 8px}
+  .xfer-modal .pm small{display:none}
+  .xfer-modal p{margin-bottom:12px}
+  .xfer-modal .pay-amt{margin-bottom:12px}
+
+  /* ---- presenter script ---- */
+  .script{padding:14px;margin-bottom:14px}
+  .script-h{font-family:var(--display);font-weight:700;font-size:16px;margin-bottom:8px}
+  .script-h small{display:block;font-family:var(--sans);font-weight:400;font-size:12px;color:var(--faint)}
+  .step{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-top:1px solid var(--line)}
+  .step .step-no{width:28px;height:28px;flex:0 0 auto;border-radius:50%;display:grid;place-items:center;font-weight:700;font-size:13px;
+    background:linear-gradient(135deg,#ffe08a,var(--gold-2));color:#2a1a00}
+  .step .bd{flex:1;min-width:0}
+  .step .bd>b{font-size:14px}
+  .step .meta{font-size:12px;color:var(--faint);margin:2px 0 7px}
+  .step .cnt{flex:0 0 auto;font-size:12px;color:var(--dim);text-align:right;white-space:nowrap}
+  .step .cnt b{font-family:var(--mono);font-size:17px;color:var(--ink)}
+  .sbtns{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+  .btn-sm.line{background:#06c755;border-color:#06c755;color:#fff}
+  .step-amt{width:110px;padding:7px 10px!important;font-family:var(--mono)}
+  .set-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:12px}
+  @media (max-width:520px){ .step{gap:9px} .step .cnt{font-size:11px;max-width:74px;white-space:normal} .step .cnt b{font-size:15px} }
 </style>
 </head>
 <body>
@@ -938,11 +1096,13 @@
       <div class="fchip fc4" aria-hidden="true"><span class="coin" style="--c:#22d68a">S</span><div><b>SOL</b><small>6,214.90</small></div><em class="up">+1.96%</em></div>
       <div class="login-card">
         <button class="theme-btn login-theme" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
-        <div class="brand-big">
+        <div class="auth-hero">
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
           <h1>AI Gold Trade</h1>
-          <div class="tag"><svg class="i"><use href="#i-check"/></svg>กองทุน AI การันตีกำไร 90%/เดือน</div>
+          <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
+          <div class="hero-stats"><div><b>52,418+</b><span>สมาชิก</span></div><div><b>+32%</b><span>กำไรเฉลี่ย/เดือน</span></div><div><b>5 นาที</b><span>ถอนเงินไว</span></div></div>
         </div>
+        <div class="auth-seg" role="tablist"><button data-auth="login" role="tab" class="on" aria-selected="true">เข้าสู่ระบบ</button><button data-auth="signup" role="tab">สมัครสมาชิก</button></div>
         <div class="field"><label for="lgUser">ชื่อผู้ใช้</label>
           <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="lgUser" placeholder="ชื่อเล่นที่ใช้สมัคร" autocomplete="username" autocapitalize="off" spellcheck="false"></div></div>
         <div class="field"><label for="lgPass">รหัสผ่าน</label>
@@ -951,7 +1111,7 @@
         <div class="form-err" id="dbWarn" hidden style="background:rgba(245,158,11,.12);border-color:rgba(245,158,11,.45);color:#ffd7a8"></div>
         <button class="btn btn-gold" id="lgIn">เข้าสู่ระบบ</button>
         <div class="or">หรือ</div>
-        <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>สมัครสมาชิกใหม่ รับโบนัส 500฿</button>
+        <button class="btn btn-ghost" id="lgUp"><svg class="i" style="color:var(--gold)"><use href="#i-gift"/></svg>ยังไม่มีบัญชี? สมัครสมาชิก รับโบนัส 500฿</button>
         <button class="btn-google" id="lgGoogle"><svg class="gicon" viewBox="0 0 48 48"><path fill="#EA4335" d="M24 9.5c3.54 0 6.71 1.22 9.21 3.6l6.85-6.85C35.9 2.38 30.47 0 24 0 14.62 0 6.51 5.38 2.56 13.22l7.98 6.19C12.43 13.72 17.74 9.5 24 9.5z"/><path fill="#4285F4" d="M46.98 24.55c0-1.57-.15-3.09-.38-4.55H24v9.02h12.94c-.58 2.96-2.26 5.48-4.78 7.18l7.73 6c4.51-4.18 7.09-10.36 7.09-17.65z"/><path fill="#FBBC05" d="M10.53 28.59c-.48-1.45-.76-2.99-.76-4.59s.27-3.14.76-4.59l-7.98-6.19C.92 16.46 0 20.12 0 24c0 3.88.92 7.54 2.56 10.78l7.97-6.19z"/><path fill="#34A853" d="M24 48c6.48 0 11.93-2.13 15.89-5.81l-7.73-6c-2.15 1.45-4.92 2.3-8.16 2.3-6.26 0-11.57-4.22-13.47-9.91l-7.98 6.19C6.51 42.62 14.62 48 24 48z"/></svg>ลงชื่อเข้าใช้ด้วย Google</button>
         <div class="login-note">🔎 ฉากจำลองหน้า login ของเว็บหลอกลงทุน — ต้อง<b>สมัครสมาชิกก่อน</b>จึงจะเข้าได้ ใช้ชื่อเล่นและตั้งรหัสใหม่ <b>ห้ามใช้รหัสผ่านจริง</b></div>
         <div class="net-note">🔗 เชื่อมต่อห้องสาธิตสดแล้ว — ผู้บรรยายจะเห็นชื่อเล่นและยอดเงินจำลองของคุณ บัญชีจะถูกลบเมื่อผู้บรรยายเริ่มรอบใหม่</div>
@@ -967,14 +1127,17 @@
     <section class="screen" id="signup">
       <div class="login-card">
         <button class="theme-btn login-theme" data-theme-toggle aria-label="สลับธีม"><svg class="i"><use href="#i-moon"/></svg></button>
-        <div class="brand-big">
+        <div class="auth-hero">
           <div class="logo"><svg class="i"><use href="#i-logo"/></svg></div>
-          <h1>สมัครสมาชิก</h1>
-          <div class="tag"><svg class="i"><use href="#i-gift"/></svg>สมัครใหม่รับโบนัสทันที 500฿</div>
+          <h1>AI Gold Trade</h1>
+          <p>ลงทุนทองคำด้วยระบบ AI · กำไรทุกวัน</p>
+          <div class="hero-stats"><div><b>52,418+</b><span>สมาชิก</span></div><div><b>+32%</b><span>กำไรเฉลี่ย/เดือน</span></div><div><b>5 นาที</b><span>ถอนเงินไว</span></div></div>
         </div>
+        <div class="auth-seg" role="tablist"><button data-auth="login" role="tab">เข้าสู่ระบบ</button><button data-auth="signup" role="tab" class="on" aria-selected="true">สมัครสมาชิก</button></div>
+        <div class="auth-promo">🎁 <span>สมัครวันนี้ <b>รับโบนัส 500 ฿</b> เข้าพอร์ตทันที · ใช้เวลาไม่ถึง 1 นาที</span></div>
         <div class="field"><label for="suName">ชื่อผู้ใช้ (ชื่อเล่น 2–24 ตัวอักษร)</label>
           <div class="inp"><svg class="i"><use href="#i-user"/></svg><input id="suName" placeholder="เช่น น้องเอ" autocomplete="username" autocapitalize="off" spellcheck="false"></div></div>
-        <div class="field"><label for="suPhone">เบอร์โทรศัพท์ (ไม่บังคับ — ไม่ต้องใช้เบอร์จริง)</label>
+        <div class="field"><label for="suPhone">เบอร์โทรศัพท์ (ไม่บังคับ — ห้ามใช้เบอร์จริง)</label>
           <div class="inp"><svg class="i"><use href="#i-phone"/></svg><input id="suPhone" placeholder="08x-xxx-xxxx" autocomplete="off" inputmode="tel"></div></div>
         <div class="field"><label for="suPass">ตั้งรหัสผ่าน (อย่างน้อย 4 ตัว — ห้ามใช้รหัสจริง)</label>
           <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass" type="password" placeholder="••••••••" autocomplete="new-password"></div></div>
@@ -982,7 +1145,7 @@
           <div class="inp"><svg class="i"><use href="#i-lock"/></svg><input id="suPass2" type="password" placeholder="••••••••" autocomplete="new-password"></div></div>
         <div class="form-err" id="suErr" role="alert" hidden></div>
         <button class="btn btn-gold" id="suGo">สมัครและเริ่มลงทุน</button>
-        <button class="btn btn-ghost" id="suBack"><svg class="i"><use href="#i-back"/></svg>กลับหน้าเข้าสู่ระบบ</button>
+        <button class="link-btn" id="suBack">มีบัญชีอยู่แล้ว? <b>เข้าสู่ระบบ</b></button>
         <div class="login-note offline-only">🔎 สาธิต (ออฟไลน์): บัญชีเก็บไว้แค่ในเบราว์เซอร์เครื่องนี้ ไม่ส่งออกไปไหน — จุดสำคัญคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
         <div class="net-note">🔗 ห้องสาธิตสด: ระบบเก็บ<b>ชื่อเล่น</b>และรหัสผ่านแบบเข้ารหัส (hash) ไว้ให้เข้าสู่ระบบได้ — <b>เบอร์โทรไม่ถูกส่งออกไป</b> จุดที่อยากให้เห็นคือ "สิ่งที่คุณกรอกตอนสมัคร มิจฉาชีพเห็นหมดในระบบหลังบ้าน"</div>
       </div>
@@ -1085,13 +1248,59 @@
 
   <div class="ov" id="ovVip"><div class="modal vip">
     <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
-    <div class="m-ic" style="--icbg:rgba(245,200,76,.14);--icfg:var(--gold);--icbd:rgba(245,200,76,.45)"><svg class="i"><use href="#i-gift"/></svg></div>
-    <div class="burst"><div class="big">+50% โบนัส</div></div>
-    <h3>สิทธิ์ VIP เฉพาะคุณ!</h3>
-    <div class="countdown"><svg class="i"><use href="#i-clock"/></svg>หมดเขตใน <span class="t" id="vipT">09:59</span></div>
-    <p>ลงทุนเพิ่ม 500,000฿ วันนี้ รับโบนัสทันที 250,000฿ โอกาสสุดท้าย อย่าพลาด!</p>
-    <button class="btn btn-gold" data-close>ลงทุนเลย <svg class="i"><use href="#i-rocket"/></svg></button>
-    <div class="teach-tip" id="vipTeach" style="display:none">💡 <span><b>จุดสอน:</b> การเร่งเวลา (นับถอยหลัง) + โบนัสเกินจริง = เทคนิคกดดันให้เหยื่อรีบโอนก้อนใหญ่โดยไม่ทันคิด</span></div>
+    <div class="vip-crown">👑</div>
+    <div class="vip-kicker">สิทธิ์พิเศษเฉพาะวันนี้</div>
+    <h3 class="vip-h">สมัคร VIP รับเลย <span id="vipBonusTxt">500</span> ฿</h3>
+    <div class="countdown"><svg class="i"><use href="#i-clock"/></svg>เหลือเวลา <span class="t" id="vipT">09:59</span> · เหลือ <b id="vipSeats">7</b> สิทธิ์</div>
+    <ul class="vip-perks">
+      <li><span>🎁</span><div><b>โบนัสเข้าพอร์ตทันที <span id="vipBonusTxt2">500</span> ฿</b><small>ได้รับอัตโนมัติหลังชำระค่าสมัคร</small></div></li>
+      <li><span>🤖</span><div><b>สัญญาณเทรด AI แม่นยำ 98%</b><small>แจ้งจุดซื้อ-ขายทองคำและหุ้นแบบเรียลไทม์</small></div></li>
+      <li><span>⚡</span><div><b>ถอนเงินด่วนภายใน 5 นาที</b><small>ไม่ต้องรอคิว ไม่จำกัดจำนวนครั้ง</small></div></li>
+      <li><span>🧑‍💼</span><div><b>ผู้จัดการพอร์ตส่วนตัว 24 ชม.</b><small>ดูแลการลงทุนให้แบบตัวต่อตัว</small></div></li>
+    </ul>
+    <div class="vip-fee"><span>ค่าสมัครสมาชิก VIP</span><b><s>1,500 ฿</s> <span id="vipFeeTxt">300</span> ฿</b></div>
+    <button class="btn btn-gold" id="vipGo">สมัคร VIP เลย — โอน <span id="vipFeeBtn">300</span> ฿</button>
+    <div class="mini-note" id="vipNote">ชำระค่าสมัครผ่านพร้อมเพย์หรือโอนผ่านธนาคาร (เงินจำลอง)</div>
+    <div class="teach-tip" id="vipTeach" style="display:none">💡 <span><b>จุดสอน:</b> "จ่ายน้อย ได้มาก" + นับถอยหลัง + สิทธิ์จำกัด = เทคนิคเร่งให้โอนโดยไม่ทันคิด โบนัสที่ได้เป็นแค่ตัวเลขบนจอ แต่ค่าสมัครออกจากบัญชีธนาคารจริง</span></div>
+  </div></div>
+
+  <div class="ov" id="ovXfer"><div class="modal xfer-modal">
+    <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    <h3 id="xfTitle">ชำระเงิน</h3>
+    <p id="xfSub"></p>
+    <div class="pay-amt"><span>ยอดที่ต้องโอน</span><b id="xfAmt">0.00 ฿</b></div>
+    <label class="glab">เลือกช่องทางการชำระเงิน</label>
+    <div class="pay-methods" id="xfMethods"></div>
+    <div class="mini-note" id="xfBank"></div>
+    <button class="btn btn-gold" id="xfGo">ยืนยันการโอน</button>
+  </div></div>
+
+  <div class="ov" id="ovWdHold" data-lock><div class="modal err-modal">
+    <div class="m-ic" style="--icbg:rgba(255,93,108,.12);--icfg:var(--red);--icbd:rgba(255,93,108,.4)"><svg class="i"><use href="#i-ban"/></svg></div>
+    <h3>ทำรายการถอนไม่สำเร็จ</h3>
+    <div class="err-box">
+      <div class="l"><span>ยอดที่ขอถอน</span><span class="v" id="whAmt">—</span></div>
+      <div class="l"><span>รหัสข้อผิดพลาด</span><span class="v mono">ERR-WD-4031</span></div>
+      <div class="l"><span>สถานะ</span><span class="v" style="color:var(--red)">อายัดยอดชั่วคราว</span></div>
+    </div>
+    <p>ระบบตรวจพบความผิดปกติในการทำรายการ ยอดเงินของคุณถูกอายัดเพื่อความปลอดภัย<br><b>กรุณาติดต่อแอดมินเพื่อยืนยันตัวตนและปลดล็อกการถอน</b></p>
+    <button class="btn btn-gold" id="whContact"><svg class="i"><use href="#i-chat"/></svg>ติดต่อแอดมิน</button>
+  </div></div>
+
+  <div class="ov" id="ovSusp"><div class="modal closed-modal">
+    <button class="x" data-close aria-label="ปิด"><svg class="i"><use href="#i-x"/></svg></button>
+    <div class="big">🔒</div>
+    <h3>บัญชีถูกระงับการใช้งาน</h3>
+    <div class="err-box" style="text-align:left">
+      <div class="l"><span>บัญชี</span><span class="v" id="spName">—</span></div>
+      <div class="l"><span>สถานะ</span><span class="v" style="color:var(--red)" id="spState">ระงับการใช้งาน</span></div>
+      <div class="l"><span>ค่าปลดล็อกบัญชี</span><span class="v mono" id="spFee">3,000 ฿</span></div>
+    </div>
+    <p id="spMsg">ตรวจพบการทำรายการผิดปกติ หากต้องการเปิดใช้งานบัญชีเดิมและรับยอดเงินคืน กรุณาชำระค่าปลดล็อกบัญชีภายใน 24 ชม.</p>
+    <button class="btn btn-gold" id="spPay">ชำระ 3,000 ฿ เพื่อเปิดใช้งานบัญชีเดิม</button>
+    <button class="btn btn-ghost" id="spNew">สมัครบัญชีใหม่</button>
+    <div class="mini-note" id="spBank"></div>
+    <div class="teach-tip" id="spTeach" hidden>💡 <span><b>จุดสอน:</b> "จ่ายค่าปลดล็อก" คือการรีดเงินรอบสุดท้าย จ่ายแล้วก็ไม่ได้บัญชีหรือเงินคืน และจะถูกเรียกเงินเพิ่มอีกเรื่อย ๆ — ถ้าเจอแบบนี้ ให้หยุดโอน เก็บหลักฐาน แล้วโทร 1441</span></div>
   </div></div>
 
   <div class="ov" id="ovFlags"><div class="modal">
@@ -1117,7 +1326,7 @@
     <div class="m-ic" style="--icbg:rgba(245,200,76,.14);--icfg:var(--gold);--icbd:rgba(245,200,76,.45)"><svg class="i"><use href="#i-chat"/></svg></div>
     <h3 id="ntTitle">ประกาศจากระบบ</h3>
     <p id="ntText"></p>
-    <button class="btn btn-gold" data-close>รับทราบ</button>
+    <button class="btn btn-gold" id="ntOk">รับทราบ</button>
     <div class="teach-tip" id="ntTeach" hidden>💡 <span></span></div>
   </div></div>
 
@@ -1142,12 +1351,12 @@
     <div class="ctl-bar" id="ctlBar"></div>
   </div></div>
 
-  <div class="ov" id="ovClosed"><div class="modal closed-modal">
+  <div class="ov" id="ovClosed" data-lock><div class="modal closed-modal">
     <div class="big">⛔</div>
-    <h3>บัญชีถูกปิด</h3>
-    <p id="closedMsg">บัญชีของคุณถูกปิดโดยผู้ดูแลระบบ ไม่สามารถใช้งานต่อได้<br>กรุณาสมัครสมาชิกใหม่เพื่อเข้าใช้งานอีกครั้ง</p>
+    <h3>บัญชีของคุณถูกระงับ</h3>
+    <p id="closedMsg">ตรวจพบการทำรายการผิดปกติ บัญชีและยอดเงินทั้งหมดถูกอายัด<br>ไม่สามารถใช้งานบัญชีนี้ได้อีก กรุณาสมัครสมาชิกใหม่</p>
     <button class="btn btn-gold" id="closedBack"><svg class="i"><use href="#i-back"/></svg>กลับสู่หน้าเข้าสู่ระบบ</button>
-    <div class="teach-tip" style="margin-top:14px">💡 <span><b>จุดสอน:</b> เว็บหลอกลงทุนปิดบัญชีและยึดเงินของเหยื่อได้ทันทีเมื่อไม่ยอมโอนเพิ่ม — เงินที่โอนไปแล้วจะไม่มีวันได้คืน</span></div>
+    <div class="teach-tip" id="closedTeach" hidden style="margin-top:14px">💡 <span><b>จุดสอน:</b> เว็บหลอกลงทุนปิดบัญชีและยึดเงินของเหยื่อได้ทันทีเมื่อไม่ยอมโอนเพิ่ม — เงินที่โอนไปแล้วจะไม่มีวันได้คืน</span></div>
   </div></div>
 
   <div class="ov" id="ovGoogle"><div class="modal gmodal">
@@ -1495,14 +1704,28 @@ const chartTools=()=>`<div class="chart-tools"><div class="tfs">${Object.keys(TF
 function viewHome(){
   const pv=pfValue(), pnl=pv-S.deposited, pc=S.deposited>0?(pnl/S.deposited*100):0, a=A();
   return `
-  <div class="greet"><div><h2>สวัสดี <span>คุณ${esc(S.userName)}</span> 👋${NET.vip?'<span class="vip-chip">👑 VIP</span>':''}</h2><div class="greet-sub">ยินดีต้อนรับกลับเข้าสู่พอร์ตการลงทุน</div></div>
-    <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
+  <div class="hero-card">
+    <div class="hc-top"><div class="hc-hi">สวัสดี <b>คุณ${esc(S.userName)}</b> 👋${NET.vip?'<span class="vip-chip">👑 VIP</span>':''}</div>
+      <button class="logout-btn" id="logoutBtn">${icon('back')}ออกจากระบบ</button></div>
+    <div class="hc-k">มูลค่าพอร์ตรวม · อัปเดตเรียลไทม์</div>
+    <div class="hc-v" id="pfValue">${F(pv)} ฿</div>
+    <div class="hc-d ${pnl>=0?'up':'down'}" id="pfPnl">${pnl>=0?'▲ ':'▼ '}${F(Math.abs(pnl))} ฿ (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
+    <div class="hc-row">
+      <div><span>บัญชีธนาคาร</span><b id="stBank">${F(curBank())}</b></div>
+      <div><span>เงินสดในพอร์ต</span><b id="cashVal">${F(S.cash)}</b></div>
+      <div><span>ทองคำ/สินทรัพย์</span><b id="stHold">${F(holdValue())}</b></div>
+    </div>
+  </div>
+  <div class="qa">
+    <button data-go="deposit"><i class="qa-dep">${icon('dep')}</i>ฝากเงิน</button>
+    <button data-go="trade:GOLD"><i class="qa-gold">🪙</i>ซื้อทอง</button>
+    <button data-go="vip"><i class="qa-vip">👑</i>VIP</button>
+    <button data-go="withdraw"><i class="qa-wd">${icon('wd')}</i>ถอนเงิน</button>
+  </div>
+  ${NET.vip?'':`<button class="vip-banner" data-go="vip"><span class="vb-ic">👑</span><span><b>สมัคร VIP วันนี้ รับโบนัส ${F0(vipBonus())} ฿ ทันที</b><small>ค่าสมัครเพียง ${F0(vipFee())} ฿ · สัญญาณเทรด AI + ถอนเงินด่วน</small></span><span class="vb-go">›</span></button>`}
   <div class="dash">
     <div class="dash-main">
-      <div class="bignum">
-        <div class="k">${icon('pie')}มูลค่าพอร์ตรวม (เงินสด + สินทรัพย์) · อัปเดตเรียลไทม์</div>
-        <div class="v" id="pfValue">${F(pv)} ฿</div>
-        <div class="d ${pnl>=0?'up':'down'}" id="pfPnl">${pnl>=0?'▲ ':'▼ '}${F(Math.abs(pnl))} ฿ (${pc>=0?'+':''}${pc.toFixed(2)}%)</div>
+      <div class="bignum chart-card">
         <div class="chart-head">
           ${a?coin(a):''}
           <div class="t">${a?`${a.sym} <span style="color:var(--faint);font-weight:500">· ${a.name}</span><small>กราฟแท่งเทียน · ${srcLabel(a)}</small>`:'กำลังโหลด...'}</div>
@@ -1515,11 +1738,6 @@ function viewHome(){
           <span>${!S.assets||!a?'⟳ กำลังเชื่อมต่อตลาด...':(a.src==='sim'?'ข้อมูลจำลอง · ':'ราคาจริง · ')+(a.cur==='THB'?'สกุลเงินบาท':'แปลงเป็นบาท (1 '+a.cur+' ≈ '+MARKET.fxr[a.cur].toFixed(a.cur==='JPY'?4:2)+' ฿)')}</span>
           <span id="livePrice"></span>
         </div>
-      </div>
-      <div class="stats3">
-        <div class="card stat"><div class="k">${icon('wallet')}บัญชีธนาคาร</div><div class="v" id="stBank">${F(curBank())}</div></div>
-        <div class="card stat"><div class="k">${icon('coins')}เงินสดในพอร์ต</div><div class="v" id="cashVal">${F(S.cash)}</div></div>
-        <div class="card stat"><div class="k">${icon('pie')}สินทรัพย์</div><div class="v" id="stHold">${F(holdValue())}</div></div>
       </div>
       <div class="promo"><span class="em">${icon('bot')}</span><div>ระบบ AI ทำกำไรให้คุณอัตโนมัติ 24 ชม. วันนี้ตลาดดีเป็นพิเศษ <b style="color:var(--green)">+3.2%</b></div></div>
     </div>
@@ -1633,7 +1851,8 @@ function fakeQrSvg(){
   return `<svg viewBox="-1 -1 ${n+2} ${n+2}" shape-rendering="crispEdges" aria-hidden="true">${[...on].map(k=>{ const [x,y]=k.split(','); return `<rect x="${x}" y="${y}" width="1" height="1"/>`; }).join('')}</svg>`;
 }
 let payTimer=null;
-function openPay(amt){
+/* onPaid(methodLabel): ใช้หน้าจอพร้อมเพย์เดียวกันทั้งฝากเงิน ค่าสมัคร VIP และค่าปลดล็อก */
+function openPay(amt, onPaid){
   const g=id=>document.getElementById(id);
   g('payAmt').textContent=F(amt)+' ฿';
   g('payQr').innerHTML=fakeQrSvg();
@@ -1643,9 +1862,103 @@ function openPay(amt){
   let left=900; g('payT').textContent='15:00'; clearInterval(payTimer);
   if(!reduce) payTimer=setInterval(()=>{ if(!g('ovPay').classList.contains('on')||left<=0){ clearInterval(payTimer); return; }
     left--; g('payT').textContent=String(Math.floor(left/60)).padStart(2,'0')+':'+String(left%60).padStart(2,'0'); },1000);
-  g('payGo').onclick=()=>{ closeOv('ovPay'); clearInterval(payTimer); deposit(amt,'พร้อมเพย์'); };
+  g('payGo').onclick=()=>{ closeOv('ovPay'); clearInterval(payTimer); (onPaid||(m=>deposit(amt,m)))('พร้อมเพย์'); };
   logAct('เปิดหน้าชำระพร้อมเพย์ '+F(amt)+' ฿'); openOv('ovPay');
 }
+/* หน้าโอนเงินแบบเดียวกับตอนฝาก (เลือกพร้อมเพย์/ธนาคาร) ใช้กับค่าสมัคร VIP และค่าปลดล็อกบัญชี */
+const XF={};
+function openXfer({title, sub, amount, bank, onPay}){
+  const g=id=>document.getElementById(id);
+  Object.assign(XF,{amount,onPay,m:XF.m||'promptpay'});
+  g('xfTitle').textContent=title; g('xfSub').textContent=sub||''; g('xfAmt').textContent=F(amount)+' ฿';
+  g('xfBank').textContent='ตัดเงินจากบัญชีธนาคารของคุณ (คงเหลือ '+F(bank)+' ฿ · เงินจำลอง)';
+  const draw=()=>{ g('xfMethods').innerHTML=`<button class="pm${XF.m==='promptpay'?' on':''}" data-xm="promptpay"><span class="pm-ic pp">QR</span><b>พร้อมเพย์</b><small>สแกน QR</small></button>`
+    +BANKS.map(([k,n,c,ab])=>`<button class="pm${XF.m===k?' on':''}" data-xm="${k}"><span class="pm-ic" style="--c:${c}">${ab}</span><b>${n}</b><small>โอนผ่านแอป</small></button>`).join('');
+    g('xfGo').textContent=XF.m==='promptpay'?'สร้าง QR ชำระเงิน '+F(amount)+' ฿':'โอน '+F(amount)+' ฿ จาก '+bankName(XF.m); };
+  draw(); XF.draw=draw; openOv('ovXfer');
+}
+document.getElementById('xfMethods').addEventListener('click',e=>{ const b=e.target.closest('[data-xm]'); if(b){ XF.m=b.dataset.xm; XF.draw(); } });
+document.getElementById('xfGo').onclick=()=>{
+  closeOv('ovXfer');
+  if(XF.m==='promptpay') openPay(XF.amount, XF.onPay); else XF.onPay(payLabel(XF.m));
+};
+
+/* ----- สมัคร VIP: เสียค่าสมัครจากบัญชีธนาคาร แลกโบนัสบนจอ ----- */
+const vipFee=()=>NET.joined&&NET.vipFee?NET.vipFee:300, vipBonus=()=>NET.joined&&NET.vipBonus!=null?NET.vipBonus:500;
+function openVip(){
+  const g=id=>document.getElementById(id);
+  ['vipBonusTxt','vipBonusTxt2'].forEach(id=>g(id).textContent=F0(vipBonus()));
+  ['vipFeeTxt','vipFeeBtn'].forEach(id=>g(id).textContent=F0(vipFee()));
+  g('vipSeats').textContent=3+Math.floor(Math.random()*6);
+  const vip=NET.vip, wait=NET.joined && NET.requests.some(r=>r.kind==='vip'&&r.status==='pending');
+  const go=g('vipGo'); go.disabled=vip||wait||!!S.presenter;
+  go.innerHTML=vip?'👑 คุณเป็นสมาชิก VIP แล้ว':wait?'⏳ รอยืนยันสิทธิ์ VIP':'สมัคร VIP เลย — โอน '+F0(vipFee())+' ฿';
+  g('vipNote').textContent=S.presenter?'(เครื่องผู้บรรยาย — ผู้ฟังจะเห็นปุ่มสมัครบนมือถือ)':'ชำระค่าสมัครผ่านพร้อมเพย์หรือโอนผ่านธนาคาร (เงินจำลอง)';
+  g('vipTeach').style.display=S.presenter||NET.revealed?'flex':'none';
+  openOv('ovVip'); startVipCountdown(); logAct('เปิดป๊อปอัพสมัคร VIP');
+}
+document.getElementById('vipGo').onclick=()=>{
+  closeOv('ovVip');
+  if(curBank()<vipFee()) return notice('เงินในบัญชีไม่พอ','ค่าสมัคร VIP '+F(vipFee())+' ฿ แต่บัญชีธนาคารของคุณเหลือ '+F(curBank())+' ฿');
+  openXfer({title:'👑 ชำระค่าสมัคร VIP', sub:'รับโบนัส '+F0(vipBonus())+' ฿ เข้าพอร์ตทันทีหลังชำระ', amount:vipFee(), bank:curBank(), onPay:buyVip});
+};
+async function buyVip(method){
+  if(!NET.joined){   // ออฟไลน์: จำลองในเครื่อง
+    S.bank=r2(S.bank-vipFee()); S.cash=r2(S.cash+vipBonus()); NET.vip=true;
+    S.tx.unshift({type:'bonus',amt:vipBonus(),time:now(),ts:Date.now()});
+    renderApp(); return notice('👑 สมัคร VIP สำเร็จ','ยินดีต้อนรับสู่สมาชิก VIP! รับโบนัส '+F(vipBonus())+' ฿ เข้าพอร์ตแล้ว');
+  }
+  try{ applyServer(await papi({action:'vip',method})); logAct('สมัคร VIP · โอนค่าสมัคร '+F(vipFee())+' ฿'+(method?' · '+method:'')); saveLocal(); renderApp(); netSync(); }
+  catch(e){ if(e.status!==401) toast(e.message); }
+}
+
+/* ----- ถอนเงิน (โหมดระงับ): ยอดถูกอายัด → ต้องกด "ติดต่อแอดมิน" → บัญชีถูกระงับ เด้งออก ----- */
+function openWdHold(r){
+  document.getElementById('whAmt').textContent=F(r.amount)+' ฿';
+  openOv('ovWdHold');
+}
+document.getElementById('whContact').onclick=async e=>{
+  const btn=e.currentTarget; btn.disabled=true; btn.textContent='กำลังเชื่อมต่อเจ้าหน้าที่...';
+  logAct('กด "ติดต่อแอดมิน" หลังถอนเงินไม่ได้');
+  try{ if(NET.joined) await papi({action:'contact'}); else markLocalSuspended(); }
+  catch(err){ /* ระงับแล้วหรือเน็ตสะดุด: ทำต่อเหมือนเดิม */ }
+  setTimeout(()=>{ btn.disabled=false; btn.innerHTML=icon('chat')+'ติดต่อแอดมิน'; closeOv('ovWdHold'); accountClosed(); }, reduce?0:1200);
+};
+function markLocalSuspended(){
+  const acc=lsGet(LOCAL_ACC)||{}, k=String(S.userName||'').toLowerCase();
+  if(acc[k]){ acc[k].suspended=true; acc[k].bank=S.bank; lsSet(LOCAL_ACC,acc); }
+}
+
+/* ----- ล็อกอินบัญชีที่ถูกระงับ: เรียก "ค่าปลดล็อก" ----- */
+const SUSP={};
+function openSusp(j){
+  Object.assign(SUSP,j);
+  const g=id=>document.getElementById(id), pend=!!j.unlockPending;
+  g('spName').textContent=j.name||'—';
+  g('spFee').textContent=F(j.fee)+' ฿';
+  g('spState').textContent=pend?'รอตรวจสอบการชำระ':'ระงับการใช้งาน';
+  g('spMsg').innerHTML=pend
+    ?'ได้รับยอดชำระค่าปลดล็อกแล้ว ⏳ <b>อยู่ระหว่างให้เจ้าหน้าที่ตรวจสอบ 24–48 ชม.</b> ระหว่างนี้ห้ามยกเลิกรายการ มิฉะนั้นยอดเงินทั้งหมดจะถูกยึด'
+    :'ตรวจพบการทำรายการผิดปกติ หากต้องการเปิดใช้งานบัญชีเดิมและรับยอดเงินคืน <b>กรุณาชำระค่าปลดล็อกบัญชี '+F0(j.fee)+' ฿</b> ภายใน 24 ชม.';
+  const pay=g('spPay'); pay.hidden=pend; pay.textContent='ชำระ '+F0(j.fee)+' ฿ เพื่อเปิดใช้งานบัญชีเดิม';
+  g('spBank').textContent='เงินในบัญชีธนาคารของคุณ: '+F(j.bank)+' ฿ (เงินจำลอง)';
+  g('spTeach').hidden=!pend;
+  openOv('ovSusp');
+}
+document.getElementById('spPay').onclick=()=>{
+  closeOv('ovSusp');
+  if(SUSP.bank<SUSP.fee){ openSusp(SUSP); return notice('เงินในบัญชีไม่พอ','ค่าปลดล็อก '+F(SUSP.fee)+' ฿ แต่บัญชีธนาคารของคุณเหลือ '+F(SUSP.bank)+' ฿',
+    'ในชีวิตจริง เหยื่อจำนวนมากไปกู้ยืมเงินมาจ่าย "ค่าปลดล็อก" ทั้งที่ไม่มีวันได้เงินคืน'); }
+  openXfer({title:'🔓 ชำระค่าปลดล็อกบัญชี', sub:'บัญชี '+SUSP.name+' จะถูกเปิดใช้งานหลังเจ้าหน้าที่ตรวจสอบยอด', amount:SUSP.fee, bank:SUSP.bank, onPay:payUnlock});
+};
+async function payUnlock(method){
+  if(SUSP.local){ const acc=lsGet(LOCAL_ACC)||{}, a=acc[SUSP.key]; if(a){ a.bank=r2((a.bank??5000)-SUSP.fee); a.unlockPending=true; lsSet(LOCAL_ACC,acc); }
+    return openSusp({...SUSP, bank:r2(SUSP.bank-SUSP.fee), unlockPending:true}); }
+  try{ openSusp(await api('api/room',{action:'unlock',token:SUSP.token,method})); }
+  catch(e){ toast(e.message); openSusp(SUSP); }
+}
+document.getElementById('spNew').onclick=()=>{ closeOv('ovSusp'); show('signup'); };
+
 function viewWithdraw(){
   if(NET.joined) return `<div class="dep-wrap">
   <div class="card form-card">
@@ -1701,23 +2014,24 @@ function viewHistory(){
 }
 
 /* ---------- บัญชีธนาคารจำลอง + คำขอฝาก/ถอน ---------- */
-const RQ_LABEL={deposit:'โอนเงินเข้าระบบ',withdraw:'ถอนเงินเข้าบัญชีธนาคาร',tax:'ชำระค่าภาษีถอนเงิน'};
+const RQ_LABEL={deposit:'โอนเงินเข้าระบบ',withdraw:'ถอนเงินเข้าบัญชีธนาคาร',tax:'ชำระค่าภาษีถอนเงิน',vip:'ค่าสมัครสมาชิก VIP',unlock:'ค่าปลดล็อกบัญชี'};
 const RQ_STATUS={pending:'รอตรวจสอบ',approved:'สำเร็จ',held:'รอชำระภาษี',rejected:'ถูกปฏิเสธ'};
-const RQ_ICON={deposit:'dep',withdraw:'wd',tax:'ban'};
+const RQ_ICON={deposit:'dep',withdraw:'wd',tax:'ban',vip:'gift',unlock:'lock'};
 function fmtTime(ms){ return new Date(ms).toLocaleString('th-TH',{day:'2-digit',month:'short',hour:'2-digit',minute:'2-digit'}); }
 function rqIcon(r){
   const col = r.kind==='tax'||r.status==='held'||r.status==='rejected' ? 'var(--red)' : r.status==='pending' ? 'var(--gold)' : 'var(--green)';
   return `<div class="ic" style="background:color-mix(in srgb,${col} 14%,transparent);color:${col}">${icon(RQ_ICON[r.kind])}</div>`;
 }
-const rqBadge=r=>r.kind==='tax'?'<span class="badge paid">เสียไปแล้ว</span>':`<span class="badge ${r.status}">${RQ_STATUS[r.status]}</span>`;
+const rqBadge=r=>r.kind==='tax'?'<span class="badge paid">เสียไปแล้ว</span>'
+  :r.status==='held'&&r.fee==null?'<span class="badge held">ถูกอายัด</span>':`<span class="badge ${r.status}">${RQ_STATUS[r.status]}</span>`;
 function rqRow(r, opts={}){
   return `<div class="rq">${rqIcon(r)}
-    <div class="mn"><div class="who">${RQ_LABEL[r.kind]}</div><div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'?' · ค่าภาษี '+F(r.fee)+' ฿':''}</div></div>
+    <div class="mn"><div class="who">${RQ_LABEL[r.kind]}</div><div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'&&r.fee!=null?' · ค่าภาษี '+F(r.fee)+' ฿':''}</div></div>
     <div class="amt"><div class="mono">${F(r.amount)} ฿</div>${rqBadge(r)}</div>
-    ${r.status==='held'&&opts.pay?`<div class="acts"><button class="btn-sm warn" data-pay="${r.id}">ชำระภาษี</button></div>`:''}</div>`;
+    ${r.status==='held'&&r.fee!=null&&opts.pay?`<div class="acts"><button class="btn-sm warn" data-pay="${r.id}">ชำระภาษี</button></div>`:''}</div>`;
 }
 function reqListHtml(kind){
-  const list=NET.requests.filter(r=>kind==='withdraw'?r.kind!=='deposit':r.kind==='deposit');
+  const list=NET.requests.filter(r=>kind==='withdraw'?(r.kind==='withdraw'||r.kind==='tax'):(r.kind==='deposit'||r.kind==='vip'));
   if(!list.length) return '';
   return `<div class="card txlist"><div class="txhead">${kind==='withdraw'?'รายการถอนเงิน':'รายการโอนเงินเข้าระบบ'} <small>${list.length} รายการ</small></div>${list.map(r=>rqRow(r,{pay:true})).join('')}</div>`;
 }
@@ -1869,7 +2183,7 @@ function refreshLive(){
   set('pfValue', F(pv)+' ฿');
   const pfp=document.getElementById('pfPnl');
   if(pfp){ pfp.textContent=(pnl>=0?'▲ ':'▼ ')+F(Math.abs(pnl))+' ฿ ('+(S.deposited>0?(pnl/S.deposited*100).toFixed(2):'0.00')+'%)';
-    pfp.className='d '+(pnl>=0?'up':'down'); }
+    pfp.className='hc-d '+(pnl>=0?'up':'down'); }
   set('cashVal', F(S.cash)); set('stDep', F(S.deposited)); set('stHold', F(holdValue())); set('wdCash', F(S.cash)+' ฿'); set('stBank', F(curBank()));
   if(S.assets) S.assets.forEach(x=>{
     set('px-'+x.sym, fmtPx(x.price), x.dir>=0?'var(--green)':'var(--red)');
@@ -1983,8 +2297,8 @@ function renderUsers(){
 function openOv(id){document.getElementById(id).classList.add('on');}
 function closeOv(id){document.getElementById(id).classList.remove('on');}
 document.querySelectorAll('[data-close]').forEach(b=>b.onclick=()=>b.closest('.ov').classList.remove('on'));
-document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o && o.id!=='ovClosed')o.classList.remove('on');}));
-document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.ov.on:not(#ovClosed)').forEach(o=>o.classList.remove('on')); });
+document.querySelectorAll('.ov').forEach(o=>o.addEventListener('click',e=>{if(e.target===o && !o.hasAttribute('data-lock'))o.classList.remove('on');}));
+document.addEventListener('keydown',e=>{ if(e.key==='Escape') document.querySelectorAll('.ov.on:not([data-lock])').forEach(o=>o.classList.remove('on')); });
 
 function openFlags(){
   document.getElementById('flagsList').innerHTML = RED_FLAGS.map((f,i)=>
@@ -2005,6 +2319,7 @@ function bindTabEvents(){
   const g=id=>document.getElementById(id);
   bindChart();
   const lo=g('logoutBtn'); if(lo) lo.onclick=()=>logout();
+  document.querySelectorAll('#content [data-go]').forEach(b=>b.onclick=()=>goTo(b.dataset.go));
   // เลือกสินทรัพย์จากวอทช์ลิสต์ (มีได้ทั้งหน้าหลักและหน้าเทรด)
   document.querySelectorAll('[data-sel]').forEach(r=>r.onclick=()=>{ S.sel=+r.dataset.sel; renderApp(); });
   document.querySelectorAll('[data-mkt]').forEach(b=>b.onclick=()=>{
@@ -2120,6 +2435,7 @@ function restoreSaved(st){   // เข้าสู่ระบบจากเค
 }
 function beginSession(j, isNew){
   if(j.closed){ accountClosed(); return; }
+  lsSet('agt-seen',1);
   NET.ptoken=j.token||NET.ptoken; NET.joined=true; NET.epoch=j.epoch; NET.evSeq=j.evseq;
   applyServer(j); if(j.chat) addChat(j.chat,true); saveLocal(); startSync();
   show('app'); if(S.assets) startLive();
@@ -2140,6 +2456,7 @@ async function doLogin(){
     const j=await api('api/room',{action:'login',user,pass});
     pEl.value='';
     if(j.admin) return loginAsPresenter(j.token);
+    if(j.suspended) return openSusp(j);
     freshUser(j.name); restoreSaved(j.saved); beginSession(j,false);
     toast('ยินดีต้อนรับกลับ คุณ'+j.name);
   }catch(e){ formErr('lgErr', e.message||'เข้าสู่ระบบไม่สำเร็จ'); }
@@ -2202,6 +2519,7 @@ async function doGoogleAuth(){
   try{
     const j=await api('api/room',{action:'email',name:display,email:prefix,pass});
     rememberGoogle(j.name||display, j.email||email); closeOv('ovGoogle');
+    if(j.suspended) return openSusp(j);
     freshUser(j.name); S.userEmail=j.email; beginSession(j,!!j.isNew);
     toast(j.isNew?'ลงชื่อเข้าใช้สำเร็จ! (สาธิต)':'ยินดีต้อนรับกลับ คุณ'+j.name);
   }catch(e){ formErr('gErr', e.message||'ลงชื่อเข้าใช้ไม่สำเร็จ'); }
@@ -2224,15 +2542,19 @@ async function localSignup(name,pass,phone){
   if(acc[k]) return formErr('suErr','ชื่อผู้ใช้นี้มีคนใช้แล้ว ลองชื่ออื่น');
   acc[k]={name,hash:await pwDigest(pass)}; lsSet(LOCAL_ACC,acc);
   ['suName','suPhone','suPass','suPass2'].forEach(id=>document.getElementById(id).value='');
-  freshUser(name); S.userPhone=phone; show('app'); toast('สมัครสำเร็จ! (สาธิต — บัญชีอยู่ในเครื่องนี้)');
+  lsSet('agt-seen',1); freshUser(name); S.userPhone=phone; show('app'); toast('สมัครสำเร็จ! (สาธิต — บัญชีอยู่ในเครื่องนี้)');
 }
 async function localLogin(user,pass){
   if(user.toLowerCase()==='admin'){
-    freshUser('ผู้บรรยาย'); S.presenter=true; togglePresenter(); show('app');
+    document.getElementById('lgPass').value='';
+    freshUser('ผู้บรรยาย'); S.presenter=true; togglePresenter();
+    openPanel('overview');   // เข้าหน้าแดชบอร์ดหลังบ้านเสมอ (ออฟไลน์จะขึ้นแบนเนอร์ให้เชื่อมฐานข้อมูล)
     return toast('โหมดผู้บรรยาย (ออฟไลน์ — มีผลเฉพาะเครื่องนี้)');
   }
   const acc=(lsGet(LOCAL_ACC)||{})[user.toLowerCase()];
   if(!acc || acc.hash!==await pwDigest(pass)) return formErr('lgErr','ชื่อผู้ใช้หรือรหัสผ่านไม่ถูกต้อง (ถ้ายังไม่มีบัญชี กดสมัครสมาชิกก่อน)');
+  if(acc.suspended){ document.getElementById('lgPass').value='';
+    return openSusp({local:true,key:user.toLowerCase(),name:acc.name,fee:3000,bank:acc.bank??5000,unlockPending:!!acc.unlockPending}); }
   document.getElementById('lgPass').value='';
   freshUser(acc.name); show('app');
 }
@@ -2286,6 +2608,7 @@ function roomWasReset(){
 function applyServer(j){
   const dFlow=r2(j.flow-NET.flow), dBonus=r2(j.bonus-NET.bonus);
   NET.flow=j.flow; NET.bonus=j.bonus; NET.bank=j.bank; NET.bankStart=j.bankStart; NET.taxPaid=j.taxPaid;
+  if(j.vipFee!=null){ NET.vipFee=j.vipFee; NET.vipBonus=j.vipBonus; NET.unlockFee=j.unlockFee; NET.withdrawMode=j.withdrawMode; }
   if(!!j.vip!==NET.vip){ NET.vip=!!j.vip; if(S.screen==='app'&&S.tab==='home') renderApp(); }
   S.deposited=r2(j.deposited-j.withdrawn);
   if(dFlow) S.cash=r2(S.cash+dFlow);
@@ -2309,8 +2632,13 @@ function onRequestChange(r, prev){
     else if(r.status==='rejected') notice('ระบบไม่พบยอดโอน',
       'รายการโอนเงิน '+amt+' ถูกปฏิเสธเนื่องจาก "ไม่พบยอดโอนในระบบ" กรุณาโอนใหม่หรือติดต่อแอดมิน',
       'เงินออกจากบัญชีธนาคารไปแล้วแต่ไม่เข้าพอร์ต — มิจฉาชีพอ้างว่า "ไม่พบยอด" เพื่อให้เหยื่อโอนซ้ำ');
+  } else if(r.kind==='vip'){
+    if(r.status==='pending') toast('⏳ ได้รับค่าสมัคร VIP '+amt+' แล้ว รอยืนยันสิทธิ์');
+    else if(r.status==='rejected') notice('ไม่พบยอดชำระค่าสมัคร VIP','รายการ '+amt+' ถูกปฏิเสธเนื่องจาก "ไม่พบยอดโอนในระบบ" กรุณาชำระใหม่อีกครั้ง',
+      'เงินออกจากบัญชีไปแล้วแต่ไม่ได้สิทธิ์ — มิจฉาชีพอ้าง "ไม่พบยอด" เพื่อให้โอนซ้ำ');
   } else if(r.kind==='withdraw'){
-    if(r.status==='held') openTax(r);
+    if(r.status==='held' && r.fee==null){ if(prev===undefined||prev==='pending') openWdHold(r); }
+    else if(r.status==='held') openTax(r);
     else if(r.status==='pending') toast(prev==='held'?'ชำระแล้ว — คำขอถอนกลับเข้าคิวตรวจสอบ':'⏳ ส่งคำขอถอน '+amt+' แล้ว รอตรวจสอบ');
     else if(r.status==='approved') toast('✅ ถอนเงินสำเร็จ! '+amt+' เข้าบัญชีธนาคารแล้ว');
     else if(r.status==='rejected') notice('คำขอถอนเงินถูกปฏิเสธ',
@@ -2370,9 +2698,20 @@ async function payTax(id){
 }
 document.getElementById('wPay').onclick=e=>payTax(Number(e.currentTarget.dataset.req));
 document.getElementById('content').addEventListener('click',e=>{ const b=e.target.closest('[data-pay]'); if(b) payTax(Number(b.dataset.pay)); });
-function notice(title,text,teach){
+const GO_LABEL={deposit:'ไปหน้าฝากเงิน',trade:'ไปหน้าซื้อขาย',withdraw:'ไปหน้าถอนเงิน',vip:'ดูสิทธิ์ VIP'};
+function goTo(go){
+  if(!go || S.screen!=='app') return;
+  const [where,sym]=String(go).split(':');
+  if(where==='vip') return openVip();
+  if(sym && S.assets){ const i=S.assets.findIndex(a=>a.sym===sym); if(i>=0){ S.sel=i; S.market=S.assets[i].mkt; } }
+  S.tab=where; logAct('เปิด'+(TAB_LABEL[where]||where)+' (จากประกาศ)'); renderApp();
+}
+function notice(title,text,teach,go){
   document.getElementById('ntTitle').textContent=title;
   document.getElementById('ntText').textContent=text;
+  const ok=document.getElementById('ntOk');
+  ok.textContent=go?(GO_LABEL[String(go).split(':')[0]]||'ไปเลย')+' →':'รับทราบ';
+  ok.onclick=()=>{ closeOv('ovNotice'); if(go) goTo(go); };
   const t=document.getElementById('ntTeach'); t.hidden=!(teach && S.presenter); if(teach) t.querySelector('span').textContent=teach;
   openOv('ovNotice');
 }
@@ -2381,7 +2720,7 @@ function runEvent(ev){
   if(ev.type==='pump'){ const a=A(); pump(ev.pct||0.2,'📈 ราคา '+(a?a.sym:'')+' พุ่งแรง +'+Math.round((ev.pct||0.2)*100)+'% รีบลงทุนเพิ่ม!'); }
   else if(ev.type==='vip') openVip();
   else if(ev.type==='flags') openFlags();
-  else if(ev.type==='notice') notice(ev.title||'ประกาศจากระบบ', ev.text||'');
+  else if(ev.type==='notice') notice(ev.title||'ประกาศจากระบบ', ev.text||'', '', ev.go||'');
 }
 
 /* ----- ผู้บรรยาย (admin) ----- */
@@ -2392,7 +2731,9 @@ async function adminApi(body){
 function enterPresenter(){
   closeOv('ovAdmin'); document.getElementById('adPass').value='';
   if(NET.joined){ freshUser('ผู้บรรยาย'); try{ localStorage.removeItem(LS_KEY); }catch{} }   // เครื่องผู้บรรยายไม่ต้องอยู่ในรายชื่อผู้ฟัง
-  S.presenter=true; togglePresenter(); if(S.screen==='app') renderApp();
+  S.presenter=true; togglePresenter();
+  openPanel('overview');   // แอดมินเข้ามาต้องเห็น "หน้าแดชบอร์ดหลังบ้าน" เสมอ (ออนไลน์ดึงข้อมูลจริง · ออฟไลน์ขึ้นแบนเนอร์ให้เชื่อมฐานข้อมูล)
+  toast(NET.online?'เข้าสู่หลังบ้านแอดมินแล้ว':'โหมดผู้บรรยาย (ออฟไลน์ — ยังไม่ได้เชื่อมห้องสาธิตสด)');
 }
 function exitPresenter(){ logout(); }
 const EV_LABEL={pump:'ปั่นราคาพุ่ง',vip:'ป๊อปอัพ VIP',flags:'เฉลย Red Flags',notice:'ข้อความแจ้งเตือน'};
@@ -2519,8 +2860,8 @@ document.getElementById('ovSpy').addEventListener('click',async e=>{
   if(t.closest('[data-spychat]') && !all){ const id=AP.spy; closeOv('ovSpy'); clearInterval(ctlChartTimer); openChatWith(id); return; }
   if(t.closest('[data-spyclose]') && !all){
     const nm=AP.spyData?AP.spyData.player.name:'บัญชีนี้';
-    if(!confirm('ปิดบัญชี "'+nm+'" ?\nผู้ใช้จะถูกเด้งออกและใช้บัญชีเดิมไม่ได้อีก ต้องสมัครใหม่')) return;
-    try{ await adminApi({action:'close',playerId:AP.spy}); toast('⛔ ปิดบัญชี '+nm+' แล้ว'); AP.spy='all'; AP.spyData=null; loadSpy(); }
+    if(!confirm('ระงับบัญชี "'+nm+'" ?\nผู้ใช้จะถูกเด้งออก ล็อกอินบัญชีเดิมจะเจอหน้าเรียกค่าปลดล็อก ต้องสมัครใหม่')) return;
+    try{ await adminApi({action:'close',playerId:AP.spy}); toast('⛔ ระงับบัญชี '+nm+' แล้ว'); AP.spy='all'; AP.spyData=null; loadSpy(); }
     catch(err){ if(err.status!==401) toast(err.message); } return; }
   const dec=t.closest('[data-decide]');
   if(dec){ dec.disabled=true; const fee=15;
@@ -2533,12 +2874,17 @@ function accountClosed(){
   if(ovOpen('ovClosed')) return;
   NET.joined=false; stopSync(); stopLive();
   try{ localStorage.removeItem(LS_KEY); }catch{}
+  document.getElementById('closedTeach').hidden=!(S.presenter||NET.revealed);
+  document.querySelectorAll('.ov.on').forEach(o=>o.classList.remove('on'));
   openOv('ovClosed');
 }
 document.getElementById('closedBack').onclick=()=>{ closeOv('ovClosed'); logout(); };
 const PANEL_TABS=[['overview','ภาพรวม','pie'],['users','บัญชีผู้ใช้','users'],['requests','คำขอฝาก-ถอน','wallet'],
   ['chat','แชทลูกค้า','chat'],['notify','แจ้งเตือน / เหตุการณ์','flag'],['settings','ตั้งค่า','sliders']];
 const PRESETS=[
+  ['💰 ชวนฝาก 1,000','🎉 กิจกรรมพิเศษวันนี้','ทุกคนลองฝากเงินเข้าพอร์ต 1,000 บาท แล้วเริ่มลงทุนกับระบบ AI ได้เลย! ฝากวันนี้ระบบดูแลกำไรให้ทันที'],
+  ['🪙 ชวนซื้อทอง','🔥 สัญญาณซื้อทองคำ!','AI ตรวจพบสัญญาณทองคำกำลังขึ้นแรง กดซื้อทอง (GOLD) ตอนนี้เลย ก่อนราคาพุ่ง!'],
+  ['💸 ชวนถอนกำไร','💸 ถึงเวลาถอนกำไรแล้ว!','ทุกคนลองถอนเงินกำไรเข้าบัญชีธนาคารของตัวเองได้เลย ระบบโอนให้ภายใน 5 นาที'],
   ['📈 ทองกำลังพุ่ง','🔥 ด่วน! ราคาทองพุ่งแรง','AI ตรวจพบสัญญาณราคาทองกำลังพุ่ง ลงทุนเพิ่มภายใน 10 นาทีนี้รับกำไรสูงสุด 2 เท่า'],
   ['👑 สิทธิ์ VIP','ยินดีด้วย! คุณได้รับสิทธิ์ VIP','ฝากเงินเพิ่มวันนี้รับโบนัสทันที 50% สิทธิ์นี้มีจำนวนจำกัดเฉพาะสมาชิกที่ได้รับเลือก'],
   ['🪪 ยืนยันตัวตน','แจ้งเตือนความปลอดภัยบัญชี','บัญชีของคุณต้องยืนยันตัวตน กรุณาชำระค่าธรรมเนียมยืนยันตัวตน 500 ฿ ภายใน 24 ชม. มิฉะนั้นบัญชีจะถูกระงับ'],
@@ -2551,7 +2897,25 @@ const GRANT_KINDS={
   debit:['➖','หักเงิน','หักเงินจากพอร์ต โดยอ้างว่าเป็น "ค่าธรรมเนียมบริการ"'],
 };
 function openPanel(tab){ if(tab) AP.tab=tab; show('admin'); renderPanelShell(); loadPanel(); pollWhileOpen('admin',loadPanel); }
+function offlineAdminBanner(){
+  return `<div class="card" style="text-align:center;padding:26px 18px">
+    <div style="font-size:34px">🔌</div>
+    <h3 style="margin:8px 0 6px">ยังไม่ได้เชื่อมต่อห้องสาธิตสด</h3>
+    <p class="meta" style="max-width:440px;margin:0 auto 14px;line-height:1.7">แดชบอร์ดหลังบ้าน (รายชื่อผู้ฟัง · ยอดเงิน · คำขอฝาก-ถอน · อันดับ) ต้องเชื่อมฐานข้อมูล Supabase บนเว็บที่ deploy แล้ว — ตอนนี้เซิร์ฟเวอร์ตอบว่า ${NET.err?('<b>'+esc(NET.err)+'</b>'):'ยังไม่พร้อม'}</p>
+    <div class="meta" style="text-align:left;max-width:460px;margin:0 auto;line-height:2">
+      ① เปิดลิงก์ <code>/api/room</code> — ควรได้ <code>{"ok":true,"store":"postgres"}</code><br>
+      ② ถ้าได้ <code>"memory"</code> หรือ error → Supabase: ปลุกโปรเจกต์ที่ถูกพัก (Restore) แล้ว Vercel: แท็บ Storage เชื่อม Supabase → <b>Redeploy</b><br>
+      ③ ระหว่างนี้ยังใช้ปุ่มควบคุมสด (ปั่นราคา · VIP · เฉลย Red Flags) ได้จากปุ่ม “👁 ดูหน้าแอปผู้ใช้” ด้านบน
+    </div>
+    <button class="btn btn-gold" id="apRetry" style="margin-top:16px">↻ ลองเชื่อมต่ออีกครั้ง</button>
+  </div>`;
+}
 async function loadPanel(){
+  if(!(NET.online && NET.token)){   // ออฟไลน์ หรือยังไม่มีสิทธิ์แอดมินจากเซิร์ฟเวอร์ → โชว์แดชบอร์ดพร้อมเหตุผล ไม่ปล่อยจอว่าง
+    const sub=document.getElementById('apSub'); if(sub) sub.textContent=NET.online?'เซสชันผู้บรรยายหมดอายุ — เข้าสู่ระบบใหม่':'ออฟไลน์ · ยังไม่ได้เชื่อมห้องสาธิตสด';
+    const d=document.getElementById('apDyn'); if(d) d.innerHTML=offlineAdminBanner();
+    return;
+  }
   try{
     AP.data=await adminApi({action:'overview'});
     if(AP.tab==='chat' && AP.chatWith){
@@ -2605,7 +2969,15 @@ function panelStatic(tab){
       <div class="chips" style="margin:0"><button class="chip" style="${chipStyle}" data-ev="pump">📈 ปั่นราคาพุ่ง +20%</button><button class="chip" style="${chipStyle}" data-ev="vip">🔥 ป๊อปอัพ VIP</button><button class="chip" style="${chipStyle}" data-ev="flags">🚩 เฉลย Red Flags</button></div></div>`;
   if(tab==='settings') return `<div class="ap-form">
       <label class="switch"><input type="checkbox" id="apAutoDep"> อนุมัติการโอนเงินเข้าอัตโนมัติ (ปิดไว้ถ้าจะกดอนุมัติ/ปฏิเสธเองทีละรายการ)</label>
-      <div><label for="apAutoTax">เรียกภาษีอัตโนมัติเมื่อมีคำขอถอน (%) — ใส่ 0 ถ้าจะพิจารณาเองทีละรายการ (เช่น ให้ถอนก้อนแรกได้เพื่อสร้างความเชื่อใจ)</label><input class="ap-in" id="apAutoTax" type="number" min="0" max="90"></div>
+      <div><label for="apWdMode">เมื่อผู้ฟังกดถอนเงิน</label><select class="ap-in" id="apWdMode">
+        <option value="suspend">อายัดยอด → เด้ง "ติดต่อแอดมิน" → กดแล้วบัญชีถูกระงับ (ขั้นตอนบรรยาย)</option>
+        <option value="tax">เรียก "ภาษี" ก่อนถอน (ตามเปอร์เซ็นต์ด้านล่าง)</option></select></div>
+      <div class="set-row">
+        <div><label for="apVipFee">ค่าสมัคร VIP (฿)</label><input class="ap-in" id="apVipFee" type="number" min="1" step="50"></div>
+        <div><label for="apVipBonus">โบนัส VIP บนจอ (฿)</label><input class="ap-in" id="apVipBonus" type="number" min="0" step="50"></div>
+        <div><label for="apUnlockFee">ค่าปลดล็อกบัญชีที่ถูกระงับ (฿)</label><input class="ap-in" id="apUnlockFee" type="number" min="1" step="100"></div>
+      </div>
+      <div><label for="apAutoTax">เรียกภาษีอัตโนมัติเมื่อมีคำขอถอน (%) — ใช้เฉพาะโหมดเรียกภาษี — ใส่ 0 ถ้าจะพิจารณาเองทีละรายการ (เช่น ให้ถอนก้อนแรกได้เพื่อสร้างความเชื่อใจ)</label><input class="ap-in" id="apAutoTax" type="number" min="0" max="90"></div>
       <div><label for="apStartBank">เงินในบัญชีธนาคารเริ่มต้นของผู้ฟังที่สมัครใหม่ (฿)</label><input class="ap-in" id="apStartBank" type="number" min="0" step="100"></div>
       <button class="btn btn-gold" id="apSave">บันทึกการตั้งค่า</button>
       <div class="ap-sec" style="margin-bottom:0">เริ่มรอบใหม่</div>
@@ -2621,6 +2993,10 @@ function renderPanelDynamic(){
     document.getElementById('apAutoDep').checked=d.settings.autoDeposit;
     document.getElementById('apAutoTax').value=d.settings.autoTaxPct;
     document.getElementById('apStartBank').value=d.settings.startBank;
+    document.getElementById('apWdMode').value=d.settings.withdrawMode;
+    document.getElementById('apVipFee').value=d.settings.vipFee;
+    document.getElementById('apVipBonus').value=d.settings.vipBonus;
+    document.getElementById('apUnlockFee').value=d.settings.unlockFee;
     AP.filled=true;
   }
   if(AP.tab==='chat') return renderAdminChat(d);
@@ -2630,15 +3006,40 @@ function renderPanelDynamic(){
   else if(AP.tab==='requests') dyn.innerHTML=apRequests(d.requests);
 }
 const apTile=(k,v,cls='',sub='')=>`<div class="ap-stat ${cls}"><div class="k">${k}</div><div class="v">${v}</div>${sub?`<div class="k" style="margin-top:4px">${sub}</div>`:''}</div>`;
+/* ขั้นตอนบรรยาย: ปุ่มเดียวต่อขั้น พร้อมตัวนับว่าผู้ฟังทำไปกี่คนแล้ว */
+const joinUrl=()=>location.origin+location.pathname;
+function apScript(d){
+  const P=d.players.filter(p=>!p.closed), n=d.players.length, A=AP.stepAmt||1000;
+  const dep=d.players.filter(p=>p.deposited>0).length, hold=d.players.filter(p=>p.value-p.cash>1).length;
+  const vip=d.players.filter(p=>p.vip).length, wd=d.requests.filter(r=>r.kind==='withdraw').map(r=>r.playerId);
+  const unl=d.players.filter(p=>p.unlockPaid>0).length;
+  const step=(no,t,sub,count,btns)=>`<div class="step"><div class="step-no">${no}</div><div class="bd"><b>${t}</b><div class="meta">${sub}</div>
+      <div class="sbtns">${btns}</div></div><div class="cnt">${count}</div></div>`;
+  return `<div class="card script"><div class="script-h">🎤 ขั้นตอนบรรยาย <small>กดตามลำดับ · ตัวเลขด้านขวาคือจำนวนผู้ฟังที่ทำแล้ว</small></div>
+    ${step(1,'ส่งลิงก์เข้า LINE ให้ทุกคนสมัคร','ผู้ฟังกดลิงก์ → สมัครสมาชิก (ใช้ชื่อเล่น ไม่ต้องใช้ข้อมูลจริง)',`<b>${n}</b> คน`,
+      `<button class="btn-sm line" data-step="line">💬 แชร์ไป LINE</button><button class="btn-sm" data-step="copy">🔗 คัดลอกลิงก์</button><button class="btn-sm" data-step="qr">📱 QR</button>`)}
+    ${step(2,'ให้ทุกคนฝากเงิน','ประกาศเด้งบนมือถือ + ปุ่มพาไปหน้าฝากเงิน',`<b>${dep}</b>/${n}`,
+      `<input class="ap-in step-amt" id="stepAmt" type="number" min="1" value="${A}" aria-label="จำนวนที่ให้ฝาก"><button class="btn-sm ok" data-step="deposit">📢 ให้ฝาก ${F0(A)} ฿</button>`)}
+    ${step(3,'ให้ซื้อทอง','ประกาศพาไปหน้าซื้อขายทองคำ แล้วปั่นราคาให้กำไรขึ้นบนจอ',`<b>${hold}</b>/${n}`,
+      `<button class="btn-sm ok" data-step="gold">📢 ให้ซื้อทอง</button><button class="btn-sm" data-step="pump">📈 ปั่นราคา +20%</button>`)}
+    ${step(4,'เด้งป๊อปอัพ VIP',`สมัคร VIP ค่าสมัคร ${F0(d.settings.vipFee)} ฿ → รับโบนัส ${F0(d.settings.vipBonus)} ฿ (โอนแบบตอนฝาก)`,`<b>${vip}</b>/${n}`,
+      `<button class="btn-sm ok" data-step="vip">👑 เด้ง VIP ทุกเครื่อง</button>`)}
+    ${step(5,'ให้ทุกคนถอนเงิน',d.settings.withdrawMode==='suspend'?'ถอนแล้วเด้ง "ติดต่อแอดมิน" → กดแล้วบัญชีถูกระงับ เด้งออก':'⚠️ ตอนนี้ตั้งเป็นโหมด "เรียกภาษี" (เปลี่ยนได้ที่แท็บตั้งค่า)',
+      `<b>${new Set(wd).size}</b> ถอน · <b>${d.stats.suspended}</b> ถูกระงับ`,
+      `<button class="btn-sm ok" data-step="withdraw">📢 ให้ถอนเงิน</button><button class="btn-sm no" data-step="closeall">⛔ ระงับทุกบัญชีที่เหลือ (${P.length})</button>`)}
+    ${step(6,'ให้ลองเข้าสู่ระบบบัญชีเดิม',`จะเจอ "บัญชีถูกระงับ ต้องจ่าย ${F0(d.settings.unlockFee)} ฿ เพื่อเปิดใช้งาน"`,`<b>${unl}</b> คนจ่าย`,
+      `<button class="btn-sm" data-step="flags">🚩 เฉลย Red Flags</button>`)}
+  </div>`;
+}
 function apOverview(d){
   const s=d.stats;
-  return `<div class="ap-stats">
+  return `${apScript(d)}<div class="ap-stats">
     ${apTile('ผู้ฟังในห้อง', s.players+' คน', '', 'ออนไลน์ '+s.online+' คน · VIP '+s.vip+' คน')}
     ${apTile('เงินที่ผู้ฟังโอนออกจากบัญชีธนาคาร', F0(s.lost)+' ฿', 'red', 'รวมยอดที่ถูกปฏิเสธและค่าภาษี')}
     ${apTile('ตัวเลขพอร์ตบนจอผู้ฟังรวม', F0(s.onScreen)+' ฿', 'gold')}
     ${apTile('เงินที่ถอนออกได้จริง', F0(s.paidOut)+' ฿', 'green')}
-    ${apTile('ค่าภาษีที่เก็บได้', F0(s.taxPaid)+' ฿', 'red')}
-    ${apTile('คำขอรอดำเนินการ', s.pending+' รายการ', '', 'รอชำระภาษี '+s.held+' · แชทรอตอบ '+s.chatsWaiting)}
+    ${apTile('ค่าสมัคร VIP + ค่าปลดล็อก', F0(s.vipPaid+s.unlockPaid)+' ฿', 'red', 'VIP '+F0(s.vipPaid)+' · ปลดล็อก '+F0(s.unlockPaid)+(s.taxPaid?' · ภาษี '+F0(s.taxPaid):''))}
+    ${apTile('คำขอรอดำเนินการ', s.pending+' รายการ', '', 'อายัด '+s.held+' · ถูกระงับ '+s.suspended+' บัญชี · แชทรอตอบ '+s.chatsWaiting)}
   </div>
   <div class="teach-tip">💡 <span><b>จุดสอน:</b> ผู้ฟังทั้งห้องโอนเงินออกจากบัญชีไปแล้ว <b>${F0(s.lost)} ฿</b> แต่ถอนกลับมาได้จริงแค่ <b>${F0(s.paidOut)} ฿</b> ส่วนตัวเลข <b>${F0(s.onScreen)} ฿</b> บนจอ เป็นแค่ตัวเลขในระบบที่แอดมินแก้ได้ตามใจ</span></div>
   <div class="ap-sec">คำขอล่าสุด</div>${apRequests(d.requests.slice(0,8))}`;
@@ -2648,14 +3049,16 @@ function apReqRow(r){
   if(r.kind==='deposit' && r.status==='pending') act.push(['approve','ok','✓ อนุมัติ'],['reject','no','✕ ปฏิเสธ (ไม่พบยอด)']);
   if(r.kind==='withdraw' && r.status==='pending') act.push(['approve','ok','✓ อนุมัติ'],['tax','warn','เรียกภาษี'],['reject','no','✕ ปฏิเสธ']);
   if(r.kind==='withdraw' && r.status==='held') act.push(['approve','ok','✓ อนุมัติ'],['reject','no','✕ ปฏิเสธ']);
+  if(r.kind==='vip' && r.status==='pending') act.push(['approve','ok','✓ ให้สิทธิ์ VIP'],['reject','no','✕ ไม่พบยอด']);
+  if(r.kind==='unlock' && r.status==='pending') act.push(['approve','ok','✓ ปลดล็อกบัญชี'],['reject','no','✕ ไม่พบยอด']);
   return `<div class="rq">${rqIcon(r)}
     <div class="mn"><div class="who">${esc(r.player||'')} <span style="color:var(--faint);font-weight:500">· ${RQ_LABEL[r.kind]}</span></div>
-      <div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'?' · เรียกภาษี '+F(r.fee)+' ฿':''}</div></div>
+      <div class="meta">${fmtTime(r.at)}${r.method?' · '+esc(r.method):''}${r.status==='held'?(r.fee!=null?' · เรียกภาษี '+F(r.fee)+' ฿':' · อายัดยอด รอผู้ใช้ติดต่อแอดมิน'):''}</div></div>
     <div class="amt"><div class="mono">${F(r.amount)} ฿</div>${rqBadge(r)}</div>
     ${act.length?`<div class="acts">${act.map(([dd,c,l])=>`<button class="btn-sm ${c}" data-decide="${r.id}" data-d="${dd}">${l}</button>`).join('')}</div>`:''}</div>`;
 }
 function apRequests(list){
-  if(!list.length) return '<div class="card empty">ยังไม่มีคำขอฝาก-ถอน</div>';
+  if(!list.length) return '<div class="card empty">ยังไม่มีคำขอฝาก-ถอน / ค่าสมัคร VIP / ค่าปลดล็อก</div>';
   return `<div class="card txlist">${list.map(apReqRow).join('')}</div>`;
 }
 function apUsers(d){
@@ -2730,6 +3133,11 @@ document.getElementById('apTabs').addEventListener('click',e=>{ const b=e.target
 document.getElementById('apBody').addEventListener('keydown',e=>{ if(e.key==='Enter' && e.target.id==='caText') adminSendChat(); });
 document.getElementById('apBody').addEventListener('click',async e=>{
   const t=e.target, g=id=>document.getElementById(id);
+  if(t.closest('#apRetry')){ const btn=t.closest('#apRetry'); btn.disabled=true; btn.textContent='กำลังเชื่อมต่อ…';
+    const ok=await detectOnline();
+    if(ok && NET.token) loadPanel();
+    else { if(ok && !NET.token){ exitPresenter(); toast('เชื่อมต่อได้แล้ว — เข้าสู่ระบบแอดมินอีกครั้ง'); } else { btn.disabled=false; btn.textContent='↻ ลองเชื่อมต่ออีกครั้ง'; toast('ยังเชื่อมต่อไม่ได้: '+(NET.err||'เซิร์ฟเวอร์ยังไม่พร้อม')); } }
+    return; }
   // เลือกบัญชี
   const pick=t.closest('[data-pick]');
   if(pick){ const id=pick.dataset.pick; pick.checked?AP.sel.add(id):AP.sel.delete(id);
@@ -2760,6 +3168,7 @@ document.getElementById('apBody').addEventListener('click',async e=>{
     catch(err){ if(err.status!==401) toast(err.message); loadPanel(); }
     return;
   }
+  const st=t.closest('[data-step]'); if(st){ runStep(st.dataset.step, st); return; }
   const amtChip=t.closest('[data-amt]'); if(amtChip){ (g('gAmt')||{}).value=amtChip.dataset.amt; return; }
   const pre=t.closest('[data-preset]'); if(pre){ const p=PRESETS[+pre.dataset.preset]; g('apTitle').value=p[1]; g('apMsg').value=p[2]; return; }
   const ev=t.closest('[data-ev]'); if(ev){ presenterAct(ev.dataset.ev,{local:false}); return; }
@@ -2769,7 +3178,8 @@ document.getElementById('apBody').addEventListener('click',async e=>{
     return;
   }
   if(t.closest('#apSave')){
-    try{ await adminApi({action:'settings',settings:{autoDeposit:g('apAutoDep').checked,autoTaxPct:parseFloat(g('apAutoTax').value)||0,startBank:parseFloat(g('apStartBank').value)||0}});
+    try{ await adminApi({action:'settings',settings:{autoDeposit:g('apAutoDep').checked,autoTaxPct:parseFloat(g('apAutoTax').value)||0,startBank:parseFloat(g('apStartBank').value)||0,
+      withdrawMode:g('apWdMode').value,vipFee:parseFloat(g('apVipFee').value)||300,vipBonus:parseFloat(g('apVipBonus').value)||0,unlockFee:parseFloat(g('apUnlockFee').value)||3000}});
       toast('บันทึกการตั้งค่าแล้ว'); AP.filled=false; loadPanel(); }
     catch(err){ if(err.status!==401) toast(err.message); }
     return;
@@ -2777,6 +3187,32 @@ document.getElementById('apBody').addEventListener('click',async e=>{
   if(t.closest('#apReset')){ presenterReset(); return; }
   const row=t.closest('[data-pexp]'); if(row){ openSpy(row.dataset.pexp); }
 });
+document.getElementById('apBody').addEventListener('input',e=>{ if(e.target.id==='stepAmt'){ AP.stepAmt=Math.max(1,Math.round(+e.target.value||0));
+  const b=document.querySelector('[data-step="deposit"]'); if(b) b.textContent='📢 ให้ฝาก '+F0(AP.stepAmt)+' ฿'; } });
+async function copyText(txt){
+  try{ await navigator.clipboard.writeText(txt); return true; }
+  catch{ const ta=document.createElement('textarea'); ta.value=txt; document.body.appendChild(ta); ta.select();
+    let ok=false; try{ ok=document.execCommand('copy'); }catch{} ta.remove(); return ok; }
+}
+async function runStep(k, btn){
+  const say=(title,text,go)=>presenterAct('notice',{local:false,data:{title,text,go}});
+  const msg='ชวนลงทุนทองคำกับ AI Gold Trade 🪙 สมัครฟรีที่ลิงก์นี้ (สื่อสาธิตเพื่อการศึกษา ใช้ชื่อเล่น ไม่ต้องใช้ข้อมูลจริง)\n'+joinUrl();
+  if(k==='line'){ window.open('https://line.me/R/share?text='+encodeURIComponent(msg),'_blank','noopener'); return; }
+  if(k==='copy'){ toast(await copyText(joinUrl())?'คัดลอกลิงก์แล้ว — วางในกลุ่ม LINE ได้เลย':'คัดลอกไม่สำเร็จ: '+joinUrl()); return; }
+  if(k==='qr') return openQr();
+  if(k==='deposit'){ const a=AP.stepAmt||1000; return say('🎉 กิจกรรมพิเศษวันนี้','ทุกคนลองฝากเงินเข้าพอร์ต '+F0(a)+' บาท แล้วเริ่มลงทุนกับระบบ AI ได้เลย! ฝากวันนี้ระบบดูแลกำไรให้ทันที','deposit'); }
+  if(k==='gold') return say('🔥 สัญญาณซื้อทองคำ!','AI ตรวจพบสัญญาณทองคำกำลังขึ้นแรง กดซื้อทอง (GOLD) ตอนนี้เลย ก่อนราคาพุ่ง!','trade:GOLD');
+  if(k==='pump') return presenterAct('pump',{local:false});
+  if(k==='vip') return presenterAct('vip',{local:false});
+  if(k==='withdraw') return say('💸 ถึงเวลาถอนกำไรแล้ว!','ทุกคนลองถอนเงินกำไรเข้าบัญชีธนาคารของตัวเองได้เลย ระบบโอนให้ภายใน 5 นาที','withdraw');
+  if(k==='flags') return presenterAct('flags',{local:false});
+  if(k==='closeall'){
+    if(!confirm('ระงับทุกบัญชีที่ยังใช้งานอยู่?\nผู้ฟังทุกคนจะเด้งออก และล็อกอินบัญชีเดิมจะเจอหน้าเรียกค่าปลดล็อก')) return;
+    btn.disabled=true;
+    try{ const r=await adminApi({action:'close',playerId:'all'}); toast('⛔ ระงับแล้ว '+r.count+' บัญชี'); loadPanel(); }
+    catch(err){ if(err.status!==401) toast(err.message); btn.disabled=false; }
+  }
+}
 document.getElementById('admQr').onclick=()=>openQr();
 document.getElementById('admApp').onclick=()=>{ show('app'); toast('มุมมองหน้าแอปผู้ใช้ — กด 🖥️ หลังบ้านแอดมิน ที่แถบล่างเพื่อกลับ'); };
 document.getElementById('admOut').onclick=()=>logout();
@@ -2882,6 +3318,7 @@ document.getElementById('wLine').addEventListener('click',()=>setTimeout(openCha
 // login / signup — เข้าแอปได้ต้องมีบัญชี (ผู้บรรยายใช้ชื่อ admin + รหัสผู้บรรยาย)
 document.getElementById('lgIn').onclick=doLogin;
 document.getElementById('lgUp').onclick=()=>{ formErr('lgErr',''); show('signup'); };
+document.querySelectorAll('[data-auth]').forEach(b=>b.onclick=()=>{ formErr('lgErr',''); formErr('suErr',''); show(b.dataset.auth); });
 document.getElementById('suBack').onclick=()=>{ formErr('suErr',''); show('login'); };
 document.getElementById('suGo').onclick=doSignup;
 ['lgUser','lgPass'].forEach(id=>document.getElementById(id).addEventListener('keydown',e=>{ if(e.key==='Enter') doLogin(); }));
@@ -2951,7 +3388,8 @@ window.addEventListener('resize',()=>{ if(S.screen==='app' && (S.tab==='home'||S
 /* ---------- hot-reload position ---------- */
 function snapshot(){ saveLocal(); }
 async function start(){
-  show('login'); togglePresenter();
+  // มาจากลิงก์ใน LINE ครั้งแรก → เปิดหน้าสมัครสมาชิกเลย
+  show(/[?&]join\b/.test(location.search)||!lsGet('agt-seen')?'signup':'login'); togglePresenter();
   if(!(await detectOnline())) return;
   const tok=ssGet(SS_TOKEN);
   if(tok) return loginAsPresenter(tok);   // แท็บเดิมของผู้บรรยาย (หมดอายุจะถูกพากลับหน้า login เอง)
